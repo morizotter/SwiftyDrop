@@ -7,46 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		90E5B9041B31DA060075B777 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9031B31DA060075B777 /* AppDelegate.swift */; };
-		90E5B9061B31DA060075B777 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9051B31DA060075B777 /* ViewController.swift */; };
-		90E5B9091B31DA060075B777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B9071B31DA060075B777 /* Main.storyboard */; };
-		90E5B90B1B31DA060075B777 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B90A1B31DA060075B777 /* Images.xcassets */; };
-		90E5B90E1B31DA060075B777 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B90C1B31DA060075B777 /* LaunchScreen.xib */; };
-		90E5B91A1B31DA060075B777 /* SwiftyDropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9191B31DA060075B777 /* SwiftyDropTests.swift */; };
+		90E5B9351B31DB040075B777 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9341B31DB040075B777 /* AppDelegate.swift */; };
+		90E5B9371B31DB040075B777 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9361B31DB040075B777 /* ViewController.swift */; };
+		90E5B93A1B31DB040075B777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B9381B31DB040075B777 /* Main.storyboard */; };
+		90E5B93C1B31DB040075B777 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B93B1B31DB040075B777 /* Images.xcassets */; };
+		90E5B93F1B31DB040075B777 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B93D1B31DB040075B777 /* LaunchScreen.xib */; };
+		90E5B94B1B31DB040075B777 /* SwiftyDropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B94A1B31DB040075B777 /* SwiftyDropTests.swift */; };
+		90E5B9551B31DB650075B777 /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9541B31DB650075B777 /* Drop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		90E5B9141B31DA060075B777 /* PBXContainerItemProxy */ = {
+		90E5B9451B31DB040075B777 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 90E5B8F61B31DA060075B777 /* Project object */;
+			containerPortal = 90E5B9271B31DB040075B777 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 90E5B8FD1B31DA060075B777;
+			remoteGlobalIDString = 90E5B92E1B31DB040075B777;
 			remoteInfo = SwiftyDrop;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		90E5B8FE1B31DA060075B777 /* SwiftyDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		90E5B9021B31DA060075B777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		90E5B9031B31DA060075B777 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		90E5B9051B31DA060075B777 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		90E5B9081B31DA060075B777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		90E5B90A1B31DA060075B777 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		90E5B90D1B31DA060075B777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		90E5B9131B31DA060075B777 /* SwiftyDropTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyDropTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		90E5B9181B31DA060075B777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		90E5B9191B31DA060075B777 /* SwiftyDropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyDropTests.swift; sourceTree = "<group>"; };
+		90E5B92F1B31DB040075B777 /* SwiftyDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftyDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		90E5B9331B31DB040075B777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90E5B9341B31DB040075B777 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		90E5B9361B31DB040075B777 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		90E5B9391B31DB040075B777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		90E5B93B1B31DB040075B777 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		90E5B93E1B31DB040075B777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		90E5B9441B31DB040075B777 /* SwiftyDropTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyDropTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		90E5B9491B31DB040075B777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90E5B94A1B31DB040075B777 /* SwiftyDropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyDropTests.swift; sourceTree = "<group>"; };
+		90E5B9541B31DB650075B777 /* Drop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Drop.swift; path = ../../Source/Drop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		90E5B8FB1B31DA060075B777 /* Frameworks */ = {
+		90E5B92C1B31DB040075B777 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90E5B9101B31DA060075B777 /* Frameworks */ = {
+		90E5B9411B31DB040075B777 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -56,72 +58,81 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		90E5B8F51B31DA060075B777 = {
+		90E5B9261B31DB040075B777 = {
 			isa = PBXGroup;
 			children = (
-				90E5B9001B31DA060075B777 /* SwiftyDrop */,
-				90E5B9161B31DA060075B777 /* SwiftyDropTests */,
-				90E5B8FF1B31DA060075B777 /* Products */,
+				90E5B9311B31DB040075B777 /* SwiftyDrop */,
+				90E5B9471B31DB040075B777 /* SwiftyDropTests */,
+				90E5B9301B31DB040075B777 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		90E5B8FF1B31DA060075B777 /* Products */ = {
+		90E5B9301B31DB040075B777 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				90E5B8FE1B31DA060075B777 /* SwiftyDrop.app */,
-				90E5B9131B31DA060075B777 /* SwiftyDropTests.xctest */,
+				90E5B92F1B31DB040075B777 /* SwiftyDrop.app */,
+				90E5B9441B31DB040075B777 /* SwiftyDropTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		90E5B9001B31DA060075B777 /* SwiftyDrop */ = {
+		90E5B9311B31DB040075B777 /* SwiftyDrop */ = {
 			isa = PBXGroup;
 			children = (
-				90E5B9031B31DA060075B777 /* AppDelegate.swift */,
-				90E5B9051B31DA060075B777 /* ViewController.swift */,
-				90E5B9071B31DA060075B777 /* Main.storyboard */,
-				90E5B90A1B31DA060075B777 /* Images.xcassets */,
-				90E5B90C1B31DA060075B777 /* LaunchScreen.xib */,
-				90E5B9011B31DA060075B777 /* Supporting Files */,
+				90E5B9341B31DB040075B777 /* AppDelegate.swift */,
+				90E5B9361B31DB040075B777 /* ViewController.swift */,
+				90E5B9381B31DB040075B777 /* Main.storyboard */,
+				90E5B93B1B31DB040075B777 /* Images.xcassets */,
+				90E5B93D1B31DB040075B777 /* LaunchScreen.xib */,
+				90E5B9561B31DB750075B777 /* Source */,
+				90E5B9321B31DB040075B777 /* Supporting Files */,
 			);
 			path = SwiftyDrop;
 			sourceTree = "<group>";
 		};
-		90E5B9011B31DA060075B777 /* Supporting Files */ = {
+		90E5B9321B31DB040075B777 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				90E5B9021B31DA060075B777 /* Info.plist */,
+				90E5B9331B31DB040075B777 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		90E5B9161B31DA060075B777 /* SwiftyDropTests */ = {
+		90E5B9471B31DB040075B777 /* SwiftyDropTests */ = {
 			isa = PBXGroup;
 			children = (
-				90E5B9191B31DA060075B777 /* SwiftyDropTests.swift */,
-				90E5B9171B31DA060075B777 /* Supporting Files */,
+				90E5B94A1B31DB040075B777 /* SwiftyDropTests.swift */,
+				90E5B9481B31DB040075B777 /* Supporting Files */,
 			);
 			path = SwiftyDropTests;
 			sourceTree = "<group>";
 		};
-		90E5B9171B31DA060075B777 /* Supporting Files */ = {
+		90E5B9481B31DB040075B777 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				90E5B9181B31DA060075B777 /* Info.plist */,
+				90E5B9491B31DB040075B777 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		90E5B9561B31DB750075B777 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				90E5B9541B31DB650075B777 /* Drop.swift */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		90E5B8FD1B31DA060075B777 /* SwiftyDrop */ = {
+		90E5B92E1B31DB040075B777 /* SwiftyDrop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 90E5B91D1B31DA060075B777 /* Build configuration list for PBXNativeTarget "SwiftyDrop" */;
+			buildConfigurationList = 90E5B94E1B31DB040075B777 /* Build configuration list for PBXNativeTarget "SwiftyDrop" */;
 			buildPhases = (
-				90E5B8FA1B31DA060075B777 /* Sources */,
-				90E5B8FB1B31DA060075B777 /* Frameworks */,
-				90E5B8FC1B31DA060075B777 /* Resources */,
+				90E5B92B1B31DB040075B777 /* Sources */,
+				90E5B92C1B31DB040075B777 /* Frameworks */,
+				90E5B92D1B31DB040075B777 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -129,46 +140,46 @@
 			);
 			name = SwiftyDrop;
 			productName = SwiftyDrop;
-			productReference = 90E5B8FE1B31DA060075B777 /* SwiftyDrop.app */;
+			productReference = 90E5B92F1B31DB040075B777 /* SwiftyDrop.app */;
 			productType = "com.apple.product-type.application";
 		};
-		90E5B9121B31DA060075B777 /* SwiftyDropTests */ = {
+		90E5B9431B31DB040075B777 /* SwiftyDropTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 90E5B9201B31DA060075B777 /* Build configuration list for PBXNativeTarget "SwiftyDropTests" */;
+			buildConfigurationList = 90E5B9511B31DB040075B777 /* Build configuration list for PBXNativeTarget "SwiftyDropTests" */;
 			buildPhases = (
-				90E5B90F1B31DA060075B777 /* Sources */,
-				90E5B9101B31DA060075B777 /* Frameworks */,
-				90E5B9111B31DA060075B777 /* Resources */,
+				90E5B9401B31DB040075B777 /* Sources */,
+				90E5B9411B31DB040075B777 /* Frameworks */,
+				90E5B9421B31DB040075B777 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				90E5B9151B31DA060075B777 /* PBXTargetDependency */,
+				90E5B9461B31DB040075B777 /* PBXTargetDependency */,
 			);
 			name = SwiftyDropTests;
 			productName = SwiftyDropTests;
-			productReference = 90E5B9131B31DA060075B777 /* SwiftyDropTests.xctest */;
+			productReference = 90E5B9441B31DB040075B777 /* SwiftyDropTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		90E5B8F61B31DA060075B777 /* Project object */ = {
+		90E5B9271B31DB040075B777 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = MORITANAOKI;
 				TargetAttributes = {
-					90E5B8FD1B31DA060075B777 = {
+					90E5B92E1B31DB040075B777 = {
 						CreatedOnToolsVersion = 6.3.2;
 					};
-					90E5B9121B31DA060075B777 = {
+					90E5B9431B31DB040075B777 = {
 						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = 90E5B8FD1B31DA060075B777;
+						TestTargetID = 90E5B92E1B31DB040075B777;
 					};
 				};
 			};
-			buildConfigurationList = 90E5B8F91B31DA060075B777 /* Build configuration list for PBXProject "SwiftyDrop" */;
+			buildConfigurationList = 90E5B92A1B31DB040075B777 /* Build configuration list for PBXProject "SwiftyDrop" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -176,29 +187,29 @@
 				en,
 				Base,
 			);
-			mainGroup = 90E5B8F51B31DA060075B777;
-			productRefGroup = 90E5B8FF1B31DA060075B777 /* Products */;
+			mainGroup = 90E5B9261B31DB040075B777;
+			productRefGroup = 90E5B9301B31DB040075B777 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				90E5B8FD1B31DA060075B777 /* SwiftyDrop */,
-				90E5B9121B31DA060075B777 /* SwiftyDropTests */,
+				90E5B92E1B31DB040075B777 /* SwiftyDrop */,
+				90E5B9431B31DB040075B777 /* SwiftyDropTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		90E5B8FC1B31DA060075B777 /* Resources */ = {
+		90E5B92D1B31DB040075B777 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90E5B9091B31DA060075B777 /* Main.storyboard in Resources */,
-				90E5B90E1B31DA060075B777 /* LaunchScreen.xib in Resources */,
-				90E5B90B1B31DA060075B777 /* Images.xcassets in Resources */,
+				90E5B93A1B31DB040075B777 /* Main.storyboard in Resources */,
+				90E5B93F1B31DB040075B777 /* LaunchScreen.xib in Resources */,
+				90E5B93C1B31DB040075B777 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90E5B9111B31DA060075B777 /* Resources */ = {
+		90E5B9421B31DB040075B777 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -208,46 +219,47 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		90E5B8FA1B31DA060075B777 /* Sources */ = {
+		90E5B92B1B31DB040075B777 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90E5B9061B31DA060075B777 /* ViewController.swift in Sources */,
-				90E5B9041B31DA060075B777 /* AppDelegate.swift in Sources */,
+				90E5B9371B31DB040075B777 /* ViewController.swift in Sources */,
+				90E5B9351B31DB040075B777 /* AppDelegate.swift in Sources */,
+				90E5B9551B31DB650075B777 /* Drop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		90E5B90F1B31DA060075B777 /* Sources */ = {
+		90E5B9401B31DB040075B777 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90E5B91A1B31DA060075B777 /* SwiftyDropTests.swift in Sources */,
+				90E5B94B1B31DB040075B777 /* SwiftyDropTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		90E5B9151B31DA060075B777 /* PBXTargetDependency */ = {
+		90E5B9461B31DB040075B777 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 90E5B8FD1B31DA060075B777 /* SwiftyDrop */;
-			targetProxy = 90E5B9141B31DA060075B777 /* PBXContainerItemProxy */;
+			target = 90E5B92E1B31DB040075B777 /* SwiftyDrop */;
+			targetProxy = 90E5B9451B31DB040075B777 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		90E5B9071B31DA060075B777 /* Main.storyboard */ = {
+		90E5B9381B31DB040075B777 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				90E5B9081B31DA060075B777 /* Base */,
+				90E5B9391B31DB040075B777 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		90E5B90C1B31DA060075B777 /* LaunchScreen.xib */ = {
+		90E5B93D1B31DB040075B777 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				90E5B90D1B31DA060075B777 /* Base */,
+				90E5B93E1B31DB040075B777 /* Base */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -255,7 +267,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		90E5B91B1B31DA060075B777 /* Debug */ = {
+		90E5B94C1B31DB040075B777 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -300,7 +312,7 @@
 			};
 			name = Debug;
 		};
-		90E5B91C1B31DA060075B777 /* Release */ = {
+		90E5B94D1B31DB040075B777 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -338,7 +350,7 @@
 			};
 			name = Release;
 		};
-		90E5B91E1B31DA060075B777 /* Debug */ = {
+		90E5B94F1B31DB040075B777 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -348,7 +360,7 @@
 			};
 			name = Debug;
 		};
-		90E5B91F1B31DA060075B777 /* Release */ = {
+		90E5B9501B31DB040075B777 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -358,7 +370,7 @@
 			};
 			name = Release;
 		};
-		90E5B9211B31DA060075B777 /* Debug */ = {
+		90E5B9521B31DB040075B777 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -377,7 +389,7 @@
 			};
 			name = Debug;
 		};
-		90E5B9221B31DA060075B777 /* Release */ = {
+		90E5B9531B31DB040075B777 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -395,32 +407,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		90E5B8F91B31DA060075B777 /* Build configuration list for PBXProject "SwiftyDrop" */ = {
+		90E5B92A1B31DB040075B777 /* Build configuration list for PBXProject "SwiftyDrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				90E5B91B1B31DA060075B777 /* Debug */,
-				90E5B91C1B31DA060075B777 /* Release */,
+				90E5B94C1B31DB040075B777 /* Debug */,
+				90E5B94D1B31DB040075B777 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		90E5B91D1B31DA060075B777 /* Build configuration list for PBXNativeTarget "SwiftyDrop" */ = {
+		90E5B94E1B31DB040075B777 /* Build configuration list for PBXNativeTarget "SwiftyDrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				90E5B91E1B31DA060075B777 /* Debug */,
-				90E5B91F1B31DA060075B777 /* Release */,
+				90E5B94F1B31DB040075B777 /* Debug */,
+				90E5B9501B31DB040075B777 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
-		90E5B9201B31DA060075B777 /* Build configuration list for PBXNativeTarget "SwiftyDropTests" */ = {
+		90E5B9511B31DB040075B777 /* Build configuration list for PBXNativeTarget "SwiftyDropTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				90E5B9211B31DA060075B777 /* Debug */,
-				90E5B9221B31DA060075B777 /* Release */,
+				90E5B9521B31DB040075B777 /* Debug */,
+				90E5B9531B31DB040075B777 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 90E5B8F61B31DA060075B777 /* Project object */;
+	rootObject = 90E5B9271B31DB040075B777 /* Project object */;
 }
