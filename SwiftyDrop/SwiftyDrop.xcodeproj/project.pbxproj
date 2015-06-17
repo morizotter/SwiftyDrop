@@ -14,6 +14,7 @@
 		90E5B93F1B31DB040075B777 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B93D1B31DB040075B777 /* LaunchScreen.xib */; };
 		90E5B94B1B31DB040075B777 /* SwiftyDropTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B94A1B31DB040075B777 /* SwiftyDropTests.swift */; };
 		90E5B9551B31DB650075B777 /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5B9541B31DB650075B777 /* Drop.swift */; };
+		90E5B9581B31DDA30075B777 /* Drop.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90E5B9571B31DDA30075B777 /* Drop.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		90E5B9491B31DB040075B777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90E5B94A1B31DB040075B777 /* SwiftyDropTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyDropTests.swift; sourceTree = "<group>"; };
 		90E5B9541B31DB650075B777 /* Drop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Drop.swift; path = ../../Source/Drop.swift; sourceTree = "<group>"; };
+		90E5B9571B31DDA30075B777 /* Drop.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Drop.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				90E5B9541B31DB650075B777 /* Drop.swift */,
+				90E5B9571B31DDA30075B777 /* Drop.xib */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			files = (
 				90E5B93A1B31DB040075B777 /* Main.storyboard in Resources */,
 				90E5B93F1B31DB040075B777 /* LaunchScreen.xib in Resources */,
+				90E5B9581B31DDA30075B777 /* Drop.xib in Resources */,
 				90E5B93C1B31DB040075B777 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
