@@ -25,6 +25,7 @@
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="Ig5-5s-uuV" firstAttribute="top" secondItem="bfE-xP-nNF" secondAttribute="bottom" constant="8" id="2rk-pR-H8G"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ig5-5s-uuV" secondAttribute="bottom" constant="8" id="9rH-b7-mLq"/>
@@ -41,7 +42,13 @@
             <connections>
                 <outlet property="descriptionLabel" destination="Ig5-5s-uuV" id="xNE-g2-8eg"/>
                 <outlet property="titleLabel" destination="bfE-xP-nNF" id="g60-yq-Lo2"/>
+                <outletCollection property="gestureRecognizers" destination="vaA-OI-wEP" appends="YES" id="03I-x8-7lM"/>
             </connections>
         </view>
+        <tapGestureRecognizer id="vaA-OI-wEP">
+            <connections>
+                <action selector="up:" destination="iN0-l3-epB" id="AEm-08-AZe"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
 </document>

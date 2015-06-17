@@ -12,6 +12,13 @@ class Drop: UIView {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    var topConstraint: NSLayoutConstraint!
+    let height = 100.0
+    
+    @IBAction func up(sender: AnyObject) {
+        Drop.up(self)
+    }
 }
 
 extension Drop {
@@ -21,8 +28,6 @@ extension Drop {
         if let window = window() {
             window.addSubview(drop)
             
-            let height = CGFloat(100.0)
-            
             let heightConstraint = NSLayoutConstraint(
                 item: drop,
                 attribute: .Height,
@@ -30,10 +35,10 @@ extension Drop {
                 toItem: nil,
                 attribute: .Height,
                 multiplier: 1.0,
-                constant: height
+                constant: CGFloat(drop.height)
             )
             
-            let constraints = ([.Top, .Left, .Right] as [NSLayoutAttribute]).map {
+            let sideConstraints = ([.Left, .Right] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: window,
                     attribute: $0,
@@ -45,16 +50,48 @@ extension Drop {
                 )
             }
             
+            drop.topConstraint = NSLayoutConstraint(
+                item: window,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: drop,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: CGFloat(drop.height)
+            )
+            
             drop.setTranslatesAutoresizingMaskIntoConstraints(false)
             drop.addConstraint(heightConstraint)
-            window.addConstraints(constraints)
+            window.addConstraints(sideConstraints)
+            window.addConstraint(drop.topConstraint)
             drop.layoutIfNeeded()
+            
+            drop.topConstraint.constant = 0.0
+            UIView.animateWithDuration(
+                NSTimeInterval(0.25),
+                delay: NSTimeInterval(0.0),
+                options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
+                animations: { [unowned drop] () -> Void in
+                    drop.layoutIfNeeded()
+                }, completion: nil
+            )
+            
+            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(4.0) * Double(NSEC_PER_SEC)))
+            dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
+                if let drop = drop { self.up(drop) }
+            })
         }
-        
     }
     
-    class func up() {
-        
+    class func up(drop: Drop) {
+        drop.topConstraint.constant = CGFloat(drop.height)
+        UIView.animateWithDuration(
+            NSTimeInterval(0.25),
+            delay: NSTimeInterval(0.0),
+            options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
+            animations: { () -> Void in
+                drop.layoutIfNeeded()
+            }, completion: nil)
     }
 }
 
