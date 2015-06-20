@@ -15,6 +15,8 @@ final class Drop: UIView {
     
     private var topConstraint: NSLayoutConstraint!
     private var heightConstraint: NSLayoutConstraint!
+    private let statusTopMargin: CGFloat = 8.0
+    private let statusBottomMargin: CGFloat = 8.0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,7 +41,7 @@ final class Drop: UIView {
     }
     
     func updateHeight() {
-        heightConstraint.constant = self.statusLabel.frame.size.height + Drop.statusBarHeight()
+        heightConstraint.constant = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
         self.layoutIfNeeded()
     }
 }
@@ -111,7 +113,6 @@ extension Drop {
     private func setup(status: String) {
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        // Background
         let backgroundView = UIImageView(frame: CGRectZero)
         backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
         backgroundView.backgroundColor = Color.Info
@@ -132,7 +133,6 @@ extension Drop {
         self.addConstraints(backgroundConstraints)
         self.backgroundView = backgroundView
         
-        // Status
         let statusLabel = UILabel(frame: CGRectZero)
         statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
         statusLabel.numberOfLines = 0
@@ -169,7 +169,7 @@ extension Drop {
             toItem: self,
             attribute: .Top,
             multiplier: 1.0,
-            constant: Drop.statusBarHeight()
+            constant: Drop.statusBarHeight() + statusTopMargin
         )
 
         self.addConstraints([statusLeft, statusRight, statusTop])
