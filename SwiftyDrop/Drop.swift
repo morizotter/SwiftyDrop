@@ -9,17 +9,30 @@
 import UIKit
 
 enum DropType {
-    case LightBlur, Error, Warning, Success, Info, Default
+    case Default, Info, Success, Warning, Error, LightBlur, ExtraLightBlur, DarkBlur
     
     func backgroundColor() -> UIColor? {
         switch self {
-        case LightBlur: return nil
-        case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
-        case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
-        case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
-        case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
         case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
+        case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
+        case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
+        case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
+        case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
+        default: return nil
         }
+    }
+    
+    func blurEffect() -> UIBlurEffect? {
+        switch self {
+        case .LightBlur: return UIBlurEffect(style: .Light)
+        case .ExtraLightBlur: return UIBlurEffect(style: .ExtraLight)
+        case .DarkBlur: return UIBlurEffect(style: .Dark)
+        default: return nil
+        }
+    }
+    
+    func isBlurType() -> Bool {
+        return self == .LightBlur || self == .ExtraLightBlur || self == .DarkBlur
     }
 }
 
@@ -145,8 +158,8 @@ extension Drop {
     private func setup(status: String, type: DropType) {
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        if type == .LightBlur {
-            let blurEffect = UIBlurEffect(style: .Light)
+        if type.isBlurType() {
+            let blurEffect = type.blurEffect()!
             
             // Visual Effect View
             let visualEffectView = UIVisualEffectView(effect: blurEffect)

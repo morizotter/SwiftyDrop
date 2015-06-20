@@ -28,13 +28,19 @@ class ViewController: UIViewController {
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
             Drop.down(.Error, status: self.sampleText())
         }
-        let blurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
+        let lightBlurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
             Drop.down(.LightBlur, status: self.sampleText())
+        }
+        let extraLightBlurAction = UIAlertAction(title: "ExtraLightBlur", style: .Default) { [unowned self] action -> Void in
+            Drop.down(.ExtraLightBlur, status: self.sampleText())
+        }
+        let darkBlurActionAction = UIAlertAction(title: "DarkBlur", style: .Default) { [unowned self] action -> Void in
+            Drop.down(.DarkBlur, status: self.sampleText())
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        [defaultAction, infoAction, warningAction, errorAction, blurAction, cancelAction].map {
+        [defaultAction, infoAction, warningAction, errorAction, lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
             controller.addAction($0)
         }
         presentViewController(controller, animated: true, completion: nil)
