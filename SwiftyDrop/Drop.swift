@@ -148,23 +148,10 @@ extension Drop {
         if type == .LightBlur {
             let blurEffect = UIBlurEffect(style: .Light)
             
-            let statusLabel = UILabel(frame: CGRectZero)
-            statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-            statusLabel.numberOfLines = 0
-            statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-            statusLabel.textAlignment = .Center
-            statusLabel.text = status
-            
-            let vibrancyEffect = UIVibrancyEffect(forBlurEffect: blurEffect)
-            let vibrancyEffectView = UIVisualEffectView(effect: vibrancyEffect)
-            vibrancyEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
-            vibrancyEffectView.contentView.addSubview(statusLabel)
-            
+            // Visual Effect View
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
             visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
-            visualEffectView.contentView.addSubview(vibrancyEffectView)
             self.addSubview(visualEffectView)
-            
             let visualEffectViewConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: visualEffectView,
@@ -179,6 +166,10 @@ extension Drop {
             self.addConstraints(visualEffectViewConstraints)
             self.backgroundView = visualEffectView
             
+            // Vibrancy Effect View
+            let vibrancyEffectView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
+            vibrancyEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            visualEffectView.contentView.addSubview(vibrancyEffectView)
             let vibrancyLeft = NSLayoutConstraint(
                 item: vibrancyEffectView,
                 attribute: .Left,
@@ -217,6 +208,9 @@ extension Drop {
             )
             visualEffectView.contentView.addConstraints([vibrancyTop, vibrancyRight, vibrancyBottom, vibrancyLeft])
             
+            // STATUS LABEL
+            let statusLabel = createStatusLabel(status, isVisualEffect: true)
+            vibrancyEffectView.contentView.addSubview(statusLabel)
             let statusLeft = NSLayoutConstraint(
                 item: statusLabel,
                 attribute: .Left,
@@ -247,12 +241,12 @@ extension Drop {
             vibrancyEffectView.contentView.addConstraints([statusTop, statusRight, statusLeft])
             self.statusLabel = statusLabel
         } else {
+            // Background View
             let backgroundView = UIView(frame: CGRectZero)
             backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
             backgroundView.alpha = 0.9
             backgroundView.backgroundColor = type.backgroundColor()
             self.addSubview(backgroundView)
-            
             let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: backgroundView,
@@ -267,13 +261,8 @@ extension Drop {
             self.addConstraints(backgroundConstraints)
             self.backgroundView = backgroundView
             
-            let statusLabel = UILabel(frame: CGRectZero)
-            statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-            statusLabel.numberOfLines = 0
-            statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-            statusLabel.textAlignment = .Center
-            statusLabel.textColor = UIColor.whiteColor()
-            statusLabel.text = status
+            // Status Label
+            let statusLabel = createStatusLabel(status, isVisualEffect: false)
             self.addSubview(statusLabel)
             
             let statusLeft = NSLayoutConstraint(
@@ -314,6 +303,17 @@ extension Drop {
         
         self.userInteractionEnabled = true
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
+    }
+    
+    private func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
+        let label = UILabel(frame: CGRectZero)
+        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.numberOfLines = 0
+        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        label.textAlignment = .Center
+        label.text = status
+        if !isVisualEffect { label.textColor = UIColor.whiteColor() }
+        return label
     }
 }
 
