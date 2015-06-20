@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
                    SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
                    - Easy to use like: `Drop.down("Message")`
                    - Expand message field depends on the message.
-
+                   DESC
   s.homepage     = "https://github.com/morizotter/SwiftyDrop"
   s.license      = "MIT"
   s.author       = { "Naoki Morita" => "namorit@gmail.com" }
