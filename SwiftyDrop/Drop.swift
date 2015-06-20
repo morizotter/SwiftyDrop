@@ -23,7 +23,6 @@ enum DropType {
 }
 
 final class Drop: UIView {
-    
     private var backgroundView: UIImageView!
     private var statusLabel: UILabel!
     
@@ -104,14 +103,14 @@ extension Drop {
                 NSTimeInterval(0.25),
                 delay: NSTimeInterval(0.0),
                 options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
-                animations: { [unowned drop] () -> Void in
-                    drop.layoutIfNeeded()
+                animations: { [weak drop] () -> Void in
+                    if let drop = drop { drop.layoutIfNeeded() }
                 }, completion: nil
             )
             
             let when = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(4.0) * Double(NSEC_PER_SEC)))
             dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
-                if let drop = drop { self.up(drop) }
+                if let drop = drop { drop.up() }
             })
         }
     }
@@ -122,8 +121,10 @@ extension Drop {
             NSTimeInterval(0.25),
             delay: NSTimeInterval(0.0),
             options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
-            animations: { () -> Void in
-                drop.layoutIfNeeded()
+            animations: { [weak drop] () -> Void in
+                if let drop = drop {
+                    drop.layoutIfNeeded()
+                }
             }, completion: nil)
     }
     
