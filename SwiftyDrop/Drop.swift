@@ -138,8 +138,9 @@ extension Drop {
                 if let drop = drop {
                     drop.layoutIfNeeded()
                 }
-            }, completion: nil)
-        // Need to remove drop
+            }) { [weak drop] finished -> Void in
+                if let drop = drop { drop.removeFromSuperview() }
+        }
     }
     
     class func upAll() {
