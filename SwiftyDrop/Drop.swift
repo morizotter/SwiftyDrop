@@ -8,10 +8,10 @@
 
 import UIKit
 
-enum DropState {
+public enum DropState {
     case Default, Info, Success, Warning, Error
     
-    func backgroundColor() -> UIColor? {
+    private func backgroundColor() -> UIColor? {
         switch self {
         case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
         case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
@@ -22,9 +22,9 @@ enum DropState {
     }
 }
 
-enum DropBlur {
+public enum DropBlur {
     case Light, ExtraLight, Dark
-    func blurEffect() -> UIBlurEffect {
+    private func blurEffect() -> UIBlurEffect {
         switch self {
         case .Light: return UIBlurEffect(style: .Light)
         case .ExtraLight: return UIBlurEffect(style: .ExtraLight)
@@ -33,7 +33,7 @@ enum DropBlur {
     }
 }
 
-final class Drop: UIView {
+public final class Drop: UIView {
     private var backgroundView: UIView!
     private var statusLabel: UILabel!
     
@@ -56,15 +56,15 @@ final class Drop: UIView {
         self.addConstraint(heightConstraint)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func up() {
+    private func up() {
         Drop.up(self)
     }
     
-    func updateHeight() {
+    private func updateHeight() {
         heightConstraint.constant = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
         self.layoutIfNeeded()
     }
@@ -133,7 +133,7 @@ extension Drop {
         }
     }
     
-    class func up(drop: Drop) {
+    private class func up(drop: Drop) {
         drop.topConstraint.constant = drop.heightConstraint.constant
         UIView.animateWithDuration(
             NSTimeInterval(0.25),
@@ -148,7 +148,7 @@ extension Drop {
         }
     }
     
-    class func upAll() {
+    private class func upAll() {
         if let window = Drop.window() {
             for view in window.subviews {
                 if let drop = view as? Drop {
