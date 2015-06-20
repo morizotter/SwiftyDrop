@@ -89,9 +89,9 @@ Drop.down("Message", blur: .Light)
 - .Error
 
 **Blurs** are also enum:
-- Light
-- ExtraLight
-- Dark
+- .Light
+- .ExtraLight
+- .Dark
 
 ##Contributing
 
