@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
     }
 
-    @IBAction func showMenu(sender: AnyObject) {
+    @IBAction func showStates(sender: AnyObject) {
         let defaultAction = UIAlertAction(title: "Default", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText())
         }
@@ -33,6 +33,16 @@ class ViewController: UIViewController {
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Error)
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
+        [defaultAction, infoAction, successAction, warningAction, errorAction, cancelAction].map {
+            controller.addAction($0)
+        }
+        presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    @IBAction func showBlurs(sender: AnyObject) {
         let lightBlurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), blur: .Light)
         }
@@ -45,7 +55,7 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        [defaultAction, infoAction, successAction, warningAction, errorAction, lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
+        [lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
             controller.addAction($0)
         }
         presentViewController(controller, animated: true, completion: nil)
@@ -57,7 +67,7 @@ class ViewController: UIViewController {
     
     func sampleText() -> String {
         var text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
-        let length = Int(arc4random_uniform(400)) + 10
+        let length = Int(arc4random_uniform(100)) + 10
         let end = advance(text.startIndex, length)
         return text.substringWithRange(Range(start: text.startIndex, end: end))
     }

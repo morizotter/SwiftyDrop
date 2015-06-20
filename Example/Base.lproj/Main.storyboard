@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -21,33 +22,76 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBP-Wg-mhI">
                                 <rect key="frame" x="0.0" y="512" width="600" height="88"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="88"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="88" id="A13-Yh-yop"/>
+                                            <constraint firstAttribute="width" constant="300" id="mq6-Qj-4Pa"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="States">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="A13-Yh-yop"/>
+                                                <exclude reference="mq6-Qj-4Pa"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="showStates:" destination="BYZ-38-t0r" eventType="touchUpInside" id="INx-Rb-Jrt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmM-FG-7oi">
+                                        <rect key="frame" x="300" y="0.0" width="300" height="88"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="88" id="0ZZ-KW-PK1"/>
+                                            <constraint firstAttribute="width" constant="300" id="umq-ly-dId"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="Blurs">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="umq-ly-dId"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="showBlurs:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLR-Na-vql"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.053890830590000001" green="0.52228104440000001" blue="0.64810341279999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="A13-Yh-yop"/>
+                                    <constraint firstAttribute="trailing" secondItem="bmM-FG-7oi" secondAttribute="trailing" id="4aB-Oz-5OM"/>
+                                    <constraint firstAttribute="height" constant="88" id="dPI-ek-EEr"/>
+                                    <constraint firstItem="bmM-FG-7oi" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="top" id="fb5-eu-hQ1"/>
+                                    <constraint firstAttribute="bottom" secondItem="bmM-FG-7oi" secondAttribute="bottom" id="jxZ-Mi-mPP"/>
+                                    <constraint firstItem="WpI-rx-eHp" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="top" id="kMQ-63-SFd"/>
+                                    <constraint firstItem="WpI-rx-eHp" firstAttribute="leading" secondItem="dBP-Wg-mhI" secondAttribute="leading" id="sIL-DS-KOv"/>
+                                    <constraint firstAttribute="bottom" secondItem="WpI-rx-eHp" secondAttribute="bottom" id="tAg-uR-p1c"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
-                                <state key="normal" title="Show samples">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                        <color key="value" red="0.053890830592105261" green="0.52228104440789469" blue="0.64810341282894723" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="showMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Ji-MQ-daC"/>
-                                </connections>
-                            </button>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dPI-ek-EEr"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WpI-rx-eHp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Hae-jq-ciY"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="WpI-rx-eHp" secondAttribute="bottom" id="JMY-TD-6Xc"/>
+                            <constraint firstAttribute="trailing" secondItem="dBP-Wg-mhI" secondAttribute="trailing" id="95V-zn-qpj"/>
+                            <constraint firstAttribute="width" secondItem="bmM-FG-7oi" secondAttribute="width" multiplier="2" id="Hbx-GE-civ"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="bottom" id="NAA-Gz-4y7"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="UOL-aF-vqI"/>
+                            <constraint firstItem="dBP-Wg-mhI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XWc-5R-6sx"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xe7-fz-xLi"/>
-                            <constraint firstAttribute="trailing" secondItem="WpI-rx-eHp" secondAttribute="trailing" id="c8O-0J-ZE5"/>
                             <constraint firstAttribute="trailing" secondItem="rvo-DH-qnJ" secondAttribute="trailing" id="fui-cr-8sZ"/>
+                            <constraint firstAttribute="width" secondItem="WpI-rx-eHp" secondAttribute="width" multiplier="2" id="iq4-ms-YEI"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="vtn-gf-d8y"/>
                         </constraints>
                     </view>
