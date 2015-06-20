@@ -10,22 +10,18 @@ import UIKit
 
 class Drop: UIView {
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    
     var topConstraint: NSLayoutConstraint!
     let height = 100.0
     
-    @IBAction func up(sender: AnyObject) {
+    func up(sender: AnyObject) {
         Drop.up(self)
     }
 }
 
 extension Drop {
-    class func down(title: String, subtitle: String?) {
-        let drop = UINib(nibName: "Drop", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! Drop
-        
+    class func down(status: String) {
         if let window = window() {
+            let drop = Drop(frame: CGRectZero)
             window.addSubview(drop)
             
             let heightConstraint = NSLayoutConstraint(
@@ -60,10 +56,10 @@ extension Drop {
                 constant: CGFloat(drop.height)
             )
             
-            drop.setTranslatesAutoresizingMaskIntoConstraints(false)
             drop.addConstraint(heightConstraint)
             window.addConstraints(sideConstraints)
             window.addConstraint(drop.topConstraint)
+            drop.setup(status)
             drop.layoutIfNeeded()
             
             drop.topConstraint.constant = 0.0
@@ -98,5 +94,63 @@ extension Drop {
 extension Drop {
     private class func window() -> UIWindow? {
         return UIApplication.sharedApplication().keyWindow
+    }
+    
+    private func setup(status: String) {
+        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        let backgroundView = UIImageView(frame: CGRectZero)
+        backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        backgroundView.backgroundColor = UIColor.redColor()
+        self.addSubview(backgroundView)
+
+        let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+            return NSLayoutConstraint(
+                item: backgroundView,
+                attribute: $0,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: $0,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+        }
+        self.addConstraints(backgroundConstraints)
+        
+        let statusLabel = UILabel(frame: CGRectZero)
+        statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        statusLabel.textAlignment = .Center
+        statusLabel.textColor = UIColor.whiteColor()
+        statusLabel.text = status
+        self.addSubview(statusLabel)
+        
+        let sideConstraints = ([.LeftMargin, .RightMargin] as [NSLayoutAttribute]).map {
+            return NSLayoutConstraint(
+                item: statusLabel,
+                attribute: $0,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: $0,
+                multiplier: 1.0,
+                constant: 10.0
+            )
+        }
+        
+        let topConstraint = NSLayoutConstraint(
+            item: statusLabel,
+            attribute: .Top,
+            relatedBy: .Equal,
+            toItem: self,
+            attribute: .Top,
+            multiplier: 1.0,
+            constant: 20.0
+        )
+
+        self.addConstraints(sideConstraints)
+        self.addConstraint(topConstraint)
+        
+        self.userInteractionEnabled = true
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
     }
 }

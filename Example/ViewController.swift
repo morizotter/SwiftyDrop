@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  SwiftyDrop
+//  Example
 //
-//  Created by MORITANAOKI on 2015/06/18.
+//  Created by MORITANAOKI on 2015/06/20.
 //  Copyright (c) 2015年 MORITANAOKI. All rights reserved.
 //
 
@@ -15,8 +15,13 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    @IBAction func dropdown(sender: AnyObject) {
-        Drop.down("Title", subtitle: "subtitle")
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    @IBAction func drop(sender: AnyObject) {
+        Drop.down("Hello")
     }
 }
 
