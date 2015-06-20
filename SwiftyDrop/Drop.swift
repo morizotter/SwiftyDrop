@@ -8,6 +8,20 @@
 
 import UIKit
 
+enum DropType {
+    case Error, Warning, Success, Info, Default
+    
+    func backgroundColor() -> UIColor {
+        switch self {
+        case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
+        case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
+        case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
+        case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
+        case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
+        }
+    }
+}
+
 final class Drop: UIView {
     
     private var backgroundView: UIImageView!
@@ -47,7 +61,7 @@ final class Drop: UIView {
 }
 
 extension Drop {
-    class func down(status: String) {
+    class func down(type: DropType, status: String) {
         if let window = window() {
             let drop = Drop(frame: CGRectZero)
             window.addSubview(drop)
@@ -77,6 +91,7 @@ extension Drop {
             window.addConstraints(sideConstraints)
             window.addConstraint(drop.topConstraint)
             drop.setup(status)
+            drop.backgroundView.backgroundColor = type.backgroundColor()
             drop.updateHeight()
             
             drop.topConstraint.constant = 0.0
@@ -115,7 +130,6 @@ extension Drop {
         
         let backgroundView = UIImageView(frame: CGRectZero)
         backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        backgroundView.backgroundColor = Color.Info
         backgroundView.alpha = 0.9
         self.addSubview(backgroundView)
 
@@ -189,12 +203,5 @@ extension Drop {
     
     private class func statusBarHeight() -> CGFloat {
         return UIApplication.sharedApplication().statusBarFrame.size.height
-    }
-}
-
-extension Drop {
-    struct Color {
-        static let Warning = UIColor.redColor()
-        static let Info = UIColor.blueColor()
     }
 }

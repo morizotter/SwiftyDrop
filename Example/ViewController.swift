@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func drop(sender: AnyObject) {
-        Drop.down("Hi, I'm Momotaro from Japan. I'm searching a dog, bird and monkey to fight against deamon.")
+        Drop.down(.Warning, status: "Hi, I'm Momotaro from Japan. I'm searching a dog, bird and monkey to fight against deamon.")
     }
 }
 
