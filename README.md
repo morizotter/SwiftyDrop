@@ -18,6 +18,9 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 ![Light](misc/Light.png)
 ![Dark](misc/Dark.png)
 
+## iPad
+![iPad](misc/iPadPortlait.png)
+
 ##Runtime Requirements
 
 - iOS8.1 or later
