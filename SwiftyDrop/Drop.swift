@@ -8,8 +8,8 @@
 
 import UIKit
 
-enum DropType {
-    case Default, Info, Success, Warning, Error, LightBlur, ExtraLightBlur, DarkBlur
+enum DropState {
+    case Default, Info, Success, Warning, Error
     
     func backgroundColor() -> UIColor? {
         switch self {
@@ -18,21 +18,18 @@ enum DropType {
         case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
         case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
         case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
-        default: return nil
         }
     }
-    
-    func blurEffect() -> UIBlurEffect? {
+}
+
+enum DropBlur {
+    case Light, ExtraLight, Dark
+    func blurEffect() -> UIBlurEffect {
         switch self {
-        case .LightBlur: return UIBlurEffect(style: .Light)
-        case .ExtraLightBlur: return UIBlurEffect(style: .ExtraLight)
-        case .DarkBlur: return UIBlurEffect(style: .Dark)
-        default: return nil
+        case .Light: return UIBlurEffect(style: .Light)
+        case .ExtraLight: return UIBlurEffect(style: .ExtraLight)
+        case .Dark: return UIBlurEffect(style: .Dark)
         }
-    }
-    
-    func isBlurType() -> Bool {
-        return self == .LightBlur || self == .ExtraLightBlur || self == .DarkBlur
     }
 }
 
@@ -75,10 +72,18 @@ final class Drop: UIView {
 
 extension Drop {
     class func down(status: String) {
-        down(.Default, status: status)
+        down(status, state: .Default)
     }
     
-    class func down(type: DropType, status: String) {
+    class func down(status: String, state: DropState) {
+        down(status, state: state, blur: nil)
+    }
+    
+    class func down(status: String, blur: DropBlur) {
+        down(status, state: nil, blur: blur)
+    }
+    
+    private class func down(status: String, state: DropState?, blur: DropBlur?) {
         self.upAll()
         if let window = window() {
             let drop = Drop(frame: CGRectZero)
@@ -108,7 +113,7 @@ extension Drop {
             
             window.addConstraints(sideConstraints)
             window.addConstraint(drop.topConstraint)
-            drop.setup(status, type: type)
+            drop.setup(status, state: state, blur: blur)
             drop.updateHeight()
             
             drop.topConstraint.constant = 0.0
@@ -156,11 +161,11 @@ extension Drop {
 
 extension Drop {
     
-    private func setup(status: String, type: DropType) {
+    private func setup(status: String, state: DropState?, blur: DropBlur?) {
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        if type.isBlurType() {
-            let blurEffect = type.blurEffect()!
+        if let blur = blur {
+            let blurEffect = blur.blurEffect()
             
             // Visual Effect View
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
@@ -254,12 +259,14 @@ extension Drop {
             )
             vibrancyEffectView.contentView.addConstraints([statusTop, statusRight, statusLeft])
             self.statusLabel = statusLabel
-        } else {
+        }
+        
+        if let state = state {
             // Background View
             let backgroundView = UIView(frame: CGRectZero)
             backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
             backgroundView.alpha = 0.9
-            backgroundView.backgroundColor = type.backgroundColor()
+            backgroundView.backgroundColor = state.backgroundColor()
             self.addSubview(backgroundView)
             let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(

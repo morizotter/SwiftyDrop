@@ -20,25 +20,25 @@ class ViewController: UIViewController {
             Drop.down(self.sampleText())
         }
         let infoAction = UIAlertAction(title: "Info", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.Info, status: self.sampleText())
+            Drop.down(self.sampleText(), state: .Info)
         }
         let successAction = UIAlertAction(title: "Success", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.Success, status: self.sampleText())
+            Drop.down(self.sampleText(), state: .Success)
         }
         let warningAction = UIAlertAction(title: "Warning", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.Warning, status: self.sampleText())
+            Drop.down(self.sampleText(), state: .Warning)
         }
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.Error, status: self.sampleText())
+            Drop.down(self.sampleText(), state: .Error)
         }
         let lightBlurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.LightBlur, status: self.sampleText())
+            Drop.down(self.sampleText(), blur: .Light)
         }
         let extraLightBlurAction = UIAlertAction(title: "ExtraLightBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.ExtraLightBlur, status: self.sampleText())
+            Drop.down(self.sampleText(), blur: .ExtraLight)
         }
         let darkBlurActionAction = UIAlertAction(title: "DarkBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(.DarkBlur, status: self.sampleText())
+            Drop.down(self.sampleText(), blur: .Dark)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
