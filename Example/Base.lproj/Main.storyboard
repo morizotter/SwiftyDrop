@@ -26,7 +26,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="WpI-rx-eHp" secondAttribute="centerX" id="wVq-2G-lEL"/>
                             <constraint firstAttribute="centerY" secondItem="WpI-rx-eHp" secondAttribute="centerY" id="zcH-hf-5fD"/>
