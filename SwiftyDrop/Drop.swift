@@ -50,7 +50,7 @@ final class Drop: UIView {
         super.init(coder: aDecoder)
     }
     
-    func up(sender: AnyObject) {
+    func up() {
         Drop.up(self)
     }
     
@@ -66,6 +66,7 @@ extension Drop {
     }
     
     class func down(type: DropType, status: String) {
+        self.upAll()
         if let window = window() {
             let drop = Drop(frame: CGRectZero)
             window.addSubview(drop)
@@ -124,6 +125,16 @@ extension Drop {
             animations: { () -> Void in
                 drop.layoutIfNeeded()
             }, completion: nil)
+    }
+    
+    class func upAll() {
+        if let window = Drop.window() {
+            for view in window.subviews {
+                if let drop = view as? Drop {
+                    Drop.up(drop)
+                }
+            }
+        }
     }
 }
 
