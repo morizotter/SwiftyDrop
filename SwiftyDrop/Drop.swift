@@ -9,11 +9,11 @@
 import UIKit
 
 enum DropType {
-    case Blur, Error, Warning, Success, Info, Default
+    case LightBlur, Error, Warning, Success, Info, Default
     
     func backgroundColor() -> UIColor? {
         switch self {
-        case Blur: return nil
+        case LightBlur: return nil
         case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
         case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
         case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
@@ -24,7 +24,7 @@ enum DropType {
 }
 
 final class Drop: UIView {
-    private var backgroundView: UIImageView!
+    private var backgroundView: UIView!
     private var statusLabel: UILabel!
     
     private var topConstraint: NSLayoutConstraint!
@@ -95,9 +95,7 @@ extension Drop {
             
             window.addConstraints(sideConstraints)
             window.addConstraint(drop.topConstraint)
-            drop.setup(status)
-//            drop.backgroundView.backgroundColor = type.backgroundColor()
-            drop.addSubview(Drop.blurEffectView(.Light, frame: drop.frame))
+            drop.setup(status, type: type)
             drop.updateHeight()
             
             drop.topConstraint.constant = 0.0
@@ -128,6 +126,7 @@ extension Drop {
                     drop.layoutIfNeeded()
                 }
             }, completion: nil)
+        // Need to remove drop
     }
     
     class func upAll() {
@@ -143,69 +142,173 @@ extension Drop {
 
 extension Drop {
     
-    private func setup(status: String) {
+    private func setup(status: String, type: DropType) {
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        let backgroundView = UIImageView(frame: CGRectZero)
-        backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        backgroundView.alpha = 0.9
-        self.addSubview(backgroundView)
-
-        let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
-            return NSLayoutConstraint(
-                item: backgroundView,
-                attribute: $0,
+        if type == .LightBlur {
+            let blurEffect = UIBlurEffect(style: .Light)
+            
+            let statusLabel = UILabel(frame: CGRectZero)
+            statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+            statusLabel.numberOfLines = 0
+            statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            statusLabel.textAlignment = .Center
+            statusLabel.text = status
+            
+            let vibrancyEffect = UIVibrancyEffect(forBlurEffect: blurEffect)
+            let vibrancyEffectView = UIVisualEffectView(effect: vibrancyEffect)
+            vibrancyEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            vibrancyEffectView.contentView.addSubview(statusLabel)
+            
+            let visualEffectView = UIVisualEffectView(effect: blurEffect)
+            visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            visualEffectView.contentView.addSubview(vibrancyEffectView)
+            self.addSubview(visualEffectView)
+            
+            let visualEffectViewConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+                return NSLayoutConstraint(
+                    item: visualEffectView,
+                    attribute: $0,
+                    relatedBy: .Equal,
+                    toItem: self,
+                    attribute: $0,
+                    multiplier: 1.0,
+                    constant: 0.0
+                )
+            }
+            self.addConstraints(visualEffectViewConstraints)
+            self.backgroundView = visualEffectView
+            
+            let vibrancyLeft = NSLayoutConstraint(
+                item: vibrancyEffectView,
+                attribute: .Left,
                 relatedBy: .Equal,
-                toItem: self,
-                attribute: $0,
+                toItem: visualEffectView.contentView,
+                attribute: .LeftMargin,
                 multiplier: 1.0,
                 constant: 0.0
             )
+            let vibrancyRight = NSLayoutConstraint(
+                item: vibrancyEffectView,
+                attribute: .Right,
+                relatedBy: .Equal,
+                toItem: visualEffectView.contentView,
+                attribute: .RightMargin,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            let vibrancyTop = NSLayoutConstraint(
+                item: vibrancyEffectView,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: visualEffectView.contentView,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: Drop.statusBarHeight() + statusTopMargin
+            )
+            let vibrancyBottom = NSLayoutConstraint(
+                item: vibrancyEffectView,
+                attribute: .Bottom,
+                relatedBy: .Equal,
+                toItem: visualEffectView.contentView,
+                attribute: .Bottom,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            visualEffectView.contentView.addConstraints([vibrancyTop, vibrancyRight, vibrancyBottom, vibrancyLeft])
+            
+            let statusLeft = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Left,
+                relatedBy: .Equal,
+                toItem: vibrancyEffectView.contentView,
+                attribute: .Left,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            let statusRight = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Right,
+                relatedBy: .Equal,
+                toItem: vibrancyEffectView.contentView,
+                attribute: .Right,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            let statusTop = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: vibrancyEffectView.contentView,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            vibrancyEffectView.contentView.addConstraints([statusTop, statusRight, statusLeft])
+            self.statusLabel = statusLabel
+        } else {
+            let backgroundView = UIView(frame: CGRectZero)
+            backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            backgroundView.alpha = 0.9
+            backgroundView.backgroundColor = type.backgroundColor()
+            self.addSubview(backgroundView)
+            
+            let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+                return NSLayoutConstraint(
+                    item: backgroundView,
+                    attribute: $0,
+                    relatedBy: .Equal,
+                    toItem: self,
+                    attribute: $0,
+                    multiplier: 1.0,
+                    constant: 0.0
+                )
+            }
+            self.addConstraints(backgroundConstraints)
+            self.backgroundView = backgroundView
+            
+            let statusLabel = UILabel(frame: CGRectZero)
+            statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+            statusLabel.numberOfLines = 0
+            statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            statusLabel.textAlignment = .Center
+            statusLabel.textColor = UIColor.whiteColor()
+            statusLabel.text = status
+            self.addSubview(statusLabel)
+            
+            let statusLeft = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Left,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .LeftMargin,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            
+            let statusRight = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Right,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .RightMargin,
+                multiplier: 1.0,
+                constant: 0.0
+            )
+            
+            let statusTop = NSLayoutConstraint(
+                item: statusLabel,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: Drop.statusBarHeight() + statusTopMargin
+            )
+            
+            self.addConstraints([statusLeft, statusRight, statusTop])
+            self.statusLabel = statusLabel
         }
-        self.addConstraints(backgroundConstraints)
-        self.backgroundView = backgroundView
-        
-        let statusLabel = UILabel(frame: CGRectZero)
-        statusLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        statusLabel.numberOfLines = 0
-        statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        statusLabel.textAlignment = .Center
-        statusLabel.textColor = UIColor.whiteColor()
-        statusLabel.text = status
-        self.addSubview(statusLabel)
-        
-        let statusLeft = NSLayoutConstraint(
-            item: statusLabel,
-            attribute: .Left,
-            relatedBy: .Equal,
-            toItem: self,
-            attribute: .LeftMargin,
-            multiplier: 1.0,
-            constant: 0.0
-        )
-        
-        let statusRight = NSLayoutConstraint(
-            item: statusLabel,
-            attribute: .Right,
-            relatedBy: .Equal,
-            toItem: self,
-            attribute: .RightMargin,
-            multiplier: 1.0,
-            constant: 0.0
-        )
-        
-        let statusTop = NSLayoutConstraint(
-            item: statusLabel,
-            attribute: .Top,
-            relatedBy: .Equal,
-            toItem: self,
-            attribute: .Top,
-            multiplier: 1.0,
-            constant: Drop.statusBarHeight() + statusTopMargin
-        )
-
-        self.addConstraints([statusLeft, statusRight, statusTop])
-        self.statusLabel = statusLabel
         
         self.layoutIfNeeded()
         
@@ -221,12 +324,5 @@ extension Drop {
     
     private class func statusBarHeight() -> CGFloat {
         return UIApplication.sharedApplication().statusBarFrame.size.height
-    }
-    
-    private class func blurEffectView(style: UIBlurEffectStyle, frame: CGRect) -> UIVisualEffectView {
-        let effect = UIBlurEffect(style: style)
-        let effectView = UIVisualEffectView(effect: effect)
-        effectView.frame = frame
-        return effectView
     }
 }

@@ -28,14 +28,15 @@ class ViewController: UIViewController {
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
             Drop.down(.Error, status: self.sampleText())
         }
+        let blurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
+            Drop.down(.LightBlur, status: self.sampleText())
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        controller.addAction(defaultAction)
-        controller.addAction(infoAction)
-        controller.addAction(warningAction)
-        controller.addAction(errorAction)
-        controller.addAction(cancelAction)
+        [defaultAction, infoAction, warningAction, errorAction, blurAction, cancelAction].map {
+            controller.addAction($0)
+        }
         presentViewController(controller, animated: true, completion: nil)
     }
     
