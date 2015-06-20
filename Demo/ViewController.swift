@@ -9,14 +9,14 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "upAllDrops:")
         view.addGestureRecognizer(tapRecognizer)
     }
-
+    
     @IBAction func showStates(sender: AnyObject) {
         let defaultAction = UIAlertAction(title: "Default", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText())
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
-        let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
+        let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
         [defaultAction, infoAction, successAction, warningAction, errorAction, cancelAction].map {
             controller.addAction($0)
         }

@@ -73,7 +73,7 @@ Drop.down("Message")
 It is really simple!
 
 ### States and Blurs
-SwiftyDrop has 2 types of display. First is **State**. Second is **Blurs**. You can customize looks using them. Examples are:
+SwiftyDrop has 2 types of display. First is **State**. Second is **Blur**. You can customize looks using them. Examples are:
 
 ```swift
 Drop.down("Message", state: .Success)
