@@ -61,6 +61,10 @@ final class Drop: UIView {
 }
 
 extension Drop {
+    class func down(status: String) {
+        down(.Default, status: status)
+    }
+    
     class func down(type: DropType, status: String) {
         if let window = window() {
             let drop = Drop(frame: CGRectZero)
