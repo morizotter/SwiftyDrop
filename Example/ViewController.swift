@@ -22,6 +22,9 @@ class ViewController: UIViewController {
         let infoAction = UIAlertAction(title: "Info", style: .Default) { [unowned self] action -> Void in
             Drop.down(.Info, status: self.sampleText())
         }
+        let successAction = UIAlertAction(title: "Success", style: .Default) { [unowned self] action -> Void in
+            Drop.down(.Success, status: self.sampleText())
+        }
         let warningAction = UIAlertAction(title: "Warning", style: .Default) { [unowned self] action -> Void in
             Drop.down(.Warning, status: self.sampleText())
         }
@@ -40,7 +43,7 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        [defaultAction, infoAction, warningAction, errorAction, lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
+        [defaultAction, infoAction, successAction, warningAction, errorAction, lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
             controller.addAction($0)
         }
         presentViewController(controller, animated: true, completion: nil)
