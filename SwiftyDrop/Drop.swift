@@ -36,7 +36,6 @@ public enum DropBlur {
 public final class Drop: UIView {
     private var backgroundView: UIView!
     private var statusLabel: UILabel!
-    
     private var topConstraint: NSLayoutConstraint!
     private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 8.0
@@ -60,7 +59,7 @@ public final class Drop: UIView {
         super.init(coder: aDecoder)
     }
     
-    private func up() {
+    func up() {
         Drop.up(self)
     }
     
@@ -148,7 +147,7 @@ extension Drop {
         }
     }
     
-    private class func upAll() {
+    class func upAll() {
         if let window = Drop.window() {
             for view in window.subviews {
                 if let drop = view as? Drop {
@@ -285,7 +284,6 @@ extension Drop {
             // Status Label
             let statusLabel = createStatusLabel(status, isVisualEffect: false)
             self.addSubview(statusLabel)
-            
             let statusLeft = NSLayoutConstraint(
                 item: statusLabel,
                 attribute: .Left,
@@ -295,7 +293,6 @@ extension Drop {
                 multiplier: 1.0,
                 constant: 0.0
             )
-            
             let statusRight = NSLayoutConstraint(
                 item: statusLabel,
                 attribute: .Right,
@@ -305,7 +302,6 @@ extension Drop {
                 multiplier: 1.0,
                 constant: 0.0
             )
-            
             let statusTop = NSLayoutConstraint(
                 item: statusLabel,
                 attribute: .Top,
@@ -315,7 +311,6 @@ extension Drop {
                 multiplier: 1.0,
                 constant: Drop.statusBarHeight() + statusTopMargin
             )
-            
             self.addConstraints([statusLeft, statusRight, statusTop])
             self.statusLabel = statusLabel
         }
@@ -323,7 +318,7 @@ extension Drop {
         self.layoutIfNeeded()
         
         self.userInteractionEnabled = true
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up"))
     }
     
     private func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {

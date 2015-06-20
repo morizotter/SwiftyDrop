@@ -12,7 +12,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "upAllDrops:")
+        view.addGestureRecognizer(tapRecognizer)
     }
 
     @IBAction func showMenu(sender: AnyObject) {
@@ -47,6 +49,10 @@ class ViewController: UIViewController {
             controller.addAction($0)
         }
         presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func upAllDrops(sender: AnyObject) {
+        Drop.upAll()
     }
     
     func sampleText() -> String {
