@@ -9,10 +9,11 @@
 import UIKit
 
 enum DropType {
-    case Error, Warning, Success, Info, Default
+    case Blur, Error, Warning, Success, Info, Default
     
-    func backgroundColor() -> UIColor {
+    func backgroundColor() -> UIColor? {
         switch self {
+        case Blur: return nil
         case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
         case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
         case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
@@ -95,7 +96,8 @@ extension Drop {
             window.addConstraints(sideConstraints)
             window.addConstraint(drop.topConstraint)
             drop.setup(status)
-            drop.backgroundView.backgroundColor = type.backgroundColor()
+//            drop.backgroundView.backgroundColor = type.backgroundColor()
+            drop.addSubview(Drop.blurEffectView(.Light, frame: drop.frame))
             drop.updateHeight()
             
             drop.topConstraint.constant = 0.0
@@ -219,5 +221,12 @@ extension Drop {
     
     private class func statusBarHeight() -> CGFloat {
         return UIApplication.sharedApplication().statusBarFrame.size.height
+    }
+    
+    private class func blurEffectView(style: UIBlurEffectStyle, frame: CGRect) -> UIVisualEffectView {
+        let effect = UIBlurEffect(style: style)
+        let effectView = UIVisualEffectView(effect: effect)
+        effectView.frame = frame
+        return effectView
     }
 }

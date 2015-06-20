@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,11 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
-                                <rect key="frame" x="270" y="285" width="60" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Photo" translatesAutoresizingMaskIntoConstraints="NO" id="rvo-DH-qnJ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="A13-Yh-yop"/>
+                                </constraints>
                                 <state key="normal" title="Samples">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" red="0.0" green="0.66660670230263153" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="showMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Ji-MQ-daC"/>
                                 </connections>
@@ -28,8 +40,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="WpI-rx-eHp" secondAttribute="centerX" id="wVq-2G-lEL"/>
-                            <constraint firstAttribute="centerY" secondItem="WpI-rx-eHp" secondAttribute="centerY" id="zcH-hf-5fD"/>
+                            <constraint firstItem="WpI-rx-eHp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Hae-jq-ciY"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="WpI-rx-eHp" secondAttribute="bottom" id="JMY-TD-6Xc"/>
+                            <constraint firstItem="rvo-DH-qnJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="UOL-aF-vqI"/>
+                            <constraint firstItem="rvo-DH-qnJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xe7-fz-xLi"/>
+                            <constraint firstAttribute="trailing" secondItem="WpI-rx-eHp" secondAttribute="trailing" id="c8O-0J-ZE5"/>
+                            <constraint firstAttribute="trailing" secondItem="rvo-DH-qnJ" secondAttribute="trailing" id="fui-cr-8sZ"/>
+                            <constraint firstItem="rvo-DH-qnJ" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="vtn-gf-d8y"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,4 +54,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="Photo" width="666" height="1060"/>
+    </resources>
 </document>
