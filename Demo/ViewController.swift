@@ -39,7 +39,8 @@ class ViewController: UIViewController {
         [defaultAction, infoAction, successAction, warningAction, errorAction, cancelAction].map {
             controller.addAction($0)
         }
-        presentViewController(controller, animated: true, completion: nil)
+        
+        showAlert(controller, sourceView: sender as? UIView)
     }
     
     @IBAction func showBlurs(sender: AnyObject) {
@@ -58,6 +59,19 @@ class ViewController: UIViewController {
         [lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
             controller.addAction($0)
         }
+        
+        showAlert(controller, sourceView: sender as? UIView)
+    }
+    
+    func showAlert(controller: UIAlertController, sourceView: UIView? = nil) {
+        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad {
+            if let sourceView = sourceView {
+                let rect = sourceView.convertRect(sourceView.bounds, toView: view)
+                controller.popoverPresentationController?.sourceView = view
+                controller.popoverPresentationController?.sourceRect = rect
+            }
+        }
+        
         presentViewController(controller, animated: true, completion: nil)
     }
     
