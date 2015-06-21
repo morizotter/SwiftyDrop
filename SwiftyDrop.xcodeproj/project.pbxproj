@@ -44,10 +44,18 @@
 				908543521B35FDD00037B0FD /* LaunchScreen.xib */,
 				908543541B35FDD00037B0FD /* Main.storyboard */,
 				908543561B35FDD00037B0FD /* Images.xcassets */,
-				908543571B35FDD00037B0FD /* Info.plist */,
+				9085435F1B36690F0037B0FD /* SupportingFiles */,
 				908543581B35FDD00037B0FD /* ViewController.swift */,
 			);
 			path = Demo;
+			sourceTree = "<group>";
+		};
+		9085435F1B36690F0037B0FD /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				908543571B35FDD00037B0FD /* Info.plist */,
+			);
+			name = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		90E5B9F71B3578BC0075B777 = {

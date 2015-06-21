@@ -23,6 +23,7 @@ public enum DropState {
 
 public enum DropBlur {
     case Light, ExtraLight, Dark
+    
     private func blurEffect() -> UIBlurEffect {
         switch self {
         case .Light: return UIBlurEffect(style: .Light)
@@ -158,7 +159,6 @@ extension Drop {
 }
 
 extension Drop {
-    
     private func setup(status: String, state: DropState?, blur: DropBlur?) {
         self.setTranslatesAutoresizingMaskIntoConstraints(false)
         
@@ -316,7 +316,6 @@ extension Drop {
         
         self.layoutIfNeeded()
         
-        self.userInteractionEnabled = true
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up"))
     }
     
