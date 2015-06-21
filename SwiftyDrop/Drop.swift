@@ -316,7 +316,11 @@ extension Drop {
         
         self.layoutIfNeeded()
         
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up"))
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "up:")
+        self.addGestureRecognizer(tapRecognizer)
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: "pan:")
+        self.addGestureRecognizer(panRecognizer)
     }
     
     private func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
@@ -328,6 +332,33 @@ extension Drop {
         label.text = status
         if !isVisualEffect { label.textColor = UIColor.whiteColor() }
         return label
+    }
+}
+
+extension Drop {
+    func up(sender: AnyObject) {
+        self.up()
+    }
+    
+    func pan(sender: AnyObject) {
+        let pan = sender as! UIPanGestureRecognizer
+        switch pan.state {
+        case .Began, .Changed, .Ended:
+            if let window = Drop.window() {
+                let point = pan.translationInView(window)
+                let location = pan.locationInView(window)
+                
+                let y = topConstraint.constant - point.y
+                if y < 0 { break }
+                if location.y > self.frame.size.height { break }
+                topConstraint.constant = y
+                
+                pan.setTranslation(CGPointZero, inView: window)
+            }
+            
+        case .Failed, .Cancelled: break
+        case .Possible: break
+        }
     }
 }
 
