@@ -13,7 +13,8 @@
 		9085435C1B35FDD00037B0FD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 908543561B35FDD00037B0FD /* Images.xcassets */; };
 		9085435E1B35FDD00037B0FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908543581B35FDD00037B0FD /* ViewController.swift */; };
 		9085436A1B3690870037B0FD /* SwiftyDrop.h in Headers */ = {isa = PBXBuildFile; fileRef = 908543691B3690870037B0FD /* SwiftyDrop.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		90E5BA4D1B35792E0075B777 /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E5BA4C1B35792E0075B777 /* Drop.swift */; };
+		908543B11B3696C70037B0FD /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908543B01B3696C70037B0FD /* Drop.swift */; };
+		908543B21B3696C70037B0FD /* Drop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 908543B01B3696C70037B0FD /* Drop.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,8 +27,8 @@
 		908543651B3690870037B0FD /* SwiftyDrop.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyDrop.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		908543681B3690870037B0FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		908543691B3690870037B0FD /* SwiftyDrop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyDrop.h; sourceTree = "<group>"; };
+		908543B01B3696C70037B0FD /* Drop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drop.swift; sourceTree = "<group>"; };
 		90E5BA291B35791A0075B777 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		90E5BA4C1B35792E0075B777 /* Drop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Drop.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +73,7 @@
 		908543661B3690870037B0FD /* SwiftyDrop */ = {
 			isa = PBXGroup;
 			children = (
+				908543B01B3696C70037B0FD /* Drop.swift */,
 				908543691B3690870037B0FD /* SwiftyDrop.h */,
 				908543671B3690870037B0FD /* Supporting Files */,
 			);
@@ -90,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				908543501B35FDD00037B0FD /* Demo */,
-				90E5BA4B1B35792E0075B777 /* SwiftyDrop */,
 				908543661B3690870037B0FD /* SwiftyDrop */,
 				90E5BA011B3578BC0075B777 /* Products */,
 			);
@@ -103,14 +104,6 @@
 				908543651B3690870037B0FD /* SwiftyDrop.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		90E5BA4B1B35792E0075B777 /* SwiftyDrop */ = {
-			isa = PBXGroup;
-			children = (
-				90E5BA4C1B35792E0075B777 /* Drop.swift */,
-			);
-			path = SwiftyDrop;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				908543B21B3696C70037B0FD /* Drop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +226,7 @@
 			files = (
 				9085435E1B35FDD00037B0FD /* ViewController.swift in Sources */,
 				908543591B35FDD00037B0FD /* AppDelegate.swift in Sources */,
-				90E5BA4D1B35792E0075B777 /* Drop.swift in Sources */,
+				908543B11B3696C70037B0FD /* Drop.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +409,7 @@
 				9085437A1B3690870037B0FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90E5B9FB1B3578BC0075B777 /* Build configuration list for PBXProject "SwiftyDrop" */ = {
 			isa = XCConfigurationList;
