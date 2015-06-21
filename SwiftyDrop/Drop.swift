@@ -40,6 +40,7 @@ public final class Drop: UIView {
     private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 8.0
     private let statusBottomMargin: CGFloat = 8.0
+    private var removable: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -124,27 +125,38 @@ extension Drop {
                     if let drop = drop { drop.layoutIfNeeded() }
                 }, completion: nil
             )
-            
-            let when = dispatch_time(DISPATCH_TIME_NOW, Int64(Double(4.0) * Double(NSEC_PER_SEC)))
-            dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
-                if let drop = drop { drop.up() }
-            })
+            up(drop, after: 4.0)
         }
     }
     
     private class func up(drop: Drop) {
-        drop.topConstraint.constant = drop.heightConstraint.constant
-        UIView.animateWithDuration(
-            NSTimeInterval(0.25),
-            delay: NSTimeInterval(0.0),
-            options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
-            animations: { [weak drop] () -> Void in
-                if let drop = drop {
-                    drop.layoutIfNeeded()
+        self .up(drop, after: 0.0)
+    }
+    
+    private class func up(drop: Drop, after: Double) {
+        self .up(drop, after: after, interval: 0.25)
+    }
+    
+    private class func up(drop: Drop, after: Double, interval: NSTimeInterval) {
+        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(after * Double(NSEC_PER_SEC)))
+        dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
+            if let drop = drop {
+                if !drop.removable { return }
+                drop.topConstraint.constant = drop.heightConstraint.constant
+                UIView.animateWithDuration(
+                    interval,
+                    delay: NSTimeInterval(0.0),
+                    options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseIn,
+                    animations: { [weak drop] () -> Void in
+                        if let drop = drop {
+                            drop.layoutIfNeeded()
+                        }
+                    }) { [weak drop] finished -> Void in
+                        if let drop = drop { drop.removeFromSuperview() }
                 }
-            }) { [weak drop] finished -> Void in
-                if let drop = drop { drop.removeFromSuperview() }
-        }
+            }
+            }
+        )
     }
     
     class func upAll() {
@@ -343,20 +355,41 @@ extension Drop {
     func pan(sender: AnyObject) {
         let pan = sender as! UIPanGestureRecognizer
         switch pan.state {
-        case .Began, .Changed, .Ended:
+        case .Began, .Changed:
             if let window = Drop.window() {
+                removable = false
+                
                 let point = pan.translationInView(window)
                 let location = pan.locationInView(window)
                 
                 let y = topConstraint.constant - point.y
-                if y < 0 { break }
+                if y < 0 {
+                    topConstraint.constant = 0.0; break
+                }
                 if location.y > self.frame.size.height { break }
                 topConstraint.constant = y
-                
+                self.layoutIfNeeded()
                 pan.setTranslation(CGPointZero, inView: window)
             }
-            
-        case .Failed, .Cancelled: break
+        case .Ended:
+            removable = true
+            if topConstraint.constant > self.frame.size.height / 3.0 {
+                Drop.up(self, after: 0.0, interval: 0.1)
+            } else {
+                Drop.up(self, after: 2.0)
+                topConstraint.constant = 0.0
+                UIView.animateWithDuration(
+                    NSTimeInterval(0.1),
+                    delay: NSTimeInterval(0.0),
+                    options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
+                    animations: { [weak self] () -> Void in
+                        if let s = self { s.layoutIfNeeded() }
+                    }, completion: nil
+                )
+            }
+        case .Failed, .Cancelled:
+            removable = true
+            Drop.up(self, after: 2.0)
         case .Possible: break
         }
     }
