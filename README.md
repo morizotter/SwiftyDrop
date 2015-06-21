@@ -47,12 +47,16 @@ To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it
 ```bash
 platform :ios, '8.1'
 use_frameworks!
-pod "SwiftyDrop", '~>0.0.1'
+pod "SwiftyDrop", '~>1.0'
 ```
 
 ###Installing with Carthage
 
-preparing
+Just add to your Cartfile:
+
+```ogdl
+github "morizotter/SwiftyDrop" >= 1.0.0
+```
 
 ###Manual Installation
 
