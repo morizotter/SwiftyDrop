@@ -71,15 +71,15 @@ public final class Drop: UIView {
 }
 
 extension Drop {
-    class func down(status: String) {
+    public class func down(status: String) {
         down(status, state: .Default)
     }
     
-    class func down(status: String, state: DropState) {
+    public class func down(status: String, state: DropState) {
         down(status, state: state, blur: nil)
     }
     
-    class func down(status: String, blur: DropBlur) {
+    public class func down(status: String, blur: DropBlur) {
         down(status, state: nil, blur: blur)
     }
     
@@ -159,7 +159,7 @@ extension Drop {
         )
     }
     
-    class func upAll() {
+    public class func upAll() {
         if let window = Drop.window() {
             for view in window.subviews {
                 if let drop = view as? Drop {
