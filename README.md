@@ -1,4 +1,6 @@
 # SwiftyDrop
+
+[![Join the chat at https://gitter.im/morizotter/SwiftyDrop](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/morizotter/SwiftyDrop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 
 ##Features
