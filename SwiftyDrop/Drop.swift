@@ -373,7 +373,7 @@ extension Drop {
             }
         case .Ended:
             removable = true
-            if topConstraint.constant > self.frame.size.height / 3.0 {
+            if topConstraint.constant > 0.0 {
                 Drop.up(self, after: 0.0, interval: 0.1)
             } else {
                 Drop.up(self, after: 2.0)
