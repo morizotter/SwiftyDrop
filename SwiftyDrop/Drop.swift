@@ -139,11 +139,10 @@ extension Drop {
             drop.updateHeight()
             
             drop.topConstraint.constant = 0.0
-            let options: UIViewAnimationOptions = .AllowUserInteraction | .CurveEaseOut
             UIView.animateWithDuration(
                 NSTimeInterval(0.25),
                 delay: NSTimeInterval(0.0),
-                options: options,
+                options: .AllowUserInteraction | .CurveEaseOut,
                 animations: { [weak drop] () -> Void in
                     if let drop = drop { drop.layoutIfNeeded() }
                 }, completion: nil
@@ -153,11 +152,10 @@ extension Drop {
     
     private class func up(drop: Drop, interval: NSTimeInterval) {
         drop.topConstraint.constant = drop.heightConstraint.constant
-        let options: UIViewAnimationOptions = .AllowUserInteraction | .CurveEaseIn
         UIView.animateWithDuration(
             interval,
             delay: NSTimeInterval(0.0),
-            options: options,
+            options: .AllowUserInteraction | .CurveEaseIn,
             animations: { [weak drop] () -> Void in
                 if let drop = drop {
                     drop.layoutIfNeeded()
@@ -386,11 +384,10 @@ extension Drop {
             } else {
                 restartUpTimer(2.0)
                 topConstraint.constant = 0.0
-                let options: UIViewAnimationOptions = .AllowUserInteraction | .CurveEaseOut
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
                     delay: NSTimeInterval(0.0),
-                    options: options,
+                    options: .AllowUserInteraction | .CurveEaseOut,
                     animations: { [weak self] () -> Void in
                         if let s = self { s.layoutIfNeeded() }
                     }, completion: nil
