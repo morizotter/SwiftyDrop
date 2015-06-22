@@ -67,13 +67,23 @@ public final class Drop: UIView {
     }
     
     func up() {
-        Drop.up(self)
+        restartUpTimer(0.0)
+    }
+    
+    func upFromTimer(timer: NSTimer) {
+        if let interval = timer.userInfo as? Double {
+            Drop.up(self, interval: interval)
+        }
     }
     
     private func restartUpTimer(after: Double) {
+        restartUpTimer(after, interval: 0.25)
+    }
+    
+    private func restartUpTimer(after: Double, interval: Double) {
         upTimer?.invalidate()
         upTimer = nil
-        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "up", userInfo: nil, repeats: false)
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
     }
     
     private func updateHeight() {
@@ -141,20 +151,12 @@ extension Drop {
         }
     }
     
-    private class func up(drop: Drop) {
-        self .up(drop, after: 0.0)
-    }
-    
-    private class func up(drop: Drop, after: Double) {
-        self .up(drop, after: after, interval: 0.25)
-    }
-    
-    private class func up(drop: Drop, after: Double, interval: NSTimeInterval) {
+    private class func up(drop: Drop, interval: NSTimeInterval) {
         drop.topConstraint.constant = drop.heightConstraint.constant
         let options: UIViewAnimationOptions = .AllowUserInteraction | .CurveEaseIn
         UIView.animateWithDuration(
             interval,
-            delay: after,
+            delay: NSTimeInterval(0.0),
             options: options,
             animations: { [weak drop] () -> Void in
                 if let drop = drop {
@@ -169,7 +171,7 @@ extension Drop {
         if let window = Drop.window() {
             for view in window.subviews {
                 if let drop = view as? Drop {
-                    Drop.up(drop)
+                    drop.up()
                 }
             }
         }
@@ -380,7 +382,7 @@ extension Drop {
             }
         case .Ended:
             if topConstraint.constant > 0.0 {
-                Drop.up(self, after: 0.0, interval: 0.1)
+                restartUpTimer(0.0, interval: 0.1)
             } else {
                 restartUpTimer(2.0)
                 topConstraint.constant = 0.0
