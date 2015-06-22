@@ -40,7 +40,7 @@ public final class Drop: UIView {
     private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 8.0
     private let statusBottomMargin: CGFloat = 8.0
-    private var removable: Bool = true
+    private var upTimer: NSTimer?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,14 +54,26 @@ public final class Drop: UIView {
             constant: 100.0
         )
         self.addConstraint(heightConstraint)
+        restartUpTimer(4.0)
     }
     
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        upTimer?.invalidate()
+        upTimer = nil
+    }
+    
     func up() {
         Drop.up(self)
+    }
+    
+    private func restartUpTimer(after: Double) {
+        upTimer?.invalidate()
+        upTimer = nil
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "up", userInfo: nil, repeats: false)
     }
     
     private func updateHeight() {
@@ -125,7 +137,6 @@ extension Drop {
                     if let drop = drop { drop.layoutIfNeeded() }
                 }, completion: nil
             )
-            up(drop, after: 4.0)
         }
     }
     
@@ -138,25 +149,18 @@ extension Drop {
     }
     
     private class func up(drop: Drop, after: Double, interval: NSTimeInterval) {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(after * Double(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
-            if let drop = drop {
-                if !drop.removable { return }
-                drop.topConstraint.constant = drop.heightConstraint.constant
-                UIView.animateWithDuration(
-                    interval,
-                    delay: NSTimeInterval(0.0),
-                    options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseIn,
-                    animations: { [weak drop] () -> Void in
-                        if let drop = drop {
-                            drop.layoutIfNeeded()
-                        }
-                    }) { [weak drop] finished -> Void in
-                        if let drop = drop { drop.removeFromSuperview() }
+        drop.topConstraint.constant = drop.heightConstraint.constant
+        UIView.animateWithDuration(
+            interval,
+            delay: after,
+            options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseIn,
+            animations: { [weak drop] () -> Void in
+                if let drop = drop {
+                    drop.layoutIfNeeded()
                 }
-            }
-            }
-        )
+            }) { [weak drop] finished -> Void in
+                if let drop = drop { drop.removeFromSuperview() }
+        }
     }
     
     public class func upAll() {
@@ -355,10 +359,11 @@ extension Drop {
     func pan(sender: AnyObject) {
         let pan = sender as! UIPanGestureRecognizer
         switch pan.state {
-        case .Began, .Changed:
+        case .Began:
+            upTimer?.invalidate()
+            upTimer = nil
+        case .Changed:
             if let window = Drop.window() {
-                removable = false
-                
                 let point = pan.translationInView(window)
                 let location = pan.locationInView(window)
                 
@@ -372,11 +377,10 @@ extension Drop {
                 pan.setTranslation(CGPointZero, inView: window)
             }
         case .Ended:
-            removable = true
             if topConstraint.constant > 0.0 {
                 Drop.up(self, after: 0.0, interval: 0.1)
             } else {
-                Drop.up(self, after: 2.0)
+                restartUpTimer(2.0)
                 topConstraint.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
@@ -388,8 +392,7 @@ extension Drop {
                 )
             }
         case .Failed, .Cancelled:
-            removable = true
-            Drop.up(self, after: 2.0)
+            restartUpTimer(2.0)
         case .Possible: break
         }
     }
