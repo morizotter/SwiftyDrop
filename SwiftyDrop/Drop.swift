@@ -40,7 +40,7 @@ public final class Drop: UIView {
     private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 8.0
     private let statusBottomMargin: CGFloat = 8.0
-    private var removable: Bool = true
+    private var upTimer: NSTimer?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,14 +54,36 @@ public final class Drop: UIView {
             constant: 100.0
         )
         self.addConstraint(heightConstraint)
+        restartUpTimer(4.0)
     }
     
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
+    deinit {
+        upTimer?.invalidate()
+        upTimer = nil
+    }
+    
     func up() {
-        Drop.up(self)
+        restartUpTimer(0.0)
+    }
+    
+    func upFromTimer(timer: NSTimer) {
+        if let interval = timer.userInfo as? Double {
+            Drop.up(self, interval: interval)
+        }
+    }
+    
+    private func restartUpTimer(after: Double) {
+        restartUpTimer(after, interval: 0.25)
+    }
+    
+    private func restartUpTimer(after: Double, interval: Double) {
+        upTimer?.invalidate()
+        upTimer = nil
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
     }
     
     private func updateHeight() {
@@ -120,50 +142,34 @@ extension Drop {
             UIView.animateWithDuration(
                 NSTimeInterval(0.25),
                 delay: NSTimeInterval(0.0),
-                options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
+                options: .AllowUserInteraction | .CurveEaseOut,
                 animations: { [weak drop] () -> Void in
                     if let drop = drop { drop.layoutIfNeeded() }
                 }, completion: nil
             )
-            up(drop, after: 4.0)
         }
     }
     
-    private class func up(drop: Drop) {
-        self .up(drop, after: 0.0)
-    }
-    
-    private class func up(drop: Drop, after: Double) {
-        self .up(drop, after: after, interval: 0.25)
-    }
-    
-    private class func up(drop: Drop, after: Double, interval: NSTimeInterval) {
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(after * Double(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_main_queue(), { [weak drop] () -> Void in
-            if let drop = drop {
-                if !drop.removable { return }
-                drop.topConstraint.constant = drop.heightConstraint.constant
-                UIView.animateWithDuration(
-                    interval,
-                    delay: NSTimeInterval(0.0),
-                    options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseIn,
-                    animations: { [weak drop] () -> Void in
-                        if let drop = drop {
-                            drop.layoutIfNeeded()
-                        }
-                    }) { [weak drop] finished -> Void in
-                        if let drop = drop { drop.removeFromSuperview() }
+    private class func up(drop: Drop, interval: NSTimeInterval) {
+        drop.topConstraint.constant = drop.heightConstraint.constant
+        UIView.animateWithDuration(
+            interval,
+            delay: NSTimeInterval(0.0),
+            options: .AllowUserInteraction | .CurveEaseIn,
+            animations: { [weak drop] () -> Void in
+                if let drop = drop {
+                    drop.layoutIfNeeded()
                 }
-            }
-            }
-        )
+            }) { [weak drop] finished -> Void in
+                if let drop = drop { drop.removeFromSuperview() }
+        }
     }
     
     public class func upAll() {
         if let window = Drop.window() {
             for view in window.subviews {
                 if let drop = view as? Drop {
-                    Drop.up(drop)
+                    drop.up()
                 }
             }
         }
@@ -355,10 +361,11 @@ extension Drop {
     func pan(sender: AnyObject) {
         let pan = sender as! UIPanGestureRecognizer
         switch pan.state {
-        case .Began, .Changed:
+        case .Began:
+            upTimer?.invalidate()
+            upTimer = nil
+        case .Changed:
             if let window = Drop.window() {
-                removable = false
-                
                 let point = pan.translationInView(window)
                 let location = pan.locationInView(window)
                 
@@ -372,24 +379,22 @@ extension Drop {
                 pan.setTranslation(CGPointZero, inView: window)
             }
         case .Ended:
-            removable = true
-            if topConstraint.constant > self.frame.size.height / 3.0 {
-                Drop.up(self, after: 0.0, interval: 0.1)
+            if topConstraint.constant > 0.0 {
+                restartUpTimer(0.0, interval: 0.1)
             } else {
-                Drop.up(self, after: 2.0)
+                restartUpTimer(2.0)
                 topConstraint.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
                     delay: NSTimeInterval(0.0),
-                    options: UIViewAnimationOptions.AllowUserInteraction | UIViewAnimationOptions.CurveEaseOut,
+                    options: .AllowUserInteraction | .CurveEaseOut,
                     animations: { [weak self] () -> Void in
                         if let s = self { s.layoutIfNeeded() }
                     }, completion: nil
                 )
             }
         case .Failed, .Cancelled:
-            removable = true
-            Drop.up(self, after: 2.0)
+            restartUpTimer(2.0)
         case .Possible: break
         }
     }
