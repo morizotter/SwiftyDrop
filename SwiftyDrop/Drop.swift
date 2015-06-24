@@ -41,6 +41,7 @@ public final class Drop: UIView {
     private let statusTopMargin: CGFloat = 8.0
     private let statusBottomMargin: CGFloat = 8.0
     private var upTimer: NSTimer?
+    private var startTop: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -360,25 +361,17 @@ extension Drop {
         case .Began:
             upTimer?.invalidate()
             upTimer = nil
+            startTop = topConstraint.constant
         case .Changed:
-            if let window = Drop.window() {
-                let point = pan.translationInView(window)
-                let location = pan.locationInView(window)
-                
-                let y = topConstraint.constant - point.y
-                if y < 0 {
-                    topConstraint.constant = 0.0; break
-                }
-                if location.y > self.frame.size.height { break }
-                topConstraint.constant = y
-                self.layoutIfNeeded()
-                pan.setTranslation(CGPointZero, inView: window)
-            }
+            let location = pan.locationInView(Drop.window())
+            let translation = pan.translationInView(Drop.window())
+            let top = startTop! + translation.y
+            topConstraint.constant = top
         case .Ended:
-            if topConstraint.constant > 0.0 {
+            if topConstraint.constant < 0.0 {
                 restartUpTimer(0.0, interval: 0.1)
             } else {
-                restartUpTimer(2.0)
+                restartUpTimer(4.0)
                 topConstraint.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
@@ -389,6 +382,8 @@ extension Drop {
                     }, completion: nil
                 )
             }
+
+            break
         case .Failed, .Cancelled:
             restartUpTimer(2.0)
         case .Possible: break
