@@ -55,7 +55,7 @@ public final class Drop: UIView {
             constant: 100.0
         )
         self.addConstraint(heightConstraint)
-        restartUpTimer(4.0)
+        scheduleUpTimer(4.0)
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -67,7 +67,7 @@ public final class Drop: UIView {
     }
     
     func up() {
-        restartUpTimer(0.0)
+        scheduleUpTimer(0.0)
     }
     
     func upFromTimer(timer: NSTimer) {
@@ -76,11 +76,11 @@ public final class Drop: UIView {
         }
     }
     
-    private func restartUpTimer(after: Double) {
-        restartUpTimer(after, interval: 0.25)
+    private func scheduleUpTimer(after: Double) {
+        scheduleUpTimer(after, interval: 0.25)
     }
     
-    private func restartUpTimer(after: Double, interval: Double) {
+    private func scheduleUpTimer(after: Double, interval: Double) {
         stopUpTimer()
         upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
     }
@@ -371,9 +371,9 @@ extension Drop {
             topConstraint.constant = top
         case .Ended:
             if topConstraint.constant < 0.0 {
-                restartUpTimer(0.0, interval: 0.1)
+                scheduleUpTimer(0.0, interval: 0.1)
             } else {
-                restartUpTimer(4.0)
+                scheduleUpTimer(4.0)
                 topConstraint.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
@@ -387,7 +387,7 @@ extension Drop {
 
             break
         case .Failed, .Cancelled:
-            restartUpTimer(2.0)
+            scheduleUpTimer(2.0)
         case .Possible: break
         }
     }
