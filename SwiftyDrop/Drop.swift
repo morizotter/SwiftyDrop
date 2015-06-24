@@ -397,6 +397,7 @@ extension Drop {
                 topConstraint.constant = top
             }
         case .Ended:
+            startTop = nil
             if topConstraint.constant < 0.0 {
                 scheduleUpTimer(0.0, interval: 0.1)
             } else {
@@ -411,9 +412,8 @@ extension Drop {
                     }, completion: nil
                 )
             }
-
-            break
         case .Failed, .Cancelled:
+            startTop = nil
             scheduleUpTimer(2.0)
         case .Possible: break
         }
