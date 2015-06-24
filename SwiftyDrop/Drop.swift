@@ -198,7 +198,18 @@ extension Drop {
                     constant: 0.0
                 )
             }
+            let topConstraint = NSLayoutConstraint(
+                item: visualEffectView,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: -UIScreen.mainScreen().bounds.height
+            )
+            
             self.addConstraints(visualEffectViewConstraints)
+            self.addConstraint(topConstraint)
             self.backgroundView = visualEffectView
             
             // Vibrancy Effect View
@@ -230,7 +241,7 @@ extension Drop {
                 toItem: visualEffectView.contentView,
                 attribute: .Top,
                 multiplier: 1.0,
-                constant: Drop.statusBarHeight() + statusTopMargin
+                constant: UIScreen.mainScreen().bounds.height + Drop.statusBarHeight() + statusTopMargin
             )
             let vibrancyBottom = NSLayoutConstraint(
                 item: vibrancyEffectView,
