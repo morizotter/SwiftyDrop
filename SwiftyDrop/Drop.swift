@@ -284,7 +284,7 @@ extension Drop {
             backgroundView.alpha = 0.9
             backgroundView.backgroundColor = state.backgroundColor()
             self.addSubview(backgroundView)
-            let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+            let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: backgroundView,
                     attribute: $0,
@@ -295,7 +295,19 @@ extension Drop {
                     constant: 0.0
                 )
             }
+            
+            let topConstraint = NSLayoutConstraint(
+                item: backgroundView,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: -UIScreen.mainScreen().bounds.height
+            )
+            
             self.addConstraints(backgroundConstraints)
+            self.addConstraint(topConstraint)
             self.backgroundView = backgroundView
             
             // Status Label
