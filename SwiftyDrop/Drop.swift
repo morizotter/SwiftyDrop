@@ -368,7 +368,11 @@ extension Drop {
             let location = pan.locationInView(Drop.window())
             let translation = pan.translationInView(Drop.window())
             let top = startTop! + translation.y
-            topConstraint.constant = top
+            if top > 0.0 {
+                topConstraint.constant = top * 0.2
+            } else {
+                topConstraint.constant = top
+            }
         case .Ended:
             if topConstraint.constant < 0.0 {
                 scheduleUpTimer(0.0, interval: 0.1)
