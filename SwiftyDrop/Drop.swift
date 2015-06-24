@@ -63,8 +63,7 @@ public final class Drop: UIView {
     }
     
     deinit {
-        upTimer?.invalidate()
-        upTimer = nil
+        stopUpTimer()
     }
     
     func up() {
@@ -82,9 +81,13 @@ public final class Drop: UIView {
     }
     
     private func restartUpTimer(after: Double, interval: Double) {
+        stopUpTimer()
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
+    }
+    
+    private func stopUpTimer() {
         upTimer?.invalidate()
         upTimer = nil
-        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
     }
     
     private func updateHeight() {
@@ -359,8 +362,7 @@ extension Drop {
         let pan = sender as! UIPanGestureRecognizer
         switch pan.state {
         case .Began:
-            upTimer?.invalidate()
-            upTimer = nil
+            stopUpTimer()
             startTop = topConstraint.constant
         case .Changed:
             let location = pan.locationInView(Drop.window())
