@@ -41,6 +41,7 @@ public final class Drop: UIView {
     private let statusTopMargin: CGFloat = 8.0
     private let statusBottomMargin: CGFloat = 8.0
     private var upTimer: NSTimer?
+    private var startTop: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,7 +55,7 @@ public final class Drop: UIView {
             constant: 100.0
         )
         self.addConstraint(heightConstraint)
-        restartUpTimer(4.0)
+        scheduleUpTimer(4.0)
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -62,12 +63,11 @@ public final class Drop: UIView {
     }
     
     deinit {
-        upTimer?.invalidate()
-        upTimer = nil
+        stopUpTimer()
     }
     
     func up() {
-        restartUpTimer(0.0)
+        scheduleUpTimer(0.0)
     }
     
     func upFromTimer(timer: NSTimer) {
@@ -76,14 +76,18 @@ public final class Drop: UIView {
         }
     }
     
-    private func restartUpTimer(after: Double) {
-        restartUpTimer(after, interval: 0.25)
+    private func scheduleUpTimer(after: Double) {
+        scheduleUpTimer(after, interval: 0.25)
     }
     
-    private func restartUpTimer(after: Double, interval: Double) {
+    private func scheduleUpTimer(after: Double, interval: Double) {
+        stopUpTimer()
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
+    }
+    
+    private func stopUpTimer() {
         upTimer?.invalidate()
         upTimer = nil
-        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
     }
     
     private func updateHeight() {
@@ -107,51 +111,49 @@ extension Drop {
     
     private class func down(status: String, state: DropState?, blur: DropBlur?) {
         self.upAll()
-        if let window = window() {
-            let drop = Drop(frame: CGRectZero)
-            window.addSubview(drop)
-            
-            let sideConstraints = ([.Left, .Right] as [NSLayoutAttribute]).map {
-                return NSLayoutConstraint(
-                    item: window,
-                    attribute: $0,
-                    relatedBy: .Equal,
-                    toItem: drop,
-                    attribute: $0,
-                    multiplier: 1.0,
-                    constant: 0.0
-                )
-            }
-            
-            drop.topConstraint = NSLayoutConstraint(
-                item: window,
-                attribute: .Top,
+        let drop = Drop(frame: CGRectZero)
+        Drop.window().addSubview(drop)
+        
+        let sideConstraints = ([.Left, .Right] as [NSLayoutAttribute]).map {
+            return NSLayoutConstraint(
+                item: drop,
+                attribute: $0,
                 relatedBy: .Equal,
-                toItem: drop,
-                attribute: .Top,
+                toItem: Drop.window(),
+                attribute: $0,
                 multiplier: 1.0,
-                constant: drop.heightConstraint.constant
-            )
-            
-            window.addConstraints(sideConstraints)
-            window.addConstraint(drop.topConstraint)
-            drop.setup(status, state: state, blur: blur)
-            drop.updateHeight()
-            
-            drop.topConstraint.constant = 0.0
-            UIView.animateWithDuration(
-                NSTimeInterval(0.25),
-                delay: NSTimeInterval(0.0),
-                options: .AllowUserInteraction | .CurveEaseOut,
-                animations: { [weak drop] () -> Void in
-                    if let drop = drop { drop.layoutIfNeeded() }
-                }, completion: nil
+                constant: 0.0
             )
         }
+        
+        drop.topConstraint = NSLayoutConstraint(
+            item: drop,
+            attribute: .Top,
+            relatedBy: .Equal,
+            toItem: Drop.window(),
+            attribute: .Top,
+            multiplier: 1.0,
+            constant: -drop.heightConstraint.constant
+        )
+        
+        Drop.window().addConstraints(sideConstraints)
+        Drop.window().addConstraint(drop.topConstraint)
+        drop.setup(status, state: state, blur: blur)
+        drop.updateHeight()
+        
+        drop.topConstraint.constant = 0.0
+        UIView.animateWithDuration(
+            NSTimeInterval(0.25),
+            delay: NSTimeInterval(0.0),
+            options: .AllowUserInteraction | .CurveEaseOut,
+            animations: { [weak drop] () -> Void in
+                if let drop = drop { drop.layoutIfNeeded() }
+            }, completion: nil
+        )
     }
     
     private class func up(drop: Drop, interval: NSTimeInterval) {
-        drop.topConstraint.constant = drop.heightConstraint.constant
+        drop.topConstraint.constant = -drop.heightConstraint.constant
         UIView.animateWithDuration(
             interval,
             delay: NSTimeInterval(0.0),
@@ -166,11 +168,9 @@ extension Drop {
     }
     
     public class func upAll() {
-        if let window = Drop.window() {
-            for view in window.subviews {
-                if let drop = view as? Drop {
-                    drop.up()
-                }
+        for view in Drop.window().subviews {
+            if let drop = view as? Drop {
+                drop.up()
             }
         }
     }
@@ -198,7 +198,18 @@ extension Drop {
                     constant: 0.0
                 )
             }
+            let topConstraint = NSLayoutConstraint(
+                item: visualEffectView,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: -UIScreen.mainScreen().bounds.height
+            )
+            
             self.addConstraints(visualEffectViewConstraints)
+            self.addConstraint(topConstraint)
             self.backgroundView = visualEffectView
             
             // Vibrancy Effect View
@@ -230,7 +241,7 @@ extension Drop {
                 toItem: visualEffectView.contentView,
                 attribute: .Top,
                 multiplier: 1.0,
-                constant: Drop.statusBarHeight() + statusTopMargin
+                constant: UIScreen.mainScreen().bounds.height + Drop.statusBarHeight() + statusTopMargin
             )
             let vibrancyBottom = NSLayoutConstraint(
                 item: vibrancyEffectView,
@@ -284,7 +295,7 @@ extension Drop {
             backgroundView.alpha = 0.9
             backgroundView.backgroundColor = state.backgroundColor()
             self.addSubview(backgroundView)
-            let backgroundConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+            let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: backgroundView,
                     attribute: $0,
@@ -295,7 +306,19 @@ extension Drop {
                     constant: 0.0
                 )
             }
+            
+            let topConstraint = NSLayoutConstraint(
+                item: backgroundView,
+                attribute: .Top,
+                relatedBy: .Equal,
+                toItem: self,
+                attribute: .Top,
+                multiplier: 1.0,
+                constant: -UIScreen.mainScreen().bounds.height
+            )
+            
             self.addConstraints(backgroundConstraints)
+            self.addConstraint(topConstraint)
             self.backgroundView = backgroundView
             
             // Status Label
@@ -362,27 +385,23 @@ extension Drop {
         let pan = sender as! UIPanGestureRecognizer
         switch pan.state {
         case .Began:
-            upTimer?.invalidate()
-            upTimer = nil
+            stopUpTimer()
+            startTop = topConstraint.constant
         case .Changed:
-            if let window = Drop.window() {
-                let point = pan.translationInView(window)
-                let location = pan.locationInView(window)
-                
-                let y = topConstraint.constant - point.y
-                if y < 0 {
-                    topConstraint.constant = 0.0; break
-                }
-                if location.y > self.frame.size.height { break }
-                topConstraint.constant = y
-                self.layoutIfNeeded()
-                pan.setTranslation(CGPointZero, inView: window)
+            let location = pan.locationInView(Drop.window())
+            let translation = pan.translationInView(Drop.window())
+            let top = startTop! + translation.y
+            if top > 0.0 {
+                topConstraint.constant = top * 0.2
+            } else {
+                topConstraint.constant = top
             }
         case .Ended:
-            if topConstraint.constant > 0.0 {
-                restartUpTimer(0.0, interval: 0.1)
+            startTop = nil
+            if topConstraint.constant < 0.0 {
+                scheduleUpTimer(0.0, interval: 0.1)
             } else {
-                restartUpTimer(2.0)
+                scheduleUpTimer(4.0)
                 topConstraint.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
@@ -394,15 +413,16 @@ extension Drop {
                 )
             }
         case .Failed, .Cancelled:
-            restartUpTimer(2.0)
+            startTop = nil
+            scheduleUpTimer(2.0)
         case .Possible: break
         }
     }
 }
 
 extension Drop {
-    private class func window() -> UIWindow? {
-        return UIApplication.sharedApplication().keyWindow
+    private class func window() -> UIWindow {
+        return UIApplication.sharedApplication().keyWindow!
     }
     
     private class func statusBarHeight() -> CGFloat {
