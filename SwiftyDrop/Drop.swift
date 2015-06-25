@@ -195,7 +195,7 @@ extension Drop {
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
             visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
             self.addSubview(visualEffectView)
-            let visualEffectViewConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+            let visualEffectViewConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: visualEffectView,
                     attribute: $0,
