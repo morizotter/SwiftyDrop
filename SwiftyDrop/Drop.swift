@@ -57,9 +57,12 @@ public final class Drop: UIView {
         self.addConstraint(heightConstraint)
         scheduleUpTimer(4.0)
         
-        NSNotificationCenter
-            .defaultCenter()
-            .addObserver(self, selector: "remove", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
+            if let s = self {
+                s.stopUpTimer()
+                s.removeFromSuperview()
+            }
+        }
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -72,10 +75,6 @@ public final class Drop: UIView {
     
     func up() {
         scheduleUpTimer(0.0)
-    }
-    
-    func remove() {
-        removeFromSuperview()
     }
     
     func upFromTimer(timer: NSTimer) {
@@ -171,7 +170,7 @@ extension Drop {
                     drop.layoutIfNeeded()
                 }
             }) { [weak drop] finished -> Void in
-                if let drop = drop { drop.removeFromSuperview() }
+                if let drop = drop { drop.removeFromSuperview(); println("removeFromSuperView") }
         }
     }
     
