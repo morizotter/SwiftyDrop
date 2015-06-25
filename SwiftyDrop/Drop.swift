@@ -63,6 +63,12 @@ public final class Drop: UIView {
                 s.removeFromSuperview()
             }
         }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIDeviceOrientationDidChangeNotification, object: nil, queue: nil) { [weak self] notification in
+            if let s = self {
+                s.updateHeight()
+            }
+        }
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -248,7 +254,7 @@ extension Drop {
                 toItem: visualEffectView.contentView,
                 attribute: .Top,
                 multiplier: 1.0,
-                constant: UIScreen.mainScreen().bounds.height + Drop.statusBarHeight() + statusTopMargin
+                constant: 0.0
             )
             let vibrancyBottom = NSLayoutConstraint(
                 item: vibrancyEffectView,
@@ -282,16 +288,16 @@ extension Drop {
                 multiplier: 1.0,
                 constant: 0.0
             )
-            let statusTop = NSLayoutConstraint(
+            let statusBottom = NSLayoutConstraint(
                 item: statusLabel,
-                attribute: .Top,
+                attribute: .Bottom,
                 relatedBy: .Equal,
                 toItem: vibrancyEffectView.contentView,
-                attribute: .Top,
+                attribute: .Bottom,
                 multiplier: 1.0,
-                constant: 0.0
+                constant: -statusBottomMargin
             )
-            vibrancyEffectView.contentView.addConstraints([statusTop, statusRight, statusLeft])
+            vibrancyEffectView.contentView.addConstraints([statusRight, statusLeft, statusBottom])
             self.statusLabel = statusLabel
         }
         
@@ -349,16 +355,16 @@ extension Drop {
                 multiplier: 1.0,
                 constant: 0.0
             )
-            let statusTop = NSLayoutConstraint(
+            let statusBottom = NSLayoutConstraint(
                 item: statusLabel,
-                attribute: .Top,
+                attribute: .Bottom,
                 relatedBy: .Equal,
                 toItem: self,
-                attribute: .Top,
+                attribute: .Bottom,
                 multiplier: 1.0,
-                constant: Drop.statusBarHeight() + statusTopMargin
+                constant: -statusBottomMargin
             )
-            self.addConstraints([statusLeft, statusRight, statusTop])
+            self.addConstraints([statusLeft, statusRight, statusBottom])
             self.statusLabel = statusLabel
         }
         
