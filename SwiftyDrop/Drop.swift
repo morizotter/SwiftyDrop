@@ -63,12 +63,6 @@ public final class Drop: UIView {
                 s.removeFromSuperview()
             }
         }
-        
-        NSNotificationCenter.defaultCenter().addObserverForName(UIDeviceOrientationDidChangeNotification, object: nil, queue: nil) { [weak self] notification in
-            if let s = self {
-                s.updateHeight()
-            }
-        }
     }
     
     required public init(coder aDecoder: NSCoder) {
