@@ -56,6 +56,13 @@ public final class Drop: UIView {
         )
         self.addConstraint(heightConstraint)
         scheduleUpTimer(4.0)
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
+            if let s = self {
+                s.stopUpTimer()
+                s.removeFromSuperview()
+            }
+        }
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -163,7 +170,7 @@ extension Drop {
                     drop.layoutIfNeeded()
                 }
             }) { [weak drop] finished -> Void in
-                if let drop = drop { drop.removeFromSuperview() }
+                if let drop = drop { drop.removeFromSuperview(); println("removeFromSuperView") }
         }
     }
     
@@ -187,7 +194,7 @@ extension Drop {
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
             visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
             self.addSubview(visualEffectView)
-            let visualEffectViewConstraints = ([.Top, .Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+            let visualEffectViewConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
                     item: visualEffectView,
                     attribute: $0,
