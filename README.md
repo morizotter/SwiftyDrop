@@ -9,7 +9,7 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 ##Features
 
 - Easy to use like: `Drop.down("Message")`
-- Expand message field depends on the message.
+- Message field expands depending on the message.
 
 ##How it looks
 
