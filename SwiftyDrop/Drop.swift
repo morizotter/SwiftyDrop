@@ -401,7 +401,6 @@ extension Drop {
             stopUpTimer()
             startTop = topConstraint.constant
         case .Changed:
-            let location = pan.locationInView(Drop.window())
             let translation = pan.translationInView(Drop.window())
             let top = startTop! + translation.y
             if top > 0.0 {
