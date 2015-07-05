@@ -37,6 +37,8 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 
 **Information:** To use SwiftyDrop with a project targeting iOS 8.0 or lower, you must include the `SwiftyDrop/Drop.swift` source file directly in your project.
 
+**Swift2:** Currently master is for Swift1.2. When you want to try Swift2, change library destination as describes below sections.
+
 ###Installing with CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a centralised dependency manager that automates the process of adding libraries to your Cocoa application. You can install it with the following command:
@@ -52,7 +54,13 @@ To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it
 ```bash
 platform :ios, '8.1'
 use_frameworks!
-pod "SwiftyDrop", '~>1.0'
+pod 'SwiftyDrop', '~>1.0'
+```
+
+*for Swift2**
+
+```bash
+pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch => 'swift_2.0'
 ```
 
 ###Installing with Carthage
