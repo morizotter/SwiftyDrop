@@ -68,7 +68,13 @@ pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch =>
 Just add to your Cartfile:
 
 ```ogdl
-github "morizotter/SwiftyDrop" >= 1.0.0
+github "morizotter/SwiftyDrop" ~> 1.0
+```
+
+**for Swift2**
+
+```ogdl
+github "morizotter/SwiftyDrop" "swift_2.0"
 ```
 
 ###Manual Installation
