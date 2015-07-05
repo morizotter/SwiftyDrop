@@ -57,7 +57,7 @@ use_frameworks!
 pod 'SwiftyDrop', '~>1.0'
 ```
 
-*for Swift2**
+**for Swift2**
 
 ```bash
 pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch => 'swift_2.0'
