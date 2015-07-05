@@ -77,6 +77,10 @@ github "morizotter/SwiftyDrop" ~> 1.0
 github "morizotter/SwiftyDrop" "swift_2.0"
 ```
 
+Check if your command-line tools points to Xcode 7.0.
+
+![Default](misc/commandline.png)
+
 ###Manual Installation
 
 To install SwiftyDrop without a dependency manager, please add all of the files in `/SwiftyDrop` to your Xcode Project.
