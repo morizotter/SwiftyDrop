@@ -1,0 +1,45 @@
+</description>
+      <category>answers</category>
+      <pubDate>Thu, 02 Jul 2015 08:27:14 GMT</pubDate>
+      <guid isPermaLink="false">tag:https://answers.atlassian.com,2014:question-19138610</guid>
+      <dc:creator>kong hongyi</dc:creator>
+      <dc:date>2015-07-02T08:27:14Z</dc:date>
+    </item>
+    <item>
+      <title>Multiple tags search in answers</title>
+      <link>https://answers.atlassian.com/questions/299397/multiple-tags-search-in-answers</link>
+      <description>&lt;p&gt;Hi there!&lt;/p&gt;
+&lt;p&gt;Is there a way to search for multiple tags in answers instead of just one at a time?&lt;/p&gt;
+&lt;p&gt;E.G. By using this &lt;a href="https://answers.atlassian.com/users/tags/confluence" rel="nofollow"&gt;URL&lt;/a&gt; you'll search for confluence questions, however if I want to search for &amp;quot;Confluence&amp;quot; and &amp;quot;upgrade&amp;quot; questions, how would I use the tagging system?&lt;/p&gt;
+&lt;p&gt;Thanks for any advice! :)&lt;/p&gt;
+&lt;p&gt;Rodrigo&lt;/p&gt;</description>
+      <category>answers</category>
+      <pubDate>Tue, 27 May 2014 04:10:18 GMT</pubDate>
+      <guid isPermaLink="false">tag:https://answers.atlassian.com,2014:question-299397</guid>
+      <dc:creator>Rodrigo Girardi Adami [Atlassian]</dc:creator>
+      <dc:date>2014-05-27T04:10:18Z</dc:date>
+    </item>
+    <item>
+      <title>how to change the state of an issue in jira?</title>
+      <link>https://answers.atlassian.com/questions/18450566/how-to-change-the-state-of-an-issue-in-jira</link>
+      <description>&lt;p&gt;I want to change the state of an issue as soon as it is created (based on a certain condition). I have used the following code to change the state of the issue:&lt;/p&gt;&lt;p&gt; &lt;/p&gt;&lt;div class="code panel pdl" style="border-width: 1px;"&gt;&lt;div class="codeContent panelContent pdl"&gt;
+&lt;pre class="theme: Confluence; brush: java; gutter: false" style="font-size:12px;"&gt;JiraWorkflow workflow = ComponentAccessor.getWorkflowManager().getWorkflow(issue);
+StepDescriptor stepDescriptor = workflow.getLinkedStep(issue.getStatusObject());
+ActionDescriptor clarificationDescriptor=null;
+for(int i=0;i&amp;lt;stepDescriptor.getActions().size();i++){
+ActionDescriptor actionDescriptor = (ActionDescriptor) stepDescriptor.getActions().get(i);
+String actionName = actionDescriptor.getName();
+if(actionName.equalsIgnoreCase(&amp;quot;Request Clarification&amp;quot;)){
+clarificationDescriptor = actionDescriptor;
+}
+}
+if(clarificationDescriptor !=null){
+User assigneeUser = issue.getAssigneeUser();
+IssueService issueService = ComponentAccessor.getIssueService();
+IssueInputParameters parameters = issueService.newIssueInputParameters();
+parameters.setRetainExistingValuesWhenParameterNotProvided(true);
+IssueService.TransitionValidationResult validationResult = issueService.validateTransition(assigneeUser, issue.getId(), clarificationDescriptor.getId(), parameters);
+ if (validationResult.isValid()){
+// Do Something
+} 
+else{
