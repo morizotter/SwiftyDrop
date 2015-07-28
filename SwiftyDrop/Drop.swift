@@ -39,7 +39,8 @@ public final class Drop: UIView {
     private var topConstraint: NSLayoutConstraint!
     private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 10.0
-    private let statusBottomMargin: CGFloat = 15.0
+    private let statusBottomMargin: CGFloat = 10.0
+    private var minimumHeight: CGFloat { return Drop.statusBarHeight() + 44.0 }
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
     
@@ -104,7 +105,9 @@ public final class Drop: UIView {
     }
     
     private func updateHeight() {
-        heightConstraint.constant = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
+        let calculatedHeight = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
+        println("cal: \(calculatedHeight)")
+        heightConstraint.constant = calculatedHeight > minimumHeight ? calculatedHeight : minimumHeight
         self.layoutIfNeeded()
     }
 }
