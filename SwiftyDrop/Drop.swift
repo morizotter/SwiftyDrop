@@ -38,8 +38,8 @@ public final class Drop: UIView {
     private var statusLabel: UILabel!
     private var topConstraint: NSLayoutConstraint!
     private var heightConstraint: NSLayoutConstraint!
-    private let statusTopMargin: CGFloat = 8.0
-    private let statusBottomMargin: CGFloat = 8.0
+    private let statusTopMargin: CGFloat = 10.0
+    private let statusBottomMargin: CGFloat = 15.0
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
     
