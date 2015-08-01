@@ -78,6 +78,8 @@ public final class Drop: UIView {
     
     deinit {
         stopUpTimer()
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func up() {
