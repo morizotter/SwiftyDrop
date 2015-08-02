@@ -38,8 +38,9 @@ public final class Drop: UIView {
     private var statusLabel: UILabel!
     private var topConstraint: NSLayoutConstraint!
     private var heightConstraint: NSLayoutConstraint!
-    private let statusTopMargin: CGFloat = 8.0
-    private let statusBottomMargin: CGFloat = 8.0
+    private let statusTopMargin: CGFloat = 10.0
+    private let statusBottomMargin: CGFloat = 10.0
+    private var minimumHeight: CGFloat { return Drop.statusBarHeight() + 44.0 }
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
     
@@ -71,12 +72,14 @@ public final class Drop: UIView {
         }
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
     deinit {
         stopUpTimer()
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     func up() {
@@ -104,7 +107,9 @@ public final class Drop: UIView {
     }
     
     private func updateHeight() {
-        heightConstraint.constant = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
+        let calculatedHeight = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
+        print("cal: \(calculatedHeight)")
+        heightConstraint.constant = calculatedHeight > minimumHeight ? calculatedHeight : minimumHeight
         self.layoutIfNeeded()
     }
 }

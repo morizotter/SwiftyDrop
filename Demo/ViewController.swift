@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.navigationBarHidden = true
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "upAllDrops:")
         view.addGestureRecognizer(tapRecognizer)
     }
@@ -76,6 +77,10 @@ class ViewController: UIViewController {
     }
     
     func upAllDrops(sender: AnyObject) {
+        if let hidden = navigationController?.navigationBarHidden {
+            navigationController?.setNavigationBarHidden(!hidden, animated: true)
+        }
+
         Drop.upAll()
     }
     
