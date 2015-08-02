@@ -72,7 +72,7 @@ public final class Drop: UIView {
         }
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -108,7 +108,7 @@ public final class Drop: UIView {
     
     private func updateHeight() {
         let calculatedHeight = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
-        println("cal: \(calculatedHeight)")
+        print("cal: \(calculatedHeight)")
         heightConstraint.constant = calculatedHeight > minimumHeight ? calculatedHeight : minimumHeight
         self.layoutIfNeeded()
     }
@@ -163,7 +163,7 @@ extension Drop {
         UIView.animateWithDuration(
             NSTimeInterval(0.25),
             delay: NSTimeInterval(0.0),
-            options: .AllowUserInteraction | .CurveEaseOut,
+            options: [.AllowUserInteraction, .CurveEaseOut],
             animations: { [weak drop] () -> Void in
                 if let drop = drop { drop.layoutIfNeeded() }
             }, completion: nil
@@ -175,7 +175,7 @@ extension Drop {
         UIView.animateWithDuration(
             interval,
             delay: NSTimeInterval(0.0),
-            options: .AllowUserInteraction | .CurveEaseIn,
+            options: [.AllowUserInteraction, .CurveEaseIn],
             animations: { [weak drop] () -> Void in
                 if let drop = drop {
                     drop.layoutIfNeeded()
@@ -196,14 +196,14 @@ extension Drop {
 
 extension Drop {
     private func setup(status: String, state: DropState?, blur: DropBlur?) {
-        self.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.translatesAutoresizingMaskIntoConstraints = false
         
         if let blur = blur {
             let blurEffect = blur.blurEffect()
             
             // Visual Effect View
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
-            visualEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            visualEffectView.translatesAutoresizingMaskIntoConstraints = false
             self.addSubview(visualEffectView)
             let visualEffectViewConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
@@ -232,7 +232,7 @@ extension Drop {
             
             // Vibrancy Effect View
             let vibrancyEffectView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
-            vibrancyEffectView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = false
             visualEffectView.contentView.addSubview(vibrancyEffectView)
             let vibrancyLeft = NSLayoutConstraint(
                 item: vibrancyEffectView,
@@ -309,7 +309,7 @@ extension Drop {
         if let state = state {
             // Background View
             let backgroundView = UIView(frame: CGRectZero)
-            backgroundView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            backgroundView.translatesAutoresizingMaskIntoConstraints = false
             backgroundView.alpha = 0.9
             backgroundView.backgroundColor = state.backgroundColor()
             self.addSubview(backgroundView)
@@ -384,7 +384,7 @@ extension Drop {
     
     private func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
         let label = UILabel(frame: CGRectZero)
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         label.textAlignment = .Center
@@ -423,7 +423,7 @@ extension Drop {
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
                     delay: NSTimeInterval(0.0),
-                    options: .AllowUserInteraction | .CurveEaseOut,
+                    options: [.AllowUserInteraction, .CurveEaseOut],
                     animations: { [weak self] () -> Void in
                         if let s = self { s.layoutIfNeeded() }
                     }, completion: nil
