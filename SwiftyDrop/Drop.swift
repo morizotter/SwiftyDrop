@@ -58,18 +58,9 @@ public final class Drop: UIView {
         self.addConstraint(heightConstraint)
         scheduleUpTimer(4.0)
         
-        NSNotificationCenter.defaultCenter().addObserverForName(UIApplicationDidEnterBackgroundNotification, object: nil, queue: nil) { [weak self] notification in
-            if let s = self {
-                s.stopUpTimer()
-                s.removeFromSuperview()
-            }
-        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserverForName(UIDeviceOrientationDidChangeNotification, object: nil, queue: nil) { [weak self] notification in
-            if let s = self {
-                s.updateHeight()
-            }
-        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
     }
     
     required public init(coder aDecoder: NSCoder) {
@@ -80,6 +71,15 @@ public final class Drop: UIView {
         stopUpTimer()
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func applicationDidEnterBackground(notification: NSNotification) {
+        stopUpTimer()
+        removeFromSuperview()
+    }
+    
+    func deviceOrientationDidChange(notification: NSNotification) {
+        updateHeight()
     }
     
     func up() {
