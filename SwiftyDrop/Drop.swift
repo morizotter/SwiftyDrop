@@ -106,7 +106,6 @@ public final class Drop: UIView {
     
     private func updateHeight() {
         let calculatedHeight = self.statusLabel.frame.size.height + Drop.statusBarHeight() + statusTopMargin + statusBottomMargin
-        print("cal: \(calculatedHeight)")
         heightConstraint.constant = calculatedHeight > minimumHeight ? calculatedHeight : minimumHeight
         self.layoutIfNeeded()
     }
