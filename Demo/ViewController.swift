@@ -37,10 +37,9 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
-        [defaultAction, infoAction, successAction, warningAction, errorAction, cancelAction].map {
-            controller.addAction($0)
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, cancelAction] {
+            controller.addAction(action)
         }
-        
         showAlert(controller, sourceView: sender as? UIView)
     }
     
@@ -57,10 +56,9 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        [lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction].map {
-            controller.addAction($0)
+        for action in [lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction] {
+            controller.addAction(action)
         }
-        
         showAlert(controller, sourceView: sender as? UIView)
     }
     
@@ -87,7 +85,7 @@ class ViewController: UIViewController {
     func sampleText() -> String {
         let text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
         let length = Int(arc4random_uniform(100)) + 10
-        let end = advance(text.startIndex, length)
+        let end = text.startIndex.advancedBy(length)
         return text.substringWithRange(Range(start: text.startIndex, end: end))
     }
 }
