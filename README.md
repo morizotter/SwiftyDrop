@@ -29,7 +29,7 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 ##Runtime Requirements
 
 - iOS8.1 or later
-- Xcode 6.3
+- Xcode 7.0
 
 ## Installation and Setup
 
@@ -37,7 +37,7 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 
 **Information:** To use SwiftyDrop with a project targeting iOS 8.0 or lower, you must include the `SwiftyDrop/Drop.swift` source file directly in your project.
 
-**Swift2:** Currently master is for Swift1.2. When you want to try Swift2, change library destination as describes below sections.
+**Swift1.2:** Currently master is for Swift2.0. When you want to use Swift1.2, change library destination as describes below sections.
 
 ###Installing with CocoaPods
 
@@ -54,13 +54,13 @@ To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it
 ```bash
 platform :ios, '8.1'
 use_frameworks!
-pod 'SwiftyDrop', '~>1.0'
+pod 'SwiftyDrop', '~>2.0'
 ```
 
-**for Swift2**
+**for Swift1.2**
 
 ```bash
-pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch => 'swift_2.0'
+pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch => 'swift_1.2'
 ```
 
 ###Installing with Carthage
@@ -68,18 +68,14 @@ pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch =>
 Just add to your Cartfile:
 
 ```ogdl
-github "morizotter/SwiftyDrop" ~> 1.0
+github "morizotter/SwiftyDrop" ~> 2.0
 ```
 
-**for Swift2**
+**for Swift1.2**
 
 ```ogdl
-github "morizotter/SwiftyDrop" "swift_2.0"
+github "morizotter/SwiftyDrop" "swift_1.2"
 ```
-
-Check if your command-line tools points to Xcode 7.0.
-
-![Default](misc/commandline.png)
 
 ###Manual Installation
 
