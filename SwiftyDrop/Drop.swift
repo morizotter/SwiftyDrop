@@ -29,7 +29,7 @@ public enum DropState: DropStatable {
 public enum DropBlur {
     case Light, ExtraLight, Dark
     
-    private func blurEffect() -> UIBlurEffect {
+    var blurEffect: UIBlurEffect {
         switch self {
         case .Light: return UIBlurEffect(style: .Light)
         case .ExtraLight: return UIBlurEffect(style: .ExtraLight)
@@ -201,7 +201,7 @@ extension Drop {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         if let blur = blur {
-            let blurEffect = blur.blurEffect()
+            let blurEffect = blur.blurEffect
             
             // Visual Effect View
             let visualEffectView = UIVisualEffectView(effect: blurEffect)
