@@ -113,6 +113,7 @@ Drop.down("Message", blur: .Light)
 - .Success
 - .Warning
 - .Error
+- .Custom: UIColor
 
 **Blurs** are also enum:
 - .Light
