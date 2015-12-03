@@ -8,15 +8,16 @@
 import UIKit
 
 public enum DropState {
-    case Default, Info, Success, Warning, Error
+    case Default, Info, Success, Warning, Error, Custom(UIColor)
     
     private func backgroundColor() -> UIColor? {
         switch self {
-        case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
-        case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 1.0)
-        case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 1.0)
-        case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 1.0)
-        case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 1.0)
+        case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
+        case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 0.9)
+        case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 0.9)
+        case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 0.9)
+        case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
+        case Custom(let color): return color
         }
     }
 }
@@ -307,7 +308,6 @@ extension Drop {
             // Background View
             let backgroundView = UIView(frame: CGRectZero)
             backgroundView.translatesAutoresizingMaskIntoConstraints = false
-            backgroundView.alpha = 0.9
             backgroundView.backgroundColor = state.backgroundColor()
             self.addSubview(backgroundView)
             let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
