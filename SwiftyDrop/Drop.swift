@@ -7,10 +7,14 @@
 
 import UIKit
 
-public enum DropState {
+protocol DropStatable {
+    var backgroundColor: UIColor? { get }
+}
+
+public enum DropState: DropStatable {
     case Default, Info, Success, Warning, Error, Custom(UIColor)
     
-    private func backgroundColor() -> UIColor? {
+    var backgroundColor: UIColor? {
         switch self {
         case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
         case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 0.9)
@@ -308,7 +312,7 @@ extension Drop {
             // Background View
             let backgroundView = UIView(frame: CGRectZero)
             backgroundView.translatesAutoresizingMaskIntoConstraints = false
-            backgroundView.backgroundColor = state.backgroundColor()
+            backgroundView.backgroundColor = state.backgroundColor
             self.addSubview(backgroundView)
             let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
                 return NSLayoutConstraint(
