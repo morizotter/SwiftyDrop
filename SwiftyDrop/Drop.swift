@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol DropStatable {
+public protocol DropStatable {
     var backgroundColor: UIColor? { get }
 }
 
 public enum DropState: DropStatable {
     case Default, Info, Success, Warning, Error, Custom(UIColor)
     
-    var backgroundColor: UIColor? {
+    public var backgroundColor: UIColor? {
         switch self {
         case Default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
         case Info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 0.9)
@@ -125,11 +125,15 @@ extension Drop {
         down(status, state: state, blur: nil)
     }
     
+    public class func down<T: DropStatable>(status: String, state: T) {
+        down(status, state: state, blur: nil)
+    }
+    
     public class func down(status: String, blur: DropBlur) {
         down(status, state: nil, blur: blur)
     }
     
-    private class func down(status: String, state: DropState?, blur: DropBlur?) {
+    private class func down(status: String, state: DropStatable?, blur: DropBlur?) {
         self.upAll()
         let drop = Drop(frame: CGRectZero)
         Drop.window().addSubview(drop)
@@ -197,7 +201,7 @@ extension Drop {
 }
 
 extension Drop {
-    private func setup(status: String, state: DropState?, blur: DropBlur?) {
+    private func setup(status: String, state: DropStatable?, blur: DropBlur?) {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         if let blur = blur {
