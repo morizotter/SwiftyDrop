@@ -24,11 +24,11 @@
                                 <gestureRecognizers/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
-                                <rect key="frame" x="0.0" y="512" width="600" height="88"/>
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.30705180920000003" green="0.59151418590000004" blue="0.7465820312" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="n8P-TJ-Oja"/>
+                                    <constraint firstAttribute="height" constant="60" id="n8P-TJ-Oja"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
                                 <state key="normal" title="States">

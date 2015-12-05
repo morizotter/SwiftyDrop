@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Error)
         }
-        let customAction = UIAlertAction(title: "Custom color", style: .Default) { [unowned self] action -> Void in
+        let colorAction = UIAlertAction(title: "Custom color", style: .Default) { [unowned self] action -> Void in
             let r = CGFloat(arc4random_uniform(256))
             let g = CGFloat(arc4random_uniform(256))
             let b = CGFloat(arc4random_uniform(256))
@@ -44,10 +44,37 @@ class ViewController: UIViewController {
         let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Blur(.Light))
         }
+        let customAction = UIAlertAction(title: "Custom", style: .Default) { [unowned self] action -> Void in
+            enum Custom: DropStatable {
+                case BlackGreen
+                var backgroundColor: UIColor? {
+                    switch self {
+                    case .BlackGreen: return .blackColor()
+                    }
+                }
+                var font: UIFont? {
+                    switch self {
+                    case .BlackGreen: return UIFont(name: "HelveticaNeue-Light", size: 24.0)
+                    }
+                }
+                var textColor: UIColor? {
+                    switch self {
+                        case .BlackGreen: return .greenColor()
+                    }
+                }
+                var blurEffect: UIBlurEffect? {
+                    switch self {
+                    case .BlackGreen: return nil
+                    }
+                }
+            }
+            
+            Drop.down(self.sampleText(), state: Custom.BlackGreen)
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, customAction, blurAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, blurAction, customAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
