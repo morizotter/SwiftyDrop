@@ -39,7 +39,7 @@ public enum DropBlur {
 }
 
 public final class Drop: UIView {
-    private var backgroundView: UIView!
+//    private var backgroundView: UIView!
     private var statusLabel: UILabel!
     private let statusTopMargin: CGFloat = 10.0
     private let statusBottomMargin: CGFloat = 10.0
@@ -189,198 +189,221 @@ extension Drop {
     private func setup(status: String, state: DropStatable?, blur: DropBlur?) {
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        if let blur = blur {
-            let blurEffect = blur.blurEffect
-            
-            // Visual Effect View
-            let visualEffectView = UIVisualEffectView(effect: blurEffect)
-            visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(visualEffectView)
-            let visualEffectViewConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
-                return NSLayoutConstraint(
-                    item: visualEffectView,
-                    attribute: $0,
-                    relatedBy: .Equal,
-                    toItem: self,
-                    attribute: $0,
-                    multiplier: 1.0,
-                    constant: 0.0
-                )
-            }
-            let topConstraint = NSLayoutConstraint(
-                item: visualEffectView,
-                attribute: .Top,
-                relatedBy: .Equal,
-                toItem: self,
-                attribute: .Top,
-                multiplier: 1.0,
-                constant: -UIScreen.mainScreen().bounds.height
-            )
-            
-            self.addConstraints(visualEffectViewConstraints)
-            self.addConstraint(topConstraint)
-            self.backgroundView = visualEffectView
-            
-            // Vibrancy Effect View
-            let vibrancyEffectView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
-            vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = false
-            visualEffectView.contentView.addSubview(vibrancyEffectView)
-            let vibrancyLeft = NSLayoutConstraint(
-                item: vibrancyEffectView,
-                attribute: .Left,
-                relatedBy: .Equal,
-                toItem: visualEffectView.contentView,
-                attribute: .LeftMargin,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let vibrancyRight = NSLayoutConstraint(
-                item: vibrancyEffectView,
-                attribute: .Right,
-                relatedBy: .Equal,
-                toItem: visualEffectView.contentView,
-                attribute: .RightMargin,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let vibrancyTop = NSLayoutConstraint(
-                item: vibrancyEffectView,
-                attribute: .Top,
-                relatedBy: .Equal,
-                toItem: visualEffectView.contentView,
-                attribute: .Top,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let vibrancyBottom = NSLayoutConstraint(
-                item: vibrancyEffectView,
-                attribute: .Bottom,
-                relatedBy: .Equal,
-                toItem: visualEffectView.contentView,
-                attribute: .Bottom,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            visualEffectView.contentView.addConstraints([vibrancyTop, vibrancyRight, vibrancyBottom, vibrancyLeft])
-            
-            // STATUS LABEL
-            let statusLabel = createStatusLabel(status, isVisualEffect: true)
-            vibrancyEffectView.contentView.addSubview(statusLabel)
-            let statusLeft = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Left,
-                relatedBy: .Equal,
-                toItem: vibrancyEffectView.contentView,
-                attribute: .Left,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let statusRight = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Right,
-                relatedBy: .Equal,
-                toItem: vibrancyEffectView.contentView,
-                attribute: .Right,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let statusBottom = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Bottom,
-                relatedBy: .Equal,
-                toItem: vibrancyEffectView.contentView,
-                attribute: .Bottom,
-                multiplier: 1.0,
-                constant: -statusBottomMargin
-            )
-            vibrancyEffectView.contentView.addConstraints([statusRight, statusLeft, statusBottom])
-            self.statusLabel = statusLabel
+        guard let state = state else { return }
+        
+        func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
+            let label = UILabel(frame: CGRect.zero)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.numberOfLines = 0
+            label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+            label.textAlignment = .Center
+            label.text = status
+            if !isVisualEffect { label.textColor = UIColor.whiteColor() }
+            return label
         }
         
-        if let state = state {
-            // Background View
-            let backgroundView = UIView(frame: CGRectZero)
-            backgroundView.translatesAutoresizingMaskIntoConstraints = false
-            backgroundView.backgroundColor = state.backgroundColor
-            self.addSubview(backgroundView)
-            let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
-                return NSLayoutConstraint(
-                    item: backgroundView,
-                    attribute: $0,
-                    relatedBy: .Equal,
-                    toItem: self,
-                    attribute: $0,
-                    multiplier: 1.0,
-                    constant: 0.0
-                )
-            }
-            
-            let topConstraint = NSLayoutConstraint(
-                item: backgroundView,
-                attribute: .Top,
-                relatedBy: .Equal,
-                toItem: self,
-                attribute: .Top,
-                multiplier: 1.0,
-                constant: -UIScreen.mainScreen().bounds.height
-            )
-            
-            self.addConstraints(backgroundConstraints)
-            self.addConstraint(topConstraint)
-            self.backgroundView = backgroundView
-            
-            // Status Label
-            let statusLabel = createStatusLabel(status, isVisualEffect: false)
-            self.addSubview(statusLabel)
-            let statusLeft = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Left,
-                relatedBy: .Equal,
-                toItem: self,
-                attribute: .LeftMargin,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let statusRight = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Right,
-                relatedBy: .Equal,
-                toItem: self,
-                attribute: .RightMargin,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-            let statusBottom = NSLayoutConstraint(
-                item: statusLabel,
-                attribute: .Bottom,
-                relatedBy: .Equal,
-                toItem: self,
-                attribute: .Bottom,
-                multiplier: 1.0,
-                constant: -statusBottomMargin
-            )
-            self.addConstraints([statusLeft, statusRight, statusBottom])
-            self.statusLabel = statusLabel
-        }
+        let backgroundView = UIView(frame: CGRect.zero)
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundView.backgroundColor = state.backgroundColor
+        addSubview(backgroundView)
+        addConstraints(
+            [
+                NSLayoutConstraint(item: backgroundView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: backgroundView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: -UIScreen.mainScreen().bounds.height),
+                NSLayoutConstraint(item: backgroundView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: backgroundView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0),
+            ]
+        )
+        
+        let statusLabel = createStatusLabel(status, isVisualEffect: false)
+        addSubview(statusLabel)
+        addConstraints(
+            [
+                NSLayoutConstraint(item: statusLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .LeftMargin, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: statusLabel, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .RightMargin, multiplier: 1.0, constant: 0.0),
+                NSLayoutConstraint(item: statusLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: -statusBottomMargin)
+            ]
+        )
+        self.statusLabel = statusLabel
+        
+//        if let blur = blur {
+//            let blurEffect = blur.blurEffect
+//            
+//            // Visual Effect View
+//            let visualEffectView = UIVisualEffectView(effect: blurEffect)
+//            visualEffectView.translatesAutoresizingMaskIntoConstraints = false
+//            self.addSubview(visualEffectView)
+//            let visualEffectViewConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+//                return NSLayoutConstraint(
+//                    item: visualEffectView,
+//                    attribute: $0,
+//                    relatedBy: .Equal,
+//                    toItem: self,
+//                    attribute: $0,
+//                    multiplier: 1.0,
+//                    constant: 0.0
+//                )
+//            }
+//            
+//            let topConstraint = NSLayoutConstraint(
+//                item: visualEffectView,
+//                attribute: .Top,
+//                relatedBy: .Equal,
+//                toItem: self,
+//                attribute: .Top,
+//                multiplier: 1.0,
+//                constant: -UIScreen.mainScreen().bounds.height
+//            )
+//            
+//            self.addConstraints(visualEffectViewConstraints)
+//            self.addConstraint(topConstraint)
+//            self.backgroundView = visualEffectView
+//            
+//            // Vibrancy Effect View
+//            let vibrancyEffectView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
+//            vibrancyEffectView.translatesAutoresizingMaskIntoConstraints = false
+//            visualEffectView.contentView.addSubview(vibrancyEffectView)
+//            let vibrancyLeft = NSLayoutConstraint(
+//                item: vibrancyEffectView,
+//                attribute: .Left,
+//                relatedBy: .Equal,
+//                toItem: visualEffectView.contentView,
+//                attribute: .LeftMargin,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let vibrancyRight = NSLayoutConstraint(
+//                item: vibrancyEffectView,
+//                attribute: .Right,
+//                relatedBy: .Equal,
+//                toItem: visualEffectView.contentView,
+//                attribute: .RightMargin,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let vibrancyTop = NSLayoutConstraint(
+//                item: vibrancyEffectView,
+//                attribute: .Top,
+//                relatedBy: .Equal,
+//                toItem: visualEffectView.contentView,
+//                attribute: .Top,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let vibrancyBottom = NSLayoutConstraint(
+//                item: vibrancyEffectView,
+//                attribute: .Bottom,
+//                relatedBy: .Equal,
+//                toItem: visualEffectView.contentView,
+//                attribute: .Bottom,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            visualEffectView.contentView.addConstraints([vibrancyTop, vibrancyRight, vibrancyBottom, vibrancyLeft])
+//            
+//            // STATUS LABEL
+//            let statusLabel = createStatusLabel(status, isVisualEffect: true)
+//            vibrancyEffectView.contentView.addSubview(statusLabel)
+//            let statusLeft = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Left,
+//                relatedBy: .Equal,
+//                toItem: vibrancyEffectView.contentView,
+//                attribute: .Left,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let statusRight = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Right,
+//                relatedBy: .Equal,
+//                toItem: vibrancyEffectView.contentView,
+//                attribute: .Right,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let statusBottom = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Bottom,
+//                relatedBy: .Equal,
+//                toItem: vibrancyEffectView.contentView,
+//                attribute: .Bottom,
+//                multiplier: 1.0,
+//                constant: -statusBottomMargin
+//            )
+//            vibrancyEffectView.contentView.addConstraints([statusRight, statusLeft, statusBottom])
+//            self.statusLabel = statusLabel
+//        }
+//        
+//        if let state = state {
+//            // Background View
+//            let backgroundView = UIView(frame: CGRectZero)
+//            backgroundView.translatesAutoresizingMaskIntoConstraints = false
+//            backgroundView.backgroundColor = state.backgroundColor
+//            self.addSubview(backgroundView)
+//            let backgroundConstraints = ([.Right, .Bottom, .Left] as [NSLayoutAttribute]).map {
+//                return NSLayoutConstraint(
+//                    item: backgroundView,
+//                    attribute: $0,
+//                    relatedBy: .Equal,
+//                    toItem: self,
+//                    attribute: $0,
+//                    multiplier: 1.0,
+//                    constant: 0.0
+//                )
+//            }
+//            
+//            let topConstraint = NSLayoutConstraint(
+//                item: backgroundView,
+//                attribute: .Top,
+//                relatedBy: .Equal,
+//                toItem: self,
+//                attribute: .Top,
+//                multiplier: 1.0,
+//                constant: -UIScreen.mainScreen().bounds.height
+//            )
+//            
+//            self.addConstraints(backgroundConstraints)
+//            self.addConstraint(topConstraint)
+//            self.backgroundView = backgroundView
+//            
+//            // Status Label
+//            let statusLabel = createStatusLabel(status, isVisualEffect: false)
+//            self.addSubview(statusLabel)
+//            let statusLeft = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Left,
+//                relatedBy: .Equal,
+//                toItem: self,
+//                attribute: .LeftMargin,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let statusRight = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Right,
+//                relatedBy: .Equal,
+//                toItem: self,
+//                attribute: .RightMargin,
+//                multiplier: 1.0,
+//                constant: 0.0
+//            )
+//            let statusBottom = NSLayoutConstraint(
+//                item: statusLabel,
+//                attribute: .Bottom,
+//                relatedBy: .Equal,
+//                toItem: self,
+//                attribute: .Bottom,
+//                multiplier: 1.0,
+//                constant: -statusBottomMargin
+//            )
+//            self.addConstraints([statusLeft, statusRight, statusBottom])
+//            self.statusLabel = statusLabel
+//        }
         
         self.layoutIfNeeded()
-        
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "up:")
-        self.addGestureRecognizer(tapRecognizer)
-        
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: "pan:")
-        self.addGestureRecognizer(panRecognizer)
-    }
-    
-    private func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
-        let label = UILabel(frame: CGRectZero)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        label.textAlignment = .Center
-        label.text = status
-        if !isVisualEffect { label.textColor = UIColor.whiteColor() }
-        return label
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
+        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "pan:"))
     }
 }
 
