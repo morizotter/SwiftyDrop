@@ -174,22 +174,9 @@ extension Drop {
 }
 
 extension Drop {
-    private func setup(status: String, state: DropStatable?) {
+    private func setup(status: String, state: DropStatable) {
         self.translatesAutoresizingMaskIntoConstraints = false
-        
-        guard let state = state else { return }
         var labelParentView: UIView = self
-        
-        func createStatusLabel(status: String, isVisualEffect: Bool) -> UILabel {
-            let label = UILabel(frame: CGRect.zero)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.numberOfLines = 0
-            label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-            label.textAlignment = .Center
-            label.text = status
-            if !isVisualEffect { label.textColor = UIColor.whiteColor() }
-            return label
-        }
         
         let backgroundView = UIView(frame: CGRect.zero)
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -233,7 +220,13 @@ extension Drop {
             labelParentView = vibrancyEffectView.contentView
         }
         
-        let statusLabel = createStatusLabel(status, isVisualEffect: false)
+        let statusLabel = UILabel(frame: CGRect.zero)
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.numberOfLines = 0
+        statusLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        statusLabel.textAlignment = .Center
+        statusLabel.text = status
+        statusLabel.textColor = UIColor.whiteColor()
         labelParentView.addSubview(statusLabel)
         labelParentView.addConstraints(
             [
