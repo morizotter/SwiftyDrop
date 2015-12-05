@@ -128,10 +128,14 @@ extension Drop {
         
         let topConstraint = NSLayoutConstraint(item: drop, attribute: .Top, relatedBy: .Equal, toItem: window, attribute: .Top, multiplier: 1.0, constant: -heightConstraint.constant)
         drop.topConstraint = topConstraint
-        window.addConstraint(topConstraint)
         
-        window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Left, relatedBy: .Equal, toItem: window, attribute: .Left, multiplier: 1.0,constant: 0.0))
-        window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Right, relatedBy: .Equal, toItem: window, attribute: .Right, multiplier: 1.0,constant: 0.0))
+        window.addConstraints(
+            [
+                topConstraint,
+                NSLayoutConstraint(item: drop, attribute: .Left, relatedBy: .Equal, toItem: window, attribute: .Left, multiplier: 1.0,constant: 0.0),
+                NSLayoutConstraint(item: drop, attribute: .Right, relatedBy: .Equal, toItem: window, attribute: .Right, multiplier: 1.0,constant: 0.0)
+            ]
+        )
         
         drop.setup(status, state: state)
         drop.updateHeight()
