@@ -41,28 +41,19 @@ public enum DropBlur {
 public final class Drop: UIView {
     private var backgroundView: UIView!
     private var statusLabel: UILabel!
-    private var topConstraint: NSLayoutConstraint!
-    private var heightConstraint: NSLayoutConstraint!
     private let statusTopMargin: CGFloat = 10.0
     private let statusBottomMargin: CGFloat = 10.0
     private var minimumHeight: CGFloat { return UIApplication.sharedApplication().statusBarFrame.height + 44.0 }
+    private var topConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+    
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        heightConstraint = NSLayoutConstraint(
-            item: self,
-            attribute: .Height,
-            relatedBy: .Equal,
-            toItem: nil,
-            attribute: .Height,
-            multiplier: 1.0,
-            constant: 100.0
-        )
-        self.addConstraint(heightConstraint)
-        scheduleUpTimer(4.0)
         
+        scheduleUpTimer(4.0)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
     }
@@ -115,7 +106,7 @@ public final class Drop: UIView {
         height += statusTopMargin
         height += statusLabel.frame.size.height
         height += statusBottomMargin
-        heightConstraint.constant = height > minimumHeight ? height : minimumHeight
+        heightConstraint?.constant = height > minimumHeight ? height : minimumHeight
         self.layoutIfNeeded()
     }
 }
@@ -139,38 +130,25 @@ extension Drop {
     
     private class func down(status: String, state: DropStatable?, blur: DropBlur?) {
         self.upAll()
-        let drop = Drop(frame: CGRectZero)
+        let drop = Drop(frame: CGRect.zero)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
         guard let window = drop.window else { return }
         
-        let sideConstraints = ([.Left, .Right] as [NSLayoutAttribute]).map {
-            return NSLayoutConstraint(
-                item: drop,
-                attribute: $0,
-                relatedBy: .Equal,
-                toItem: window,
-                attribute: $0,
-                multiplier: 1.0,
-                constant: 0.0
-            )
-        }
+        let heightConstraint = NSLayoutConstraint(item: drop, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 100.0)
+        drop.addConstraint(heightConstraint)
+        drop.heightConstraint = heightConstraint
         
-        drop.topConstraint = NSLayoutConstraint(
-            item: drop,
-            attribute: .Top,
-            relatedBy: .Equal,
-            toItem: window,
-            attribute: .Top,
-            multiplier: 1.0,
-            constant: -drop.heightConstraint.constant
-        )
+        let topConstraint = NSLayoutConstraint(item: drop, attribute: .Top, relatedBy: .Equal, toItem: window, attribute: .Top, multiplier: 1.0, constant: -heightConstraint.constant)
+        drop.topConstraint = topConstraint
+        window.addConstraint(topConstraint)
         
-        window.addConstraints(sideConstraints)
-        window.addConstraint(drop.topConstraint)
+        window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Left, relatedBy: .Equal, toItem: window, attribute: .Left, multiplier: 1.0,constant: 0.0))
+        window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Right, relatedBy: .Equal, toItem: window, attribute: .Right, multiplier: 1.0,constant: 0.0))
+        
         drop.setup(status, state: state, blur: blur)
         drop.updateHeight()
         
-        drop.topConstraint.constant = 0.0
+        topConstraint.constant = 0.0
         UIView.animateWithDuration(
             NSTimeInterval(0.25),
             delay: NSTimeInterval(0.0),
@@ -182,7 +160,8 @@ extension Drop {
     }
     
     private class func up(drop: Drop, interval: NSTimeInterval) {
-        drop.topConstraint.constant = -drop.heightConstraint.constant
+        guard let heightConstant = drop.heightConstraint?.constant else { return }
+        drop.topConstraint?.constant = -heightConstant
         UIView.animateWithDuration(
             interval,
             delay: NSTimeInterval(0.0),
@@ -415,23 +394,24 @@ extension Drop {
         switch pan.state {
         case .Began:
             stopUpTimer()
-            startTop = topConstraint.constant
+            guard let topConstant = topConstraint?.constant else { return }
+            startTop = topConstant
         case .Changed:
             guard let window = window else { break }
             let translation = pan.translationInView(window)
             let top = startTop! + translation.y
             if top > 0.0 {
-                topConstraint.constant = top * 0.2
+                topConstraint?.constant = top * 0.2
             } else {
-                topConstraint.constant = top
+                topConstraint?.constant = top
             }
         case .Ended:
             startTop = nil
-            if topConstraint.constant < 0.0 {
+            if topConstraint?.constant < 0.0 {
                 scheduleUpTimer(0.0, interval: 0.1)
             } else {
                 scheduleUpTimer(4.0)
-                topConstraint.constant = 0.0
+                topConstraint?.constant = 0.0
                 UIView.animateWithDuration(
                     NSTimeInterval(0.1),
                     delay: NSTimeInterval(0.0),
