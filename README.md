@@ -99,26 +99,58 @@ Drop.down("Message")
 It is really simple!
 
 ### States and Blurs
-SwiftyDrop has 2 types of display. First is **State**. Second is **Blur**. You can customize looks using them. Examples are:
+SwiftyDrop has states of display. You can customize looks by comforming `DropStatable` protocol.
+Examples are:
+
+**States**
 
 ```swift
+Drop.down("Message")
 Drop.down("Message", state: .Success)
-
-Drop.down("Message", blur: .Light)
+Drop.down("Message", state: .Color(.orangeColor()))
+Drop.down("Message", state: .Blur(.Light))
 ```
 
-**States** are enum:
+**Custom states**
+
+```swift
+enum Custom: DropStatable {
+    case BlackGreen
+    var backgroundColor: UIColor? {
+        switch self {
+        case .BlackGreen: return .blackColor()
+        }
+    }
+    var font: UIFont? {
+        switch self {
+        case .BlackGreen: return UIFont(name: "HelveticaNeue-Light", size: 24.0)
+        }
+    }
+    var textColor: UIColor? {
+        switch self {
+            case .BlackGreen: return .greenColor()
+        }
+    }
+    var blurEffect: UIBlurEffect? {
+        switch self {
+        case .BlackGreen: return nil
+        }
+    }
+}
+
+Drop.down(self.sampleText(), state: Custom.BlackGreen)
+```
+
+Of course you can use class or struct to make custom state if it is comforming to `DropStatable` protocol.
+
+**Prepared States** are enum:
 - .Default
 - .Info
 - .Success
 - .Warning
 - .Error
-- .Custom: UIColor
-
-**Blurs** are also enum:
-- .Light
-- .ExtraLight
-- .Dark
+- .Color: UIColor
+- .Blur: UIBlurEffectStyle
 
 ##Contributing
 
