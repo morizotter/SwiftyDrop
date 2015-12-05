@@ -35,18 +35,6 @@ public enum DropState: DropStatable {
     }
 }
 
-public enum DropBlur {
-    case Light, ExtraLight, Dark
-    
-    var blurEffect: UIBlurEffect {
-        switch self {
-        case .Light: return UIBlurEffect(style: .Light)
-        case .ExtraLight: return UIBlurEffect(style: .ExtraLight)
-        case .Dark: return UIBlurEffect(style: .Dark)
-        }
-    }
-}
-
 public final class Drop: UIView {
     private var statusLabel: UILabel!
     private let statusTopMargin: CGFloat = 10.0
@@ -125,18 +113,14 @@ extension Drop {
     }
     
     public class func down(status: String, state: DropState) {
-        down(status, state: state, blur: nil)
+        show(status, state: state)
     }
     
     public class func down<T: DropStatable>(status: String, state: T) {
-        down(status, state: state, blur: nil)
+        show(status, state: state)
     }
     
-    public class func down(status: String, blur: DropBlur) {
-        down(status, state: nil, blur: blur)
-    }
-    
-    private class func down(status: String, state: DropStatable?, blur: DropBlur?) {
+    private class func show(status: String, state: DropStatable?) {
         self.upAll()
         let drop = Drop(frame: CGRect.zero)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
@@ -153,7 +137,7 @@ extension Drop {
         window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Left, relatedBy: .Equal, toItem: window, attribute: .Left, multiplier: 1.0,constant: 0.0))
         window.addConstraint(NSLayoutConstraint(item: drop, attribute: .Right, relatedBy: .Equal, toItem: window, attribute: .Right, multiplier: 1.0,constant: 0.0))
         
-        drop.setup(status, state: state, blur: blur)
+        drop.setup(status, state: state)
         drop.updateHeight()
         
         topConstraint.constant = 0.0
@@ -194,7 +178,7 @@ extension Drop {
 }
 
 extension Drop {
-    private func setup(status: String, state: DropStatable?, blur: DropBlur?) {
+    private func setup(status: String, state: DropStatable?) {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         guard let state = state else { return }

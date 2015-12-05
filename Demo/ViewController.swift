@@ -49,25 +49,6 @@ class ViewController: UIViewController {
         showAlert(controller, sourceView: sender as? UIView)
     }
     
-    @IBAction func showBlurs(sender: AnyObject) {
-        let lightBlurAction = UIAlertAction(title: "LightBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(self.sampleText(), blur: .Light)
-        }
-        let extraLightBlurAction = UIAlertAction(title: "ExtraLightBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(self.sampleText(), blur: .ExtraLight)
-        }
-        let darkBlurActionAction = UIAlertAction(title: "DarkBlur", style: .Default) { [unowned self] action -> Void in
-            Drop.down(self.sampleText(), blur: .Dark)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-        
-        let controller = UIAlertController(title: "Samples", message: "Select to show drop down alert.", preferredStyle: .ActionSheet)
-        for action in [lightBlurAction, extraLightBlurAction, darkBlurActionAction, cancelAction] {
-            controller.addAction(action)
-        }
-        showAlert(controller, sourceView: sender as? UIView)
-    }
-    
     func showAlert(controller: UIAlertController, sourceView: UIView? = nil) {
         if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad {
             if let sourceView = sourceView {
