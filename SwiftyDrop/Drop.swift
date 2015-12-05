@@ -13,7 +13,7 @@ public protocol DropStatable {
 }
 
 public enum DropState: DropStatable {
-    case Default, Info, Success, Warning, Error, Custom(UIColor), Blur(UIBlurEffectStyle)
+    case Default, Info, Success, Warning, Error, Color(UIColor), Blur(UIBlurEffectStyle)
     
     public var backgroundColor: UIColor? {
         switch self {
@@ -22,7 +22,7 @@ public enum DropState: DropStatable {
         case Success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 0.9)
         case Warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 0.9)
         case Error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
-        case Custom(let color): return color
+        case Color(let color): return color
         case Blur: return nil
         }
     }

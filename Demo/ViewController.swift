@@ -34,8 +34,12 @@ class ViewController: UIViewController {
         let errorAction = UIAlertAction(title: "Error", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Error)
         }
-        let customAction = UIAlertAction(title: "Custom", style: .Default) { [unowned self] action -> Void in
-            Drop.down(self.sampleText(), state: .Custom(.orangeColor()))
+        let customAction = UIAlertAction(title: "Custom color", style: .Default) { [unowned self] action -> Void in
+            let r = CGFloat(arc4random_uniform(256))
+            let g = CGFloat(arc4random_uniform(256))
+            let b = CGFloat(arc4random_uniform(256))
+            let color = UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
+            Drop.down(self.sampleText(), state: .Color(color))
         }
         let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Blur(.Light))
