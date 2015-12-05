@@ -37,10 +37,13 @@ class ViewController: UIViewController {
         let customAction = UIAlertAction(title: "Custom", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Custom(.orangeColor()))
         }
+        let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in
+            Drop.down(self.sampleText(), state: .Blur(.Light))
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, customAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, customAction, blurAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
