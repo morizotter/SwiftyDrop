@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Wg8-oe-fU3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Wg8-oe-fU3">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Swifty Drop-->
@@ -20,78 +20,34 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Photo" translatesAutoresizingMaskIntoConstraints="NO" id="rvo-DH-qnJ">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBP-Wg-mhI">
-                                <rect key="frame" x="0.0" y="512" width="600" height="88"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="88"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="88" id="A13-Yh-yop"/>
-                                            <constraint firstAttribute="width" constant="300" id="mq6-Qj-4Pa"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
-                                        <state key="normal" title="States">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="A13-Yh-yop"/>
-                                                <exclude reference="mq6-Qj-4Pa"/>
-                                            </mask>
-                                        </variation>
-                                        <connections>
-                                            <action selector="showStates:" destination="BYZ-38-t0r" eventType="touchUpInside" id="INx-Rb-Jrt"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bmM-FG-7oi">
-                                        <rect key="frame" x="300" y="0.0" width="300" height="88"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="88" id="0ZZ-KW-PK1"/>
-                                            <constraint firstAttribute="width" constant="300" id="umq-ly-dId"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
-                                        <state key="normal" title="Blurs">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="umq-ly-dId"/>
-                                            </mask>
-                                        </variation>
-                                        <connections>
-                                            <action selector="showBlurs:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JLR-Na-vql"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.053890830590000001" green="0.52228104440000001" blue="0.64810341279999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WpI-rx-eHp">
+                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.30705180920000003" green="0.59151418590000004" blue="0.7465820312" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="bmM-FG-7oi" secondAttribute="trailing" id="4aB-Oz-5OM"/>
-                                    <constraint firstAttribute="height" constant="88" id="dPI-ek-EEr"/>
-                                    <constraint firstItem="bmM-FG-7oi" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="top" id="fb5-eu-hQ1"/>
-                                    <constraint firstAttribute="bottom" secondItem="bmM-FG-7oi" secondAttribute="bottom" id="jxZ-Mi-mPP"/>
-                                    <constraint firstItem="WpI-rx-eHp" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="top" id="kMQ-63-SFd"/>
-                                    <constraint firstItem="WpI-rx-eHp" firstAttribute="leading" secondItem="dBP-Wg-mhI" secondAttribute="leading" id="sIL-DS-KOv"/>
-                                    <constraint firstAttribute="bottom" secondItem="WpI-rx-eHp" secondAttribute="bottom" id="tAg-uR-p1c"/>
+                                    <constraint firstAttribute="height" constant="60" id="n8P-TJ-Oja"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="dPI-ek-EEr"/>
-                                    </mask>
-                                </variation>
-                            </view>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
+                                <state key="normal" title="States">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showStates:" destination="BYZ-38-t0r" eventType="touchUpInside" id="INx-Rb-Jrt"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="dBP-Wg-mhI" secondAttribute="trailing" id="95V-zn-qpj"/>
-                            <constraint firstAttribute="width" secondItem="bmM-FG-7oi" secondAttribute="width" multiplier="2" id="Hbx-GE-civ"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dBP-Wg-mhI" secondAttribute="bottom" id="NAA-Gz-4y7"/>
+                            <constraint firstAttribute="trailing" secondItem="WpI-rx-eHp" secondAttribute="trailing" id="1MH-DK-sfX"/>
+                            <constraint firstItem="WpI-rx-eHp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="8q4-mJ-Quv"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="UOL-aF-vqI"/>
-                            <constraint firstItem="dBP-Wg-mhI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="XWc-5R-6sx"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xe7-fz-xLi"/>
                             <constraint firstAttribute="trailing" secondItem="rvo-DH-qnJ" secondAttribute="trailing" id="fui-cr-8sZ"/>
-                            <constraint firstAttribute="width" secondItem="WpI-rx-eHp" secondAttribute="width" multiplier="2" id="iq4-ms-YEI"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="WpI-rx-eHp" secondAttribute="bottom" id="j0b-vd-CSB"/>
                             <constraint firstItem="rvo-DH-qnJ" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottomMargin" id="vtn-gf-d8y"/>
                         </constraints>
                     </view>
@@ -109,6 +65,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eOY-I5-tV8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
