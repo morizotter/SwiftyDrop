@@ -108,11 +108,7 @@ public final class Drop: UIView {
 }
 
 extension Drop {
-    public class func down(status: String) {
-        down(status, state: .Default)
-    }
-    
-    public class func down(status: String, state: DropState) {
+    public class func down(status: String, state: DropState = .Default) {
         show(status, state: state)
     }
     
@@ -120,7 +116,7 @@ extension Drop {
         show(status, state: state)
     }
     
-    private class func show(status: String, state: DropStatable?) {
+    private class func show(status: String, state: DropStatable) {
         self.upAll()
         let drop = Drop(frame: CGRect.zero)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
