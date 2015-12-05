@@ -37,8 +37,6 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 
 **Information:** To use SwiftyDrop with a project targeting iOS 8.0 or lower, you must include the `SwiftyDrop/Drop.swift` source file directly in your project.
 
-**Swift1.2:** Currently master is for Swift2.0. When you want to use Swift1.2, change library destination as describes below sections.
-
 ###Installing with CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a centralised dependency manager that automates the process of adding libraries to your Cocoa application. You can install it with the following command:
@@ -57,24 +55,12 @@ use_frameworks!
 pod 'SwiftyDrop', '~>2.0'
 ```
 
-**for Swift1.2**
-
-```bash
-pod 'SwiftyDrop', :git => 'git@github.com:morizotter/SwiftyDrop.git', :branch => 'swift_1.2'
-```
-
 ###Installing with Carthage
 
 Just add to your Cartfile:
 
 ```ogdl
 github "morizotter/SwiftyDrop" ~> 2.0
-```
-
-**for Swift1.2**
-
-```ogdl
-github "morizotter/SwiftyDrop" "swift_1.2"
 ```
 
 ###Manual Installation
