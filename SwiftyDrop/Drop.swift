@@ -136,14 +136,15 @@ extension Drop {
     private class func down(status: String, state: DropStatable?, blur: DropBlur?) {
         self.upAll()
         let drop = Drop(frame: CGRectZero)
-        Drop.window().addSubview(drop)
+        UIApplication.sharedApplication().keyWindow?.addSubview(drop)
+        guard let window = drop.window else { return }
         
         let sideConstraints = ([.Left, .Right] as [NSLayoutAttribute]).map {
             return NSLayoutConstraint(
                 item: drop,
                 attribute: $0,
                 relatedBy: .Equal,
-                toItem: Drop.window(),
+                toItem: window,
                 attribute: $0,
                 multiplier: 1.0,
                 constant: 0.0
@@ -154,14 +155,14 @@ extension Drop {
             item: drop,
             attribute: .Top,
             relatedBy: .Equal,
-            toItem: Drop.window(),
+            toItem: window,
             attribute: .Top,
             multiplier: 1.0,
             constant: -drop.heightConstraint.constant
         )
         
-        Drop.window().addConstraints(sideConstraints)
-        Drop.window().addConstraint(drop.topConstraint)
+        window.addConstraints(sideConstraints)
+        window.addConstraint(drop.topConstraint)
         drop.setup(status, state: state, blur: blur)
         drop.updateHeight()
         
@@ -192,7 +193,8 @@ extension Drop {
     }
     
     public class func upAll() {
-        for view in Drop.window().subviews {
+        guard let window = UIApplication.sharedApplication().keyWindow else { return }
+        for view in window.subviews {
             if let drop = view as? Drop {
                 drop.up()
             }
@@ -411,7 +413,8 @@ extension Drop {
             stopUpTimer()
             startTop = topConstraint.constant
         case .Changed:
-            let translation = pan.translationInView(Drop.window())
+            guard let window = window else { break }
+            let translation = pan.translationInView(window)
             let top = startTop! + translation.y
             if top > 0.0 {
                 topConstraint.constant = top * 0.2
@@ -443,10 +446,6 @@ extension Drop {
 }
 
 extension Drop {
-    private class func window() -> UIWindow {
-        return UIApplication.sharedApplication().keyWindow!
-    }
-    
     private class func statusBarHeight() -> CGFloat {
         return UIApplication.sharedApplication().statusBarFrame.size.height
     }
