@@ -70,6 +70,7 @@ To install SwiftyDrop without a dependency manager, please add all of the files 
 ##Usage
 
 ### Basic
+
 To start using SwiftyDrop, write the following line wherever you want to show dropdown message:
 
 ```swift
@@ -85,6 +86,7 @@ Drop.down("Message")
 It is really simple!
 
 ### States and Blurs
+
 SwiftyDrop has states of display. You can customize looks by comforming `DropStatable` protocol.
 Examples are:
 
@@ -96,6 +98,14 @@ Drop.down("Message", state: .Success)
 Drop.down("Message", state: .Color(.orangeColor()))
 Drop.down("Message", state: .Blur(.Light))
 ```
+
+**Duration**
+
+```swift
+Drop.down("Message", duration: 3.0)
+```
+
+You can change duration like this above. Default duration is 4.0.
 
 **Custom states**
 
