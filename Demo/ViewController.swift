@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
     }
     
-    @IBAction func showStates(sender: AnyObject) {
+    @IBAction func showStatesAlert(sender: AnyObject) {
         let defaultAction = UIAlertAction(title: "Default", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText())
         }
@@ -68,16 +68,34 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            
             Drop.down(self.sampleText(), state: Custom.BlackGreen)
+        }
+        let durationAction = UIAlertAction(title: "Duration", style: .Default) { [unowned self] action -> Void in
+            self.showDurationAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, blurAction, customAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, blurAction, customAction, durationAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
+    }
+    
+    func showDurationAlert() {
+        let durations = [0.5, 1.0, 2.0, 4.0, 6.0, 10.0, 20.0]
+        let actions = durations.map { seconds in
+            return UIAlertAction(title: "\(seconds)", style: .Default) { [unowned self] action -> Void in
+                Drop.down(self.sampleText(), state: .Default, duration: seconds)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        
+        let controller = UIAlertController(title: "Duration", message: "Select to duration. Default is 4 seconds.", preferredStyle: .ActionSheet)
+        for action in [cancelAction] + actions {
+            controller.addAction(action)
+        }
+        showAlert(controller)
     }
     
     func showAlert(controller: UIAlertController, sourceView: UIView? = nil) {
