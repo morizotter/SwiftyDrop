@@ -41,6 +41,12 @@ class ViewController: UIViewController {
             let color = UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
             Drop.down(self.sampleText(), state: .Color(color))
         }
+        let actionableAction = UIAlertAction(title: "Actionable", style: .Default) { [unowned self] action -> Void in
+            Drop.down(self.sampleText(), userInfo: ["action": "ACTION_KEY"]) { (drop, userInfo) in
+                NSLog("Action: \(drop), userInfo: \(userInfo)")
+            }
+        }
+
         let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Blur(.Light))
         }
@@ -76,7 +82,7 @@ class ViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .ActionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, blurAction, customAction, durationAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, actionableAction, blurAction, customAction, durationAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
