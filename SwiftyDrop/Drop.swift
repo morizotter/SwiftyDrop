@@ -68,9 +68,10 @@ public final class Drop: UIView {
 
     private var action: DropAction?
 
-    convenience init(duration: Double) {
+    convenience init(duration: Double, action: DropAction?) {
         self.init(frame: CGRect.zero)
         self.duration = duration
+        self.action = action
         
         scheduleUpTimer(duration)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
@@ -145,7 +146,7 @@ extension Drop {
 
     private class func show(status: String, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
-        let drop = Drop(duration: duration)
+        let drop = Drop(duration: duration, action: action)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
         guard let window = drop.window else { return }
 
@@ -165,7 +166,6 @@ extension Drop {
         )
 
         drop.setup(status, state: state)
-        drop.action = action
         drop.updateHeight()
 
         topConstraint.constant = 0.0
