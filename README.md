@@ -85,12 +85,11 @@ Drop.down("Message")
 
 It is really simple!
 
-### States and Blurs
+### States
 
-SwiftyDrop has states of display. You can customize looks by comforming `DropStatable` protocol.
-Examples are:
+SwiftyDrop has states of display.
 
-**States**
+**Examples**
 
 ```swift
 Drop.down("Message")
@@ -99,15 +98,10 @@ Drop.down("Message", state: .Color(.orangeColor()))
 Drop.down("Message", state: .Blur(.Light))
 ```
 
-**Duration**
-
-```swift
-Drop.down("Message", duration: 3.0)
-```
-
-You can change duration like this above. Default duration is 4.0.
-
 **Custom states**
+
+You can customize looks by comforming `DropStatable` protocol.
+Examples are:
 
 ```swift
 enum Custom: DropStatable {
@@ -148,9 +142,26 @@ Of course you can use class or struct to make custom state if it is comforming t
 - .Color: UIColor
 - .Blur: UIBlurEffectStyle
 
-##Contributing
+## Duration
+
+```swift
+Drop.down("Message", duration: 3.0)
+```
+
+You can change duration like this above. Default duration is 4.0.
+
+## Action
+
+```swift
+let userInfo = ["action": "ACTION_KEY"]
+Drop.down(self.sampleText()) {
+    print("userInfo: \(userInfo)")
+}
+```
+
+## Contribution
 
 Please file issues or submit pull requests for anything you’d like to see! We're waiting! :)
 
-##Licensing
+## License
 SwiftyDrop is released under the MIT license. Go read the LICENSE file for more information.
