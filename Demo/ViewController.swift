@@ -41,10 +41,12 @@ class ViewController: UIViewController {
             let color = UIColor(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: 1.0)
             Drop.down(self.sampleText(), state: .Color(color))
         }
-        let actionableAction = UIAlertAction(title: "Actionable", style: .Default) { [unowned self] action -> Void in
-            let userInfo = ["action": "ACTION_KEY"]
+        let actionableAction = UIAlertAction(title: "Action", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText()) {
-                print("userInfo: \(userInfo)")
+                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                let controller = UIAlertController(title: "Action", message: "Action fired!", preferredStyle: .Alert)
+                controller.addAction(action)
+                self.presentViewController(controller, animated: true, completion: nil)
             }
         }
         let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in

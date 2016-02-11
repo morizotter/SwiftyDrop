@@ -153,9 +153,8 @@ You can change duration like this above. Default duration is 4.0.
 ### Action
 
 ```swift
-let userInfo = ["action": "ACTION_KEY"]
-Drop.down(self.sampleText()) {
-    print("userInfo: \(userInfo)")
+Drop.down("Message") {
+    print("Action fired!")
 }
 ```
 
