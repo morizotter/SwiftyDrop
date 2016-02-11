@@ -142,7 +142,7 @@ Of course you can use class or struct to make custom state if it is comforming t
 - .Color: UIColor
 - .Blur: UIBlurEffectStyle
 
-## Duration
+### Duration
 
 ```swift
 Drop.down("Message", duration: 3.0)
@@ -150,7 +150,7 @@ Drop.down("Message", duration: 3.0)
 
 You can change duration like this above. Default duration is 4.0.
 
-## Action
+### Action
 
 ```swift
 let userInfo = ["action": "ACTION_KEY"]
