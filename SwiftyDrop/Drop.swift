@@ -135,11 +135,11 @@ public final class Drop: UIView {
 }
 
 extension Drop {
-    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, action: DropAction? = nil) {
+    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION, action: DropAction? = nil) {
         show(status, state: state, duration: duration, action: action)
     }
 
-    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, action: DropAction? = nil) {
+    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION, action: DropAction? = nil) {
         show(status, state: state, duration: duration, action: action)
     }
 
