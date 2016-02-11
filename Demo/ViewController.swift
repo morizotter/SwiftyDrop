@@ -42,11 +42,11 @@ class ViewController: UIViewController {
             Drop.down(self.sampleText(), state: .Color(color))
         }
         let actionableAction = UIAlertAction(title: "Actionable", style: .Default) { [unowned self] action -> Void in
-            Drop.down(self.sampleText(), userInfo: ["action": "ACTION_KEY"]) { (drop, userInfo) in
-                NSLog("Action: \(drop), userInfo: \(userInfo)")
+            let userInfo = ["action": "ACTION_KEY"]
+            Drop.down(self.sampleText()) {
+                print("userInfo: \(userInfo)")
             }
         }
-
         let blurAction = UIAlertAction(title: "Blur", style: .Default) { [unowned self] action -> Void in
             Drop.down(self.sampleText(), state: .Blur(.Light))
         }

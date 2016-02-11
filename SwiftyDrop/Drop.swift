@@ -49,6 +49,8 @@ public enum DropState: DropStatable {
     }
 }
 
+public typealias DropAction = () -> Void
+
 public final class Drop: UIView {
     static let PRESET_DURATION: NSTimeInterval = 4.0
     
@@ -64,8 +66,7 @@ public final class Drop: UIView {
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
 
-    private var tapAction: ((Drop, [String: String]?) -> Void)?
-    private var userInfo: [String: String]?
+    private var action: DropAction?
 
     convenience init(duration: Double) {
         self.init(frame: CGRect.zero)
@@ -134,15 +135,15 @@ public final class Drop: UIView {
 }
 
 extension Drop {
-    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)? = nil) {
-        show(status, state: state, duration: duration, userInfo: userInfo, tapAction: tapAction)
+    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, action: DropAction? = nil) {
+        show(status, state: state, duration: duration, action: action)
     }
 
-    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)? = nil) {
-        show(status, state: state, duration: duration, userInfo: userInfo, tapAction: tapAction)
+    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, action: DropAction? = nil) {
+        show(status, state: state, duration: duration, action: action)
     }
 
-    private class func show(status: String, state: DropStatable, duration: Double, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)?) {
+    private class func show(status: String, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
@@ -164,8 +165,7 @@ extension Drop {
         )
 
         drop.setup(status, state: state)
-        drop.tapAction = tapAction
-        drop.userInfo = userInfo
+        drop.action = action
         drop.updateHeight()
 
         topConstraint.constant = 0.0
@@ -277,10 +277,7 @@ extension Drop {
 
 extension Drop {
     func up(sender: AnyObject) {
-        if self.tapAction != nil {
-            self.tapAction!(self, userInfo)
-        }
-
+        action?()
         self.up()
     }
     
