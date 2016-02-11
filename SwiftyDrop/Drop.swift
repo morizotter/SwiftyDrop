@@ -63,7 +63,10 @@ public final class Drop: UIView {
     
     private var upTimer: NSTimer?
     private var startTop: CGFloat?
-    
+
+    private var tapAction: ((Drop, [String: String]?) -> Void)?
+    private var userInfo: [String: String]?
+
     convenience init(duration: Double) {
         self.init(frame: CGRect.zero)
         self.duration = duration
@@ -131,27 +134,27 @@ public final class Drop: UIView {
 }
 
 extension Drop {
-    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION) {
-        show(status, state: state, duration: duration)
+    public class func down(status: String, state: DropState = .Default, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)? = nil) {
+        show(status, state: state, duration: duration, userInfo: userInfo, tapAction: tapAction)
     }
-    
-    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION) {
-        show(status, state: state, duration: duration)
+
+    public class func down<T: DropStatable>(status: String, state: T, duration: Double = Drop.PRESET_DURATION, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)? = nil) {
+        show(status, state: state, duration: duration, userInfo: userInfo, tapAction: tapAction)
     }
-    
-    private class func show(status: String, state: DropStatable, duration: Double) {
+
+    private class func show(status: String, state: DropStatable, duration: Double, userInfo: [String: String]? = nil, tapAction: ((Drop, [String: String]?) -> Void)?) {
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.sharedApplication().keyWindow?.addSubview(drop)
         guard let window = drop.window else { return }
-        
+
         let heightConstraint = NSLayoutConstraint(item: drop, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1.0, constant: 100.0)
         drop.addConstraint(heightConstraint)
         drop.heightConstraint = heightConstraint
-        
+
         let topConstraint = NSLayoutConstraint(item: drop, attribute: .Top, relatedBy: .Equal, toItem: window, attribute: .Top, multiplier: 1.0, constant: -heightConstraint.constant)
         drop.topConstraint = topConstraint
-        
+
         window.addConstraints(
             [
                 topConstraint,
@@ -159,10 +162,12 @@ extension Drop {
                 NSLayoutConstraint(item: drop, attribute: .Right, relatedBy: .Equal, toItem: window, attribute: .Right, multiplier: 1.0,constant: 0.0)
             ]
         )
-        
+
         drop.setup(status, state: state)
+        drop.tapAction = tapAction
+        drop.userInfo = userInfo
         drop.updateHeight()
-        
+
         topConstraint.constant = 0.0
         UIView.animateWithDuration(
             NSTimeInterval(0.25),
@@ -272,6 +277,10 @@ extension Drop {
 
 extension Drop {
     func up(sender: AnyObject) {
+        if self.tapAction != nil {
+            self.tapAction!(self, userInfo)
+        }
+
         self.up()
     }
     
