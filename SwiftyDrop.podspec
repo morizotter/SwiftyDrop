@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyDrop"
-  s.version      = "2.4.0"
+  s.version      = "2.4.1"
   s.summary      = "SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message."
 
   s.description  = <<-DESC
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author       = { "Naoki Morita" => "namorit@gmail.com" }
   s.social_media_url   = "http://twitter.com/morizotter"
   s.source       = { :git => "https://github.com/morizotter/SwiftyDrop.git", :tag => s.version.to_s }
-  s.platform     = :ios, '8.1'
+  s.platform     = :ios, '8.0'
   s.requires_arc = true
   s.source_files = 'SwiftyDrop/**/*.swift'
 end

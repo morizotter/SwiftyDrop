@@ -32,7 +32,7 @@ Git clone or download this repository and open  **SwiftyDrop.xcodeproj** . You c
 
 ## Runtime Requirements
 
-- iOS8.1 or later
+- iOS8.0 or later
 - Xcode 7.0
 
 ## Installation and Setup
@@ -54,7 +54,7 @@ $ pods --version
 To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
 
 ```bash
-platform :ios, '8.1'
+platform :ios, '8.0'
 use_frameworks!
 pod 'SwiftyDrop', '~>2.0'
 ```
