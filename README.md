@@ -6,12 +6,12 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Join the chat at https://gitter.im/morizotter/SwiftyDrop](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/morizotter/SwiftyDrop?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-##Features
+## Features
 
 - Easy to use like: `Drop.down("Message")`
 - Message field expands depending on the message.
 
-##How it looks
+## How it looks
 
 ### States
 ![Default](misc/Default.png)
@@ -19,14 +19,18 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 ![Warning](misc/Warning.png)
 ![Error](misc/Error.png)
 
-## Blurs
+### Blurs
 ![Light](misc/Light.png)
 ![Dark](misc/Dark.png)
 
-## iPad
+### iPad
 ![iPad](misc/iPadPortlait.png)
 
-##Runtime Requirements
+## Demo
+
+Git clone or download this repository and open  **SwiftyDrop.xcodeproj** . You can try SwiftyDrop in your Mac or iPhone.
+
+## Runtime Requirements
 
 - iOS8.1 or later
 - Xcode 7.0
@@ -160,7 +164,8 @@ Drop.down("Message") {
 
 ## Contribution
 
-Please file issues or submit pull requests for anything you’d like to see! We're waiting! :)
+Please file issues or submit pull requests! We're waiting! :)
 
 ## License
+
 SwiftyDrop is released under the MIT license. Go read the LICENSE file for more information.
