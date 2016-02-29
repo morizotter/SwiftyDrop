@@ -262,11 +262,10 @@ extension Drop {
         labelParentView.addSubview(statusLabel)
         labelParentView.addConstraints(
             [
-                NSLayoutConstraint(item: statusLabel, attribute: .Left, relatedBy: .Equal, toItem: labelParentView, attribute: .LeftMargin, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: statusLabel, attribute: .Right, relatedBy: .Equal, toItem: labelParentView, attribute: .RightMargin, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: statusLabel, attribute: .Bottom, relatedBy: .Equal, toItem: labelParentView, attribute: .Bottom, multiplier: 1.0, constant: -statusBottomMargin)
+                NSLayoutConstraint(item: statusLabel, attribute: .CenterX, relatedBy: .Equal, toItem: labelParentView, attribute: .CenterX, multiplier: 1, constant: 0),
+                NSLayoutConstraint(item: statusLabel, attribute: .CenterY, relatedBy: .Equal, toItem: labelParentView, attribute: .CenterY, multiplier: 1, constant: 0)
             ]
-        )
+            )
         self.statusLabel = statusLabel
         
         self.layoutIfNeeded()
