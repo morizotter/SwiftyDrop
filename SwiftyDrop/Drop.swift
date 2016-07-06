@@ -73,8 +73,8 @@ public final class Drop: UIView {
         self.duration = duration
         
         scheduleUpTimer(duration)
-        NotificationCenter.default().addObserver(self, selector: "applicationDidEnterBackground:", name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        NotificationCenter.default().addObserver(self, selector: "deviceOrientationDidChange:", name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: "applicationDidEnterBackground:", name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: "deviceOrientationDidChange:", name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override init(frame: CGRect) {
@@ -87,7 +87,7 @@ public final class Drop: UIView {
     
     deinit {
         stopUpTimer()
-        NotificationCenter.default().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func applicationDidEnterBackground(_ notification: Notification) {
