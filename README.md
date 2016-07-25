@@ -51,7 +51,7 @@ $ gem install cocoapods
 $ pods --version
 ```
 
-To integrate TouchVisualizer into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
+To integrate SwiftyDrop into your Xcode project using CocoaPods, specify it in your `Podfile` and run `pod install`.
 
 ```bash
 platform :ios, '8.0'
