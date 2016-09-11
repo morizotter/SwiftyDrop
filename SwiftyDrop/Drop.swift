@@ -143,7 +143,7 @@ extension Drop {
         show(status, state: state, duration: duration, action: action)
     }
 
-    private class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
+    fileprivate class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.shared.keyWindow?.addSubview(drop)
@@ -179,7 +179,7 @@ extension Drop {
         )
     }
     
-    class func up(_ drop: Drop, interval: TimeInterval) {
+    fileprivate class func up(_ drop: Drop, interval: TimeInterval) {
         guard let heightConstant = drop.heightConstraint?.constant else { return }
         drop.topConstraint?.constant = -heightConstant
         UIView.animate(
@@ -195,7 +195,7 @@ extension Drop {
         }
     }
     
-    class func upAll() {
+    public class func upAll() {
         guard let window = UIApplication.shared.keyWindow else { return }
         for view in window.subviews {
             if let drop = view as? Drop {
