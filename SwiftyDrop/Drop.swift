@@ -167,14 +167,17 @@ extension Drop {
         drop.setup(status, state: state)
         drop.action = action
         drop.updateHeight()
-
+        
+        guard let superview = drop.superview else { return }
+        superview.layoutIfNeeded()
+        
         topConstraint.constant = 0.0
         UIView.animate(
             withDuration: TimeInterval(0.25),
             delay: TimeInterval(0.0),
             options: [.allowUserInteraction, .curveEaseOut],
-            animations: { [weak drop] () -> Void in
-                if let drop = drop { drop.layoutIfNeeded() }
+            animations: { _ in
+                superview.layoutIfNeeded()
             }, completion: nil
         )
     }
@@ -182,14 +185,15 @@ extension Drop {
     fileprivate class func up(_ drop: Drop, interval: TimeInterval) {
         guard let heightConstant = drop.heightConstraint?.constant else { return }
         drop.topConstraint?.constant = -heightConstant
+        
+        guard let superview = drop.superview else { return }
+        
         UIView.animate(
             withDuration: interval,
             delay: TimeInterval(0.0),
             options: [.allowUserInteraction, .curveEaseIn],
-            animations: { [weak drop] () -> Void in
-                if let drop = drop {
-                    drop.layoutIfNeeded()
-                }
+            animations: { _ in
+                superview.layoutIfNeeded()
             }) { [weak drop] finished -> Void in
                 if let drop = drop { drop.removeFromSuperview() }
         }
@@ -304,13 +308,14 @@ extension Drop {
                 scheduleUpTimer(0.0, interval: 0.1)
             } else {
                 scheduleUpTimer(duration)
+                guard let superview = superview else { return }
                 topConstraint.constant = 0.0
                 UIView.animate(
                     withDuration: TimeInterval(0.1),
                     delay: TimeInterval(0.0),
                     options: [.allowUserInteraction, .curveEaseOut],
-                    animations: { [weak self] () -> Void in
-                        if let s = self { s.layoutIfNeeded() }
+                    animations: { _ in
+                        superview.layoutIfNeeded()
                     }, completion: nil
                 )
             }
