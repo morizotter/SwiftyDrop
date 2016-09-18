@@ -19,12 +19,12 @@ public enum DropState: DropStatable {
     
     public var backgroundColor: UIColor? {
         switch self {
-        case info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 0.9)
-        case success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 0.9)
-        case warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 0.9)
-        case error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
-        case color(let color): return color
-        case blur: return nil
+        case .info: return UIColor(red: 52/255.0, green: 152/255.0, blue: 219/255.0, alpha: 0.9)
+        case .success: return UIColor(red: 39/255.0, green: 174/255.0, blue: 96/255.0, alpha: 0.9)
+        case .warning: return UIColor(red: 241/255.0, green: 196/255.0, blue: 15/255.0, alpha: 0.9)
+        case .error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
+        case .color(let color): return color
+        case .blur: return nil
         default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
         }
     }
@@ -37,7 +37,7 @@ public enum DropState: DropStatable {
     
     public var textColor: UIColor? {
         switch self {
-        default: return .white()
+        default: return .white
         }
     }
     
@@ -54,27 +54,27 @@ public typealias DropAction = () -> Void
 public final class Drop: UIView {
     static let PRESET_DURATION: TimeInterval = 4.0
     
-    private var statusLabel: UILabel!
-    private let statusTopMargin: CGFloat = 10.0
-    private let statusBottomMargin: CGFloat = 10.0
-    private var minimumHeight: CGFloat { return UIApplication.shared().statusBarFrame.height + 44.0 }
-    private var topConstraint: NSLayoutConstraint?
-    private var heightConstraint: NSLayoutConstraint?
+    fileprivate var statusLabel: UILabel!
+    fileprivate let statusTopMargin: CGFloat = 10.0
+    fileprivate let statusBottomMargin: CGFloat = 10.0
+    fileprivate var minimumHeight: CGFloat { return UIApplication.shared.statusBarFrame.height + 44.0 }
+    fileprivate var topConstraint: NSLayoutConstraint?
+    fileprivate var heightConstraint: NSLayoutConstraint?
     
-    private var duration: TimeInterval = Drop.PRESET_DURATION
+    fileprivate var duration: TimeInterval = Drop.PRESET_DURATION
     
-    private var upTimer: Timer?
-    private var startTop: CGFloat?
+    fileprivate var upTimer: Timer?
+    fileprivate var startTop: CGFloat?
 
-    private var action: DropAction?
+    fileprivate var action: DropAction?
 
     convenience init(duration: Double) {
         self.init(frame: CGRect.zero)
         self.duration = duration
         
         scheduleUpTimer(duration)
-        NotificationCenter.default.addObserver(self, selector: "applicationDidEnterBackground:", name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
-        NotificationCenter.default.addObserver(self, selector: "deviceOrientationDidChange:", name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Drop.deviceOrientationDidChange(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
     override init(frame: CGRect) {
@@ -109,23 +109,23 @@ public final class Drop: UIView {
         }
     }
     
-    private func scheduleUpTimer(_ after: Double) {
+    fileprivate func scheduleUpTimer(_ after: Double) {
         scheduleUpTimer(after, interval: 0.25)
     }
     
-    private func scheduleUpTimer(_ after: Double, interval: Double) {
+    fileprivate func scheduleUpTimer(_ after: Double, interval: Double) {
         stopUpTimer()
-        upTimer = Timer.scheduledTimer(timeInterval: after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
+        upTimer = Timer.scheduledTimer(timeInterval: after, target: self, selector: #selector(self.upFromTimer(_:)), userInfo: interval, repeats: false)
     }
     
-    private func stopUpTimer() {
+    fileprivate func stopUpTimer() {
         upTimer?.invalidate()
         upTimer = nil
     }
     
-    private func updateHeight() {
+    fileprivate func updateHeight() {
         var height: CGFloat = 0.0
-        height += UIApplication.shared().statusBarFrame.height
+        height += UIApplication.shared.statusBarFrame.height
         height += statusTopMargin
         height += statusLabel.frame.size.height
         height += statusBottomMargin
@@ -143,10 +143,10 @@ extension Drop {
         show(status, state: state, duration: duration, action: action)
     }
 
-    private class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
+    fileprivate class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
-        UIApplication.shared().keyWindow?.addSubview(drop)
+        UIApplication.shared.keyWindow?.addSubview(drop)
         guard let window = drop.window else { return }
 
         let heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 100.0)
@@ -167,36 +167,40 @@ extension Drop {
         drop.setup(status, state: state)
         drop.action = action
         drop.updateHeight()
-
+        
+        guard let superview = drop.superview else { return }
+        superview.layoutIfNeeded()
+        
         topConstraint.constant = 0.0
         UIView.animate(
             withDuration: TimeInterval(0.25),
             delay: TimeInterval(0.0),
             options: [.allowUserInteraction, .curveEaseOut],
-            animations: { [weak drop] () -> Void in
-                if let drop = drop { drop.layoutIfNeeded() }
+            animations: { _ in
+                superview.layoutIfNeeded()
             }, completion: nil
         )
     }
     
-    private class func up(_ drop: Drop, interval: TimeInterval) {
+    fileprivate class func up(_ drop: Drop, interval: TimeInterval) {
         guard let heightConstant = drop.heightConstraint?.constant else { return }
         drop.topConstraint?.constant = -heightConstant
+        
+        guard let superview = drop.superview else { return }
+        
         UIView.animate(
             withDuration: interval,
             delay: TimeInterval(0.0),
             options: [.allowUserInteraction, .curveEaseIn],
-            animations: { [weak drop] () -> Void in
-                if let drop = drop {
-                    drop.layoutIfNeeded()
-                }
+            animations: { _ in
+                superview.layoutIfNeeded()
             }) { [weak drop] finished -> Void in
                 if let drop = drop { drop.removeFromSuperview() }
         }
     }
     
     public class func upAll() {
-        guard let window = UIApplication.shared().keyWindow else { return }
+        guard let window = UIApplication.shared.keyWindow else { return }
         for view in window.subviews {
             if let drop = view as? Drop {
                 drop.up()
@@ -206,7 +210,7 @@ extension Drop {
 }
 
 extension Drop {
-    private func setup(_ status: String, state: DropStatable) {
+    fileprivate func setup(_ status: String, state: DropStatable) {
         self.translatesAutoresizingMaskIntoConstraints = false
         var labelParentView: UIView = self
         
@@ -217,7 +221,7 @@ extension Drop {
         addConstraints(
             [
                 NSLayoutConstraint(item: backgroundView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: backgroundView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: -UIScreen.main().bounds.height),
+                NSLayoutConstraint(item: backgroundView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: -UIScreen.main.bounds.height),
                 NSLayoutConstraint(item: backgroundView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0),
                 NSLayoutConstraint(item: backgroundView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0),
             ]
@@ -230,7 +234,7 @@ extension Drop {
             addConstraints(
                 [
                     NSLayoutConstraint(item: visualEffectView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0),
-                    NSLayoutConstraint(item: visualEffectView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: -UIScreen.main().bounds.height),
+                    NSLayoutConstraint(item: visualEffectView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: -UIScreen.main.bounds.height),
                     NSLayoutConstraint(item: visualEffectView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0),
                     NSLayoutConstraint(item: visualEffectView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0),
                 ]
@@ -258,7 +262,7 @@ extension Drop {
         statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
         statusLabel.textAlignment = .center
         statusLabel.text = status
-        statusLabel.textColor = state.textColor ?? .white()
+        statusLabel.textColor = state.textColor ?? .white
         labelParentView.addSubview(statusLabel)
         labelParentView.addConstraints(
             [
@@ -270,8 +274,8 @@ extension Drop {
         self.statusLabel = statusLabel
         
         self.layoutIfNeeded()
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
-        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "pan:"))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.up(_:))))
+        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:))))
     }
 }
 
@@ -299,17 +303,19 @@ extension Drop {
             }
         case .ended:
             startTop = nil
-            if topConstraint?.constant < 0.0 {
+            guard let topConstraint = topConstraint else { return }
+            if topConstraint.constant < 0.0 {
                 scheduleUpTimer(0.0, interval: 0.1)
             } else {
                 scheduleUpTimer(duration)
-                topConstraint?.constant = 0.0
+                guard let superview = superview else { return }
+                topConstraint.constant = 0.0
                 UIView.animate(
                     withDuration: TimeInterval(0.1),
                     delay: TimeInterval(0.0),
                     options: [.allowUserInteraction, .curveEaseOut],
-                    animations: { [weak self] () -> Void in
-                        if let s = self { s.layoutIfNeeded() }
+                    animations: { _ in
+                        superview.layoutIfNeeded()
                     }, completion: nil
                 )
             }
