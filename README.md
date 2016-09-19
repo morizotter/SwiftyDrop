@@ -33,7 +33,8 @@ Git clone or download this repository and open  **SwiftyDrop.xcodeproj** . You c
 ## Runtime Requirements
 
 - iOS8.0 or later
-- Xcode 7.0
+- Xcode 8.0
+- Swift 3.0
 
 ## Installation and Setup
 
@@ -56,7 +57,7 @@ To integrate SwiftyDrop into your Xcode project using CocoaPods, specify it in y
 ```bash
 platform :ios, '8.0'
 use_frameworks!
-pod 'SwiftyDrop', '~>2.0'
+pod 'SwiftyDrop', '~>3.0'
 ```
 
 ###Installing with Carthage
@@ -64,7 +65,7 @@ pod 'SwiftyDrop', '~>2.0'
 Just add to your Cartfile:
 
 ```ogdl
-github "morizotter/SwiftyDrop" ~> 2.0
+github "morizotter/SwiftyDrop" ~> 3.0
 ```
 
 ###Manual Installation
