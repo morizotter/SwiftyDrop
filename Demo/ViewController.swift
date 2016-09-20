@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         navigationController?.navigationBarHidden = true
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "upAllDrops:")
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.upAllDrops(_:)))
         view.addGestureRecognizer(tapRecognizer)
     }
     

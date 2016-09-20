@@ -74,8 +74,8 @@ public final class Drop: UIView {
         self.action = action
         
         scheduleUpTimer(duration)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "applicationDidEnterBackground:", name: UIApplicationDidEnterBackgroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deviceOrientationDidChange:", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(Drop.deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
     }
     
     override init(frame: CGRect) {
@@ -116,7 +116,7 @@ public final class Drop: UIView {
     
     private func scheduleUpTimer(after: Double, interval: Double) {
         stopUpTimer()
-        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: "upFromTimer:", userInfo: interval, repeats: false)
+        upTimer = NSTimer.scheduledTimerWithTimeInterval(after, target: self, selector: #selector(self.upFromTimer(_:)), userInfo: interval, repeats: false)
     }
     
     private func stopUpTimer() {
@@ -270,8 +270,8 @@ extension Drop {
         self.statusLabel = statusLabel
         
         self.layoutIfNeeded()
-        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "up:"))
-        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "pan:"))
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.up(_:))))
+        self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:))))
     }
 }
 
