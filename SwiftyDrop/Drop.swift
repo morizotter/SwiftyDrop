@@ -73,7 +73,6 @@ public final class Drop: UIView {
         self.duration = duration
         
         scheduleUpTimer(duration)
-        NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     override init(frame: CGRect) {
@@ -271,9 +270,11 @@ extension Drop {
             ]
         )
         self.statusLabel = statusLabel
-        NotificationCenter.default.addObserver(self, selector: #selector(Drop.deviceOrientationDidChange(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         self.layoutIfNeeded()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(Drop.deviceOrientationDidChange(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Drop.applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.up(_:))))
         self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:))))
     }
