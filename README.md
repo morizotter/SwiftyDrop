@@ -47,7 +47,7 @@ Git clone or download this repository and open  **SwiftyDrop.xcodeproj** . You c
 
 **Information:** To use SwiftyDrop with a project targeting iOS 8.0 or lower, you must include the `SwiftyDrop/Drop.swift` source file directly in your project.
 
-###Installing with CocoaPods
+### Installing with CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a centralised dependency manager that automates the process of adding libraries to your Cocoa application. You can install it with the following command:
 
