@@ -23,7 +23,12 @@ SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message.
 ![Light](misc/Light.png)
 ![Dark](misc/Dark.png)
 
+### iPhone X
+
+![iPhoneX](misc/iPhoneX.png)
+
 ### iPad
+
 ![iPad](misc/iPadPortlait.png)
 
 ## Demo
