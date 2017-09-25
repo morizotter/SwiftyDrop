@@ -70,7 +70,7 @@ pod 'SwiftyDrop', '~>4.0'
 Just add to your Cartfile:
 
 ```ogdl
-github "morizotter/SwiftyDrop" ~> 3.0
+github "morizotter/SwiftyDrop" ~> 4.0
 ```
 
 ### Manual Installation
