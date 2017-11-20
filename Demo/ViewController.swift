@@ -81,10 +81,27 @@ class ViewController: UIViewController {
         let durationAction = UIAlertAction(title: "Duration", style: .default) { [unowned self] action -> Void in
             self.showDurationAlert()
         }
+        let completionAction = UIAlertAction(title: "Completion", style: .default) { [unowned self] action -> Void in
+            Drop.down(self.sampleText(), completion: { type in
+                let firedBy: String = {
+                    switch type {
+                    case .timeout:
+                        return "timeout"
+                    case .user:
+                        return "user"
+                    }
+                }()
+
+                let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                let controller = UIAlertController(title: "Action", message: "Completion fired by \(firedBy)!", preferredStyle: .alert)
+                controller.addAction(action)
+                self.present(controller, animated: true, completion: nil)
+            })
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .actionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, actionableAction, blurAction, customAction, durationAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, actionableAction, blurAction, customAction, durationAction, completionAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
