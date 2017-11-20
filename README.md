@@ -168,6 +168,20 @@ Drop.down("Message") {
 }
 ```
 
+### Completion
+```swift
+Drop.down("Message", completion: { type in
+    switch type {
+    case .timeout:
+        print("Completion by timeout!")
+    case .user:
+        print("Completion by user!")
+    }
+}
+```
+
+You can get notified when the message times out or is swiped away by user.
+
 ## Contribution
 
 Please file issues or submit pull requests! We're waiting! :)
