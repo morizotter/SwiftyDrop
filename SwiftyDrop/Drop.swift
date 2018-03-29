@@ -77,7 +77,7 @@ public final class Drop: UIView {
         self.duration = duration
         
         scheduleUpTimer(duration)
-        NotificationCenter.default.addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.applicationDidEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     override init(frame: CGRect) {
@@ -93,7 +93,7 @@ public final class Drop: UIView {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func applicationDidEnterBackground(_ notification: Notification) {
+    @objc func applicationDidEnterBackground(_ notification: Notification) {
         stopUpTimer()
         removeFromSuperview()
     }
