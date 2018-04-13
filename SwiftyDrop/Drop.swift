@@ -12,9 +12,11 @@ public protocol DropStatable {
     var blurEffect: UIBlurEffect? { get }
     var font: UIFont? { get }
     var textColor: UIColor? { get }
+    var textAlignment: NSTextAlignment? { get }
 }
 
 public enum DropState: DropStatable {
+    
     case `default`, info, success, warning, error, color(UIColor), blur(UIBlurEffectStyle)
     
     public var backgroundColor: UIColor? {
@@ -45,6 +47,13 @@ public enum DropState: DropStatable {
         switch self {
         case .blur(let style): return UIBlurEffect(style: style)
         default: return nil
+        }
+    }
+    
+    public var textAlignment: NSTextAlignment? {
+        switch self {
+        default:
+            return NSTextAlignment.center
         }
     }
 }
@@ -259,7 +268,7 @@ extension Drop {
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.numberOfLines = 0
         statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
-        statusLabel.textAlignment = .center
+        statusLabel.textAlignment = state.textAlignment ?? .center
         statusLabel.text = status
         statusLabel.textColor = state.textColor ?? .white
         labelParentView.addSubview(statusLabel)
