@@ -1,0 +1,12 @@
+language: ruby
+os: osx
+osx_image: xcode8
+rvm: 2.0.0-p648
+cache: bundler
+before_install: gem install bundler
+before_script:
+    # Useful for reference while reviewing travis failures
+    - xcrun simctl list -j devices
+script:
+  - bundle exec rake spec
+  - bundle exec rake rubocop
