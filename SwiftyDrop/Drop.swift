@@ -53,7 +53,7 @@ public enum DropState: DropStatable {
     public var textAlignment: NSTextAlignment? {
         switch self {
         default:
-            return NSTextAlignment.center
+            return .center
         }
     }
 }

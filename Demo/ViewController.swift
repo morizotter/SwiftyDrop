@@ -55,6 +55,7 @@ class ViewController: UIViewController {
         let customAction = UIAlertAction(title: "Custom", style: .default) { _ in
             enum Custom: DropStatable {
                 case blackGreen
+                
                 var backgroundColor: UIColor? {
                     switch self {
                     case .blackGreen: return .black
@@ -67,7 +68,12 @@ class ViewController: UIViewController {
                 }
                 var textColor: UIColor? {
                     switch self {
-                        case .blackGreen: return .green
+                    case .blackGreen: return .green
+                    }
+                }
+                var textAlignment: NSTextAlignment? {
+                    switch self {
+                    case .blackGreen: return NSTextAlignment.left
                     }
                 }
                 var blurEffect: UIBlurEffect? {
