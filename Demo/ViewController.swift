@@ -55,6 +55,7 @@ class ViewController: UIViewController {
         let customAction = UIAlertAction(title: "Custom", style: .default) { _ in
             enum Custom: DropStatable {
                 case blackGreen
+                
                 var backgroundColor: UIColor? {
                     switch self {
                     case .blackGreen: return .black
@@ -67,7 +68,12 @@ class ViewController: UIViewController {
                 }
                 var textColor: UIColor? {
                     switch self {
-                        case .blackGreen: return .green
+                    case .blackGreen: return .green
+                    }
+                }
+                var textAlignment: NSTextAlignment? {
+                    switch self {
+                    case .blackGreen: return NSTextAlignment.left
                     }
                 }
                 var blurEffect: UIBlurEffect? {
@@ -129,7 +135,7 @@ class ViewController: UIViewController {
     func sampleText() -> String {
         let text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
         let length = Int(arc4random_uniform(100)) + 10
-        let end = text.characters.index(text.startIndex, offsetBy: length)
+        let end = text.index(text.startIndex, offsetBy: length)
         return String(text[text.startIndex ..< end])
     }
 }
