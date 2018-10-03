@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SwiftyDrop"
-  s.version      = "4.1.0"
+  s.version      = "4.2.0"
   s.summary      = "SwiftyDrop is a lightweight pure Swift simple and beautiful dropdown message."
 
   s.description  = <<-DESC
