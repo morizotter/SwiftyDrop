@@ -58,6 +58,12 @@ public enum DropState: DropStatable {
     }
 }
 
+public enum DropHeight {
+    case statusBar
+    case navigationBar
+    case standard
+}
+
 public typealias DropAction = () -> Void
 
 public final class Drop: UIView {
@@ -152,21 +158,15 @@ public final class Drop: UIView {
 
 extension Drop {
     
-    public enum DropHeight {
-        case statusBar
-        case navigationBar
-        case standard
-    }
-    
     public class func down(_ status: String, height: DropHeight = .standard, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    public class func down<T: DropStatable>(_ status: String, height: DropHeight, state: T, duration: Double = 4.0, action: DropAction? = nil) {
+    public class func down<T: DropStatable>(_ status: String, height: DropHeight = .standard, state: T, duration: Double = 4.0, action: DropAction? = nil) {
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    fileprivate class func show(_ status: String, height: DropHeight, state: DropStatable, duration: Double, action: DropAction?) {
+    fileprivate class func show(_ status: String, height: DropHeight = .standard, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.shared.keyWindow?.addSubview(drop)
@@ -243,7 +243,7 @@ extension Drop {
 }
 
 extension Drop {
-    fileprivate func setup(_ status: String, dropHeight: DropHeight, state: DropStatable) {
+    fileprivate func setup(_ status: String, dropHeight: DropHeight = .standard, state: DropStatable) {
         self.translatesAutoresizingMaskIntoConstraints = false
         var labelParentView: UIView = self
         
@@ -292,25 +292,30 @@ extension Drop {
         let statusLabel = UILabel(frame: CGRect.zero)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.numberOfLines = 0
-        
+        var statusLabelBottomConstraint: NSLayoutConstraint!
         switch dropHeight {
         case .statusBar:
             statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 10.0)
+            statusLabelBottomConstraint = NSLayoutConstraint(item: statusLabel, attribute: .bottom, relatedBy: .equal, toItem: labelParentView, attribute: .bottom, multiplier: 1.0, constant: 0)
         case .navigationBar:
             statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 14.0)
+            statusLabelBottomConstraint = NSLayoutConstraint(item: statusLabel, attribute: .bottom, relatedBy: .equal, toItem: labelParentView, attribute: .bottom, multiplier: 1.0, constant: 0)
         case .standard:
             statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
+            statusLabelBottomConstraint = NSLayoutConstraint(item: statusLabel, attribute: .bottom, relatedBy: .equal, toItem: labelParentView, attribute: .bottom, multiplier: 1.0, constant: -statusBottomMargin)
         }
         
         statusLabel.textAlignment = state.textAlignment ?? .center
         statusLabel.text = status
         statusLabel.textColor = state.textColor ?? .white
         labelParentView.addSubview(statusLabel)
+        
+        
         labelParentView.addConstraints(
             [
                 NSLayoutConstraint(item: statusLabel, attribute: .left, relatedBy: .equal, toItem: labelParentView, attribute: .leftMargin, multiplier: 1.0, constant: 0.0),
                 NSLayoutConstraint(item: statusLabel, attribute: .right, relatedBy: .equal, toItem: labelParentView, attribute: .rightMargin, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: statusLabel, attribute: .bottom, relatedBy: .equal, toItem: labelParentView, attribute: .bottom, multiplier: 1.0, constant: -statusBottomMargin)
+                statusLabelBottomConstraint
             ]
         )
         self.statusLabel = statusLabel
