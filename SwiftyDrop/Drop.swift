@@ -197,14 +197,18 @@ public final class Drop: UIView {
 extension Drop {
     
     public class func down(_ status: String, height: DropHeight = .standard, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
+        
+        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
     public class func down<T: DropStatable>(_ status: String, height: DropHeight = .standard, state: T, duration: Double = 4.0, action: DropAction? = nil) {
+        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
     fileprivate class func show(_ status: String, height: DropHeight = .standard, state: DropStatable, duration: Double, action: DropAction?) {
+        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.shared.keyWindow?.addSubview(drop)
@@ -392,10 +396,12 @@ extension Drop {
                         superview.layoutIfNeeded()
                     }, completion: nil
                 )
+                UIApplication.shared.delegate?.window??.windowLevel = .normal
             }
         case .failed, .cancelled:
             startTop = nil
             scheduleUpTimer(2.0)
+            UIApplication.shared.delegate?.window??.windowLevel = .normal
         case .possible: break
         }
     }
