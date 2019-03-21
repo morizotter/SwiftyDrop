@@ -66,7 +66,7 @@ public final class Drop: UIView {
     fileprivate var statusLabel: UILabel!
     fileprivate let statusTopMargin: CGFloat = 10.0
     fileprivate let statusBottomMargin: CGFloat = 10.0
-    fileprivate var minimumHeight: CGFloat { return UIApplication.shared.statusBarFrame.height + 44.0 }
+    fileprivate var minimumHeight: CGFloat { return UIApplication.shared.statusBarFrame.height }
     fileprivate var topConstraint: NSLayoutConstraint?
     fileprivate var heightConstraint: NSLayoutConstraint?
     
@@ -131,33 +131,58 @@ public final class Drop: UIView {
         upTimer = nil
     }
     
-    fileprivate func updateHeight() {
+    fileprivate func updateHeight(dropHeight: DropHeight = .standard) {
         var height: CGFloat = 0.0
         height += UIApplication.shared.statusBarFrame.height
-        height += statusTopMargin
-        height += statusLabel.frame.size.height
-        height += statusBottomMargin
-        heightConstraint?.constant = height > minimumHeight ? height : minimumHeight
+        switch dropHeight {
+        case .statusBar:
+            heightConstraint?.constant = height >= minimumHeight ? height : minimumHeight
+        case .navigationBar:
+            height += 44.0
+            heightConstraint?.constant = height >= minimumHeight ? height : minimumHeight
+        case .standard:
+            height += statusTopMargin
+            height += statusLabel.frame.size.height
+            height += statusBottomMargin
+            heightConstraint?.constant = height >= minimumHeight ? height : minimumHeight
+        }
         self.layoutIfNeeded()
     }
 }
 
 extension Drop {
-    public class func down(_ status: String, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
-        show(status, state: state, duration: duration, action: action)
+    
+    public enum DropHeight {
+        case statusBar
+        case navigationBar
+        case standard
+    }
+    
+    public class func down(_ status: String, height: DropHeight = .standard, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
+        show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    public class func down<T: DropStatable>(_ status: String, state: T, duration: Double = 4.0, action: DropAction? = nil) {
-        show(status, state: state, duration: duration, action: action)
+    public class func down<T: DropStatable>(_ status: String, height: DropHeight, state: T, duration: Double = 4.0, action: DropAction? = nil) {
+        show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    fileprivate class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
+    fileprivate class func show(_ status: String, height: DropHeight, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
         UIApplication.shared.keyWindow?.addSubview(drop)
         guard let window = drop.window else { return }
 
-        let heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 100.0)
+        var heightConstraint: NSLayoutConstraint!
+        
+        switch height {
+        case .statusBar:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: UIApplication.shared.statusBarFrame.height)
+        case .navigationBar:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: UIApplication.shared.statusBarFrame.height + 44)
+        case .standard:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 100.0)
+        }
+        
         drop.addConstraint(heightConstraint)
         drop.heightConstraint = heightConstraint
 
@@ -172,9 +197,9 @@ extension Drop {
             ]
         )
 
-        drop.setup(status, state: state)
+        drop.setup(status, dropHeight: height, state: state)
         drop.action = action
-        drop.updateHeight()
+        drop.updateHeight(dropHeight: height)
         
         guard let superview = drop.superview else { return }
         superview.layoutIfNeeded()
@@ -218,7 +243,7 @@ extension Drop {
 }
 
 extension Drop {
-    fileprivate func setup(_ status: String, state: DropStatable) {
+    fileprivate func setup(_ status: String, dropHeight: DropHeight, state: DropStatable) {
         self.translatesAutoresizingMaskIntoConstraints = false
         var labelParentView: UIView = self
         
@@ -267,7 +292,16 @@ extension Drop {
         let statusLabel = UILabel(frame: CGRect.zero)
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.numberOfLines = 0
-        statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
+        
+        switch dropHeight {
+        case .statusBar:
+            statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 10.0)
+        case .navigationBar:
+            statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 14.0)
+        case .standard:
+            statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
+        }
+        
         statusLabel.textAlignment = state.textAlignment ?? .center
         statusLabel.text = status
         statusLabel.textColor = state.textColor ?? .white
