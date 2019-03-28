@@ -396,8 +396,8 @@ extension Drop {
                         superview.layoutIfNeeded()
                     }, completion: nil
                 )
-                UIApplication.shared.delegate?.window??.windowLevel = .normal
             }
+            UIApplication.shared.delegate?.window??.windowLevel = .normal
         case .failed, .cancelled:
             startTop = nil
             scheduleUpTimer(2.0)
