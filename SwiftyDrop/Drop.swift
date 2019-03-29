@@ -27,7 +27,7 @@ public enum DropState: DropStatable {
         case .error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
         case .color(let color): return color
         case .blur: return nil
-        default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
+        default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
         }
     }
     
@@ -61,7 +61,7 @@ public enum DropState: DropStatable {
 public typealias DropAction = () -> Void
 
 public final class Drop: UIView {
-    static let PRESET_DURATION: TimeInterval = 4.0
+    static let PRESET_DURATION: TimeInterval = 2.0
     
     fileprivate var statusLabel: UILabel!
     fileprivate let statusTopMargin: CGFloat = 10.0
@@ -198,20 +198,17 @@ extension Drop {
     
     public class func down(_ status: String, height: DropHeight = .standard, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
         
-        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
     public class func down<T: DropStatable>(_ status: String, height: DropHeight = .standard, state: T, duration: Double = 4.0, action: DropAction? = nil) {
-        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         show(status, height: height, state: state, duration: duration, action: action)
     }
 
     fileprivate class func show(_ status: String, height: DropHeight = .standard, state: DropStatable, duration: Double, action: DropAction?) {
-        UIApplication.shared.delegate?.window??.windowLevel = .statusBar
         self.upAll()
         let drop = Drop(duration: duration)
-        UIApplication.shared.keyWindow?.addSubview(drop)
+        (UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow)?.addSubview(drop)
         guard let window = drop.window else { return }
 
         var heightConstraint: NSLayoutConstraint!
@@ -275,7 +272,7 @@ extension Drop {
     }
     
     public class func upAll() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = (UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow) else { return }
         for view in window.subviews {
             if let drop = view as? Drop {
                 drop.up()
@@ -397,11 +394,9 @@ extension Drop {
                     }, completion: nil
                 )
             }
-            UIApplication.shared.delegate?.window??.windowLevel = .normal
         case .failed, .cancelled:
             startTop = nil
             scheduleUpTimer(2.0)
-            UIApplication.shared.delegate?.window??.windowLevel = .normal
         case .possible: break
         }
     }
