@@ -27,7 +27,7 @@ public enum DropState: DropStatable {
         case .error: return UIColor(red: 192/255.0, green: 57/255.0, blue: 43/255.0, alpha: 0.9)
         case .color(let color): return color
         case .blur: return nil
-        default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 0.9)
+        default: return UIColor(red: 41/255.0, green: 128/255.0, blue: 185/255.0, alpha: 1.0)
         }
     }
     
@@ -61,16 +61,44 @@ public enum DropState: DropStatable {
 public typealias DropAction = () -> Void
 
 public final class Drop: UIView {
-    static let PRESET_DURATION: TimeInterval = 4.0
+    static let PRESET_DURATION: TimeInterval = 2.0
     
     fileprivate var statusLabel: UILabel!
     fileprivate let statusTopMargin: CGFloat = 10.0
     fileprivate let statusBottomMargin: CGFloat = 10.0
-    fileprivate var minimumHeight: CGFloat { return UIApplication.shared.statusBarFrame.height + 44.0 }
+    fileprivate var minimumHeight: CGFloat { return UIApplication.shared.statusBarFrame.height }
     fileprivate var topConstraint: NSLayoutConstraint?
     fileprivate var heightConstraint: NSLayoutConstraint?
     
     fileprivate var duration: TimeInterval = Drop.PRESET_DURATION
+    fileprivate var deviceNotch: Bool {
+        if UIDevice().userInterfaceIdiom == .phone {
+            switch UIScreen.main.nativeBounds.height {
+            case 1136:
+                //iPhone 5 or 5S or 5C
+                return false
+            case 1334:
+                //iPhone 6/6S/7/8
+                return false
+            case 1920, 2208:
+                //iPhone 6+/6S+/7+/8+
+                return false
+            case 2436:
+                //iPhone X, XS
+                return true
+            case 2688:
+                //iPhone XS Max
+                return true
+            case 1792:
+                //iPhone XR
+                return true
+            default:
+                return true
+            }
+        } else {
+            return false
+        }
+    }
     
     fileprivate var upTimer: Timer?
     fileprivate var startTop: CGFloat?
@@ -104,7 +132,7 @@ public final class Drop: UIView {
     }
     
     @objc func deviceOrientationDidChange(_ notification: Notification) {
-        updateHeight()
+        layoutIfNeeded()
     }
     
     func up() {
@@ -131,33 +159,69 @@ public final class Drop: UIView {
         upTimer = nil
     }
     
-    fileprivate func updateHeight() {
+    public enum DropHeight {
+        case statusBar
+        case navigationBar
+        case standard
+    }
+    
+    fileprivate func getDeviceNotchHeight() -> CGFloat {
+        if deviceNotch == true {
+            return 30
+        } else {
+            return 0
+        }
+    }
+    
+    fileprivate func getHeight(dropHeight: DropHeight) -> CGFloat {
         var height: CGFloat = 0.0
-        height += UIApplication.shared.statusBarFrame.height
-        height += statusTopMargin
-        height += statusLabel.frame.size.height
-        height += statusBottomMargin
-        heightConstraint?.constant = height > minimumHeight ? height : minimumHeight
+        height += getDeviceNotchHeight()
+        switch dropHeight {
+        case .statusBar:
+            height += 24.0
+        case .navigationBar:
+            height += 44.0
+        case .standard:
+            height += 64.0
+        }
+        return height >= minimumHeight ? height : minimumHeight
+    }
+    
+    fileprivate func updateHeight(dropHeight: DropHeight = .standard) {
+        let height = getHeight(dropHeight: dropHeight)
+        heightConstraint?.constant = height >= minimumHeight ? height : minimumHeight
         self.layoutIfNeeded()
     }
 }
 
 extension Drop {
-    public class func down(_ status: String, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
-        show(status, state: state, duration: duration, action: action)
+    
+    public class func down(_ status: String, height: DropHeight = .standard, state: DropState = .default, duration: Double = 4.0, action: DropAction? = nil) {
+        
+        show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    public class func down<T: DropStatable>(_ status: String, state: T, duration: Double = 4.0, action: DropAction? = nil) {
-        show(status, state: state, duration: duration, action: action)
+    public class func down<T: DropStatable>(_ status: String, height: DropHeight = .standard, state: T, duration: Double = 4.0, action: DropAction? = nil) {
+        show(status, height: height, state: state, duration: duration, action: action)
     }
 
-    fileprivate class func show(_ status: String, state: DropStatable, duration: Double, action: DropAction?) {
+    fileprivate class func show(_ status: String, height: DropHeight = .standard, state: DropStatable, duration: Double, action: DropAction?) {
         self.upAll()
         let drop = Drop(duration: duration)
-        UIApplication.shared.keyWindow?.addSubview(drop)
+        (UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow)?.addSubview(drop)
         guard let window = drop.window else { return }
 
-        let heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 100.0)
+        var heightConstraint: NSLayoutConstraint!
+        
+        switch height {
+        case .statusBar:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: drop.getHeight(dropHeight: .statusBar))
+        case .navigationBar:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: drop.getHeight(dropHeight: .navigationBar))
+        case .standard:
+            heightConstraint = NSLayoutConstraint(item: drop, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: drop.getHeight(dropHeight: .standard))
+        }
+        
         drop.addConstraint(heightConstraint)
         drop.heightConstraint = heightConstraint
 
@@ -172,9 +236,9 @@ extension Drop {
             ]
         )
 
-        drop.setup(status, state: state)
+        drop.setup(status, dropHeight: height, state: state)
         drop.action = action
-        drop.updateHeight()
+        drop.updateHeight(dropHeight: height)
         
         guard let superview = drop.superview else { return }
         superview.layoutIfNeeded()
@@ -208,7 +272,7 @@ extension Drop {
     }
     
     public class func upAll() {
-        guard let window = UIApplication.shared.keyWindow else { return }
+        guard let window = (UIApplication.shared.value(forKey: "statusBarWindow") as? UIWindow) else { return }
         for view in window.subviews {
             if let drop = view as? Drop {
                 drop.up()
@@ -218,7 +282,7 @@ extension Drop {
 }
 
 extension Drop {
-    fileprivate func setup(_ status: String, state: DropStatable) {
+    fileprivate func setup(_ status: String, dropHeight: DropHeight = .standard, state: DropStatable) {
         self.translatesAutoresizingMaskIntoConstraints = false
         var labelParentView: UIView = self
         
@@ -264,27 +328,29 @@ extension Drop {
             labelParentView = vibrancyEffectView.contentView
         }
         
-        let statusLabel = UILabel(frame: CGRect.zero)
-        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        let notchHeight: CGFloat = getDeviceNotchHeight()
+        let dropHeight: CGFloat = getHeight(dropHeight: dropHeight)
+        let labelSpace: CGSize = CGSize(width: UIScreen.main.bounds.width, height: dropHeight - notchHeight)
+        let statusLabel = UILabel()
+        let heightInset: CGFloat = 3
+        let widthInset:CGFloat = 5
+        statusLabel.frame.size.width = labelSpace.width - (widthInset * 2)
+        statusLabel.frame.size.height = labelSpace.height - (heightInset * 2)
+        labelParentView.addSubview(statusLabel)
+        statusLabel.frame.origin.x = widthInset
+        statusLabel.frame.origin.y = notchHeight + heightInset
+        statusLabel.textAlignment = .center
         statusLabel.numberOfLines = 0
-        statusLabel.font = state.font ?? UIFont.systemFont(ofSize: 17.0)
-        statusLabel.textAlignment = state.textAlignment ?? .center
+        statusLabel.minimumScaleFactor = 10.0
         statusLabel.text = status
         statusLabel.textColor = state.textColor ?? .white
-        labelParentView.addSubview(statusLabel)
-        labelParentView.addConstraints(
-            [
-                NSLayoutConstraint(item: statusLabel, attribute: .left, relatedBy: .equal, toItem: labelParentView, attribute: .leftMargin, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: statusLabel, attribute: .right, relatedBy: .equal, toItem: labelParentView, attribute: .rightMargin, multiplier: 1.0, constant: 0.0),
-                NSLayoutConstraint(item: statusLabel, attribute: .bottom, relatedBy: .equal, toItem: labelParentView, attribute: .bottom, multiplier: 1.0, constant: -statusBottomMargin)
-            ]
-        )
         self.statusLabel = statusLabel
+        
         NotificationCenter.default.addObserver(self, selector: #selector(Drop.deviceOrientationDidChange(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
         
-        self.layoutIfNeeded()
         self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.up(_:))))
         self.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.pan(_:))))
+        self.layoutIfNeeded()
     }
 }
 

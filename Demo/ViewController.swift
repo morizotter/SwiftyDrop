@@ -87,10 +87,13 @@ class ViewController: UIViewController {
         let durationAction = UIAlertAction(title: "Duration", style: .default) { [unowned self] action -> Void in
             self.showDurationAlert()
         }
+        let dropHeightAction = UIAlertAction(title: "Height", style: .default) { _ in
+            self.showDropHeightAction()
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let controller = UIAlertController(title: "Samples", message: "Select to show drop down message.", preferredStyle: .actionSheet)
-        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, actionableAction, blurAction, customAction, durationAction, cancelAction] {
+        for action in [defaultAction, infoAction, successAction, warningAction, errorAction, colorAction, actionableAction, blurAction, customAction, durationAction, dropHeightAction, cancelAction] {
             controller.addAction(action)
         }
         showAlert(controller, sourceView: sender as? UIView)
@@ -109,6 +112,26 @@ class ViewController: UIViewController {
         for action in [cancelAction] + actions {
             controller.addAction(action)
         }
+        showAlert(controller)
+    }
+    
+    func showDropHeightAction() {
+        let standardBarAction = UIAlertAction(title: "Standard", style: .default) { _ in
+            Drop.down(self.sampleText(), height: .standard)
+        }
+        let statusBarAction = UIAlertAction(title: "Status Bar", style: .default) { _ in
+            Drop.down(self.sampleText(), height: .statusBar)
+        }
+        let navigationBarAction = UIAlertAction(title: "Navigation Bar", style: .default) { _ in
+            Drop.down(self.sampleText(), height: .navigationBar)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let controller = UIAlertController(title: "Height", message: "Select to show height options.", preferredStyle: .actionSheet)
+        controller.addAction(standardBarAction)
+        controller.addAction(statusBarAction)
+        controller.addAction(navigationBarAction)
         showAlert(controller)
     }
     
